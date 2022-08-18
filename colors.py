@@ -1,6 +1,8 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/colors.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
+from functools import partial
+from ableton.v2.base import lazy_attribute, task
 from ableton.v2.control_surface.elements import Color
 from . import midi
 from .CONST import PAD_MAPPING
@@ -8,6 +10,8 @@ import logging
 logger = logging.getLogger(__name__)
 BLINK_VALUE = 1
 PULSE_VALUE = 2
+
+tasks = task.loop()
 
 class MPCButtonColor(Color):
     def __init__(self, midi_cc_value, *a, **k):
@@ -22,15 +26,50 @@ class RgbColor(Color):
 
     def __init__(self, red, green, blue, on_value = 127, *a, **k):
         super(RgbColor, self).__init__(*a, **k)
-        self._red = red
-        self._green = green
-        self._blue = blue
+        self.red = red
+        self.green = green
+        self.blue = blue
         self._on_value = on_value
 
     def draw(self, interface):
+        interface._tasks.kill()
         pad_number = PAD_MAPPING[interface._original_identifier]
-        interface.send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, self._red, self._green, self._blue, 247))
+        interface.send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, self.red, self.green, self.blue, 247))
+    
+class RgbColorBlink(Color):
 
+    def __init__(self, blink_on_color= RgbColor(255,0 , 0), blink_off_color=RgbColor(5, 0 ,0), blink_period=0.2, *a, **k):
+        super(RgbColorBlink, self).__init__(*a, **k)
+        self.blink_on_color = blink_on_color
+        self.blink_off_color = blink_off_color
+        self._blink_period = blink_period
+
+    def start_blinking(self):
+        self._blink_task.restart()
+
+    def stop_blinking(self):
+        self._blink_task.kill()
+
+    def _set_blinking_color(self, color, pad_number, send_midi):
+        send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, color.red, color.green, color.blue, 247))
+
+    def _kill_all_tasks(self):
+        super(BlinkingButtonControl.State, self)._kill_all_tasks()
+        self._blink_task.kill()
+    
+    def draw(self, interface):
+        pad_number = PAD_MAPPING[interface._original_identifier]
+        blink_on = partial(self._set_blinking_color, self.blink_on_color, pad_number, interface.send_midi)
+        blink_off = partial(self._set_blinking_color, self.blink_off_color, pad_number, interface.send_midi)
+        interface._tasks.add(
+                task.sequence(
+                    task.run(blink_on), 
+                    task.wait(self._blink_period), 
+                    task.run(blink_off), 
+                    task.wait(self._blink_period), 
+            )   
+        ) 
+        
 class Mono:
     OFF = Color(1)
     ON = Color(2)

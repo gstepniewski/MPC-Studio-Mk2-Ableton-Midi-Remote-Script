@@ -4,6 +4,7 @@ logger = logging.getLogger(__name__)
 class MPCButtonElement(ButtonElement):
     def __init__(self, *a, **k):
         super(MPCButtonElement, self).__init__(*a, **k)
+        self.blink_task = 'Test'
     
     def reset(self):
         self.set_light(u'DefaultButton.Off')

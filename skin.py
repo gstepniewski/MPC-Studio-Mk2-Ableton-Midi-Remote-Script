@@ -1,7 +1,7 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface import Skin
-from .colors import Mono, Rgb, OneColorButton, TwoColorButtonMap
+from .colors import Mono, Rgb, OneColorButton, TwoColorButtonMap, RgbColorBlink
 
 class Colors:
 
@@ -11,6 +11,10 @@ class Colors:
         Disabled = OneColorButton.DISABLED
         Reset = OneColorButton.OFF
         RgbOff = Rgb.BLACK
+    
+    class DefaultBlinkPad:
+        On = Rgb.RED
+        Off = Rgb.RED_DIM
     
     class UpDownButton:
         On = TwoColorButtonMap.COLOR_2_DIM
@@ -52,7 +56,7 @@ class Colors:
         MuteOff = Rgb.YELLOW
         On = TwoColorButtonMap.COLOR_1_DIM
     class Session:
-        ClipEmpty = Rgb.BLACK
+        ClipEmpty = RgbColorBlink(Rgb.RED, Rgb.BLACK)
         ClipTriggeredPlay = Rgb.GREEN_BLINK
         ClipTriggeredRecord = Rgb.RED_BLINK
         ClipStarted = Rgb.GREEN_PULSE

@@ -1,5 +1,5 @@
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.base import const, inject, listens, liveobj_valid
+from ableton.v2.base import const, inject, listens, liveobj_valid, task, lazy_attribute, depends
 from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrumentFinder
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
