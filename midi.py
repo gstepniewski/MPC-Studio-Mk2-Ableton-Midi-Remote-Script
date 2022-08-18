@@ -1,0 +1,27 @@
+#Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/midi.py
+from __future__ import absolute_import, print_function, unicode_literals
+NATIVE_MODE_ON_MESSAGE = (143, 0, 127)
+NATIVE_MODE_OFF_MESSAGE = (143, 0, 0)
+RED_MIDI_CHANNEL = 1
+GREEN_MIDI_CHANNEL = 2
+BLUE_MIDI_CHANNEL = 3
+KEYBOARD_CHANNEL = 2
+DRUM_CHANNEL = 9
+USER_CHANNEL = 15
+class MIDI_STATUS:
+    NOTE_ON_STATUS = 144
+    NOTE_OFF_STATUS = 128
+    CC_STATUS = 176
+    PB_STATUS = 224
+    SYSEX_START = 240
+    SYSEX_END = 247
+    SYSEX_GENERAL_INFO = 6
+    SYSEX_NON_REALTIME = 126
+    SYSEX_IDENTITY_REQUEST_ID = 1
+    SYSEX_IDENTITY_RESPONSE_ID = 2
+    SYSEX_IDENTITY_REQUEST_MESSAGE = (SYSEX_START,
+    SYSEX_NON_REALTIME,
+    127,
+    SYSEX_GENERAL_INFO,
+    SYSEX_IDENTITY_REQUEST_ID,
+    SYSEX_END)
