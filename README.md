@@ -1,10 +1,10 @@
 # MPC Studio Mk2 Ableton Midi Remote Script
 
-In this repository, you will find the Midi remote script needed to use the MPC Studio Mk2 with Ableton. It is a work in progress, but the funtionality so far is on par with the MPC software.
+In this repository, you will find the Midi remote script needed to use the MPC Studio Mk2 with Ableton. It is a work in progress, but the functionality so far is on par with the MPC software.
 
 My attempts to use this product with other software left me very frustrated. Without the brains of the MPC 2 software, this device on its own is useless. It sends out midi data, but not in a way that is remotely usable. I fault Akai for this. It would have been very easy and simple for them to make a controller mode for this unit, and release MIDI technical specs in a PDF but they refused to so...  I guess they have a history of making money by not listening to their users... I digress.
 
-Through sending and observing MIDI data to and from the device, I have discovered that this is a "dumb" device. There is no logic on the device to perform any of it's functions, it is all controled by the software(MPC 2) through MIDI. That means if I can figure out what MIDI messages, I can program the device with other software... hint hint.. Ableton Live...
+Through sending and observing MIDI data to and from the device, I have discovered that this is a "dumb" device. There is no logic on the device to perform any of it's functions, it is all controlled by the software(MPC 2) through MIDI. That means if I can figure out what MIDI messages, I can program the device with other software... hint hint.. Ableton Live...
 
 This repository is the results of me doing just that. I have figured out every element of the MPC Studio Mk2 except the LED display. *Any help is appreciated*. Enjoy!
 
@@ -88,9 +88,9 @@ Here is a full breakdown of the button Note and CC values.
 
 ## Touch Strip
 ----
-The touchstrip note on and off may very depending on MPC Software setting. The intial touch sends and Midi Note On msg and sliding your finger send CC messages.
+The touch strip note on and off may very depending on MPC Software setting. The initial touch sends and Midi Note On msg and sliding your finger send CC messages.
 
-When using the touch strip in the software, you get feedback on the control via Red dots and the Note Repeat Values. These can also be manually lit up on indiviual CC values with brightness from 0-127. Yes... all this is done by the software not in hardware, so if you want to emulate this, you'll need to do it manually but it's possible. Here is the breakdown
+When using the touch strip in the software, you get feedback on the control via Red dots and the Note Repeat Values. These can also be manually lit up on individual CC values with brightness from 0-127. Yes... all this is done by the software not in hardware, so if you want to emulate this, you'll need to do it manually but it's possible. Here is the breakdown
 
 | Control               | Channel | NoteValue | Note | LED CC | LED Type         |
 | --------------------- | ------- | --------- | ---- | ------ | ---------------- |
@@ -116,7 +116,7 @@ When using the touch strip in the software, you get feedback on the control via 
 ## Jog Wheel
 ---
 The Jog wheel is pretty straight forward. Nothing out of the ordinary here
-* Turning it send a messages on CC# 100. Clockwise sends a value 1. Counterclock sends 127
+* Turning it send a messages on CC# 100. Clockwise sends a value 1. Counter-clock sends 127
 * Pressing the Jog sends a Note on/off value at MIDI Note 111/D#7
 
 | Direction | Value             |
@@ -127,9 +127,9 @@ The Jog wheel is pretty straight forward. Nothing out of the ordinary here
 
 
 ## Pads
-What we've all been waiting for... Those delicious MPC Studio Mk2 Pads... All jokes aside, the do feel nice to play on the LED feedback is woderful. This was the hardest part to figure out but I finally got it. At the beginning of this document, I made the observation that there is no logic on this device that provides any of the feedback you get when using it with the MPC Software. This is even true for the pads. 
+What we've all been waiting for... Those delicious MPC Studio Mk2 Pads... All jokes aside, the do feel nice to play on the LED feedback is wonderful. This was the hardest part to figure out but I finally got it. At the beginning of this document, I made the observation that there is no logic on this device that provides any of the feedback you get when using it with the MPC Software. This is even true for the pads. 
 
-The Pad by default send Midi Note data when played and pressure sensetive after touch values. The LEDs however are not controlled from the device, but rather through sysex messages sent back to the device while playing... Yeah you got it... When you play a note, the software receives that note and send a MIDI sysex message back to the device to tell the PAD led what color to show and how bright. 
+The Pad by default send Midi Note data when played and pressure sensitive after touch values. The LEDs however are not controlled from the device, but rather through sysex messages sent back to the device while playing... Yeah you got it... When you play a note, the software receives that note and send a MIDI sysex message back to the device to tell the PAD led what color to show and how bright. 
 
 This device really is a dumb device. To my knowledge there is no mode to set the pads in to automatically do this. Feedback si welcomed. I did however figure out the sysex messages for the pads and how to send them to the device to mimic this behavior.
 
@@ -145,9 +145,9 @@ Sysex data is sent in hex bytes ranging from 0-127 with start bytes and end byte
 
 > F0 47 47 4A 65 00 04 00 7F 00 00 F7
 
-The above sysex message will turn Pad 0 to a bright red. The device will accept any combination of RGB values, so the pads could technically be whatever color you want. The values for Red Green, and Blue are from 0-127 for each. If you're sending this to the device manually you will have to convert the numerical/decimal value to a hexadecimal value, so 127 is actuall 7F. Most scripting language can do this conversion for you. 
+The above sysex message will turn Pad 0 to a bright red. The device will accept any combination of RGB values, so the pads could technically be whatever color you want. The values for Red Green, and Blue are from 0-127 for each. If you're sending this to the device manually you will have to convert the numerical/decimal value to a hexadecimal value, so 127 is actually 7F. Most scripting language can do this conversion for you. 
 
-With the knowledge of how the Pad leds work and a little python skill, I have created a replica program that allows me to play the pads and get LED feedback in the color of my choosing. You would think that all the traffic back and forth from the computer would introduce latency with the LED response, buts not the case at all.
+With the knowledge of how the Pad LEDs work and a little python skill, I have created a replica program that allows me to play the pads and get LED feedback in the color of my choosing. You would think that all the traffic back and forth from the computer would introduce latency with the LED response, buts not the case at all.
 
 ### PAD Led Sysex Cheat
 Not all combination are here. Change the RGB values to get what you want. **Note. This chart is in HEXADECIMAL**
