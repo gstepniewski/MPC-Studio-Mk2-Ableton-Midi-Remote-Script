@@ -83,16 +83,25 @@ class Elements(object):
                 row.append(create_pad(int(p), '{}_Pad_{}'.format(col_index, row_index) ) )
             self.pads_raw.append(row)
         self.pads = ButtonMatrixElement(rows=(self.pads_raw), name='Pads')
+        
         def with_modifier(modifier_button, button):
             return ComboElement(control=button,
               modifier=modifier_button,
               name=('{}_With_{}'.format(button.name, modifier_button.name.split('_')[0])))
 
         self.undo_button_with_shift = with_modifier(self.shift_button, self.undo_button)
+
         self.pads_with_shift = ButtonMatrixElement(name='Pads_With_Shift',
           rows=(recursive_map(partial(with_modifier, self.shift_button), self.pads_raw)))
-        self.pads_with_zoom = ButtonMatrixElement(name='Pads_With_Zoom',
-          rows=(recursive_map(partial(with_modifier, self.zoom_button), self.pads_raw)))
+          
+        self.pads_with_zoom = ButtonMatrixElement(
+            name='Pads_With_Zoom',
+            rows=(recursive_map(partial(with_modifier, self.zoom_button), self.pads_raw)))
+
+        self.pads_with_pad_mute = ButtonMatrixElement(
+            name='Pads_With_Pad_Mute',
+            rows=(recursive_map(partial(with_modifier, self.pad_mute_button), self.pads_raw)))
+        
         self.touch_strip_press_button = create_button(78, 'Touch_Strip_Press_Button')
         self.touch_strip_slider = SliderElement(MIDI_CC_TYPE, 0, 33, name='touch_strip_slider')
         self.touch_strip_control = ComboElement(control=self.touch_strip_slider, modifier=self.touch_strip_press_button, name='touch_strip_control')

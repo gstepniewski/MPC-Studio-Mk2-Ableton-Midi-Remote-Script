@@ -20,9 +20,9 @@ class TrackSelectComponent(Component):
     
     @jog_wheel_button.value
     def undo_button(self, x, _):
-        if x == 1:
+        if x == 1 and self._can_select_next_track():
             self._select_next_track()
-        if x == 127:
+        if x == 127 and self._can_select_prev_track():
             self._select_prev_track()
     
     def all_tracks(self):

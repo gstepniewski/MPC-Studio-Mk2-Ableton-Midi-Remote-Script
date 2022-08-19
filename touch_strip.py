@@ -1,5 +1,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 import re
+import Live
 from ableton.v2.base import liveobj_valid, listens, task
 from ableton.v2.control_surface.components import ChannelStripComponent as ChannelStripComponentBase
 from ableton.v2.control_surface import ControlElement
@@ -128,7 +129,12 @@ class TouchStrip(ChannelStripComponentBase):
         self._update_volume_listener()
         self._update_pan_listener()
         self._update_output_meter_listeners()
+        self._update_track_devices_listeners(track)
     
+
+    def _update_track_devices_listeners(self, track):
+        self.__on_devices_changed.subject = self.song.view
+
     def _update_output_meter_listeners(self):
         track = self._track
         subject = track if liveobj_valid(track) and track.has_audio_output else None
@@ -193,6 +199,12 @@ class TouchStrip(ChannelStripComponentBase):
         if liveobj_valid(track) and track.has_audio_output:
             panning_value = str(track.mixer_device.panning.value)
             self.meter_display.update_pan_meter_display(panning_value)
+
+    @listens(u'selected_track.devices')
+    def __on_devices_changed(self):
+        self._update_volume_listener()
+        self._update_pan_listener()
+        self._update_output_meter_listeners()
     
     def disconnect(self):
         self._update_vol_meter(0)

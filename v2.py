@@ -131,9 +131,8 @@ class MPCStudioMk2(ControlSurface):
         self._background = BackgroundComponent(name='Background',
           is_enabled=False,
           add_nop_listeners=True,
-          layer=Layer(set_loop_button='locate_button',
-          nudge_button='level_16_button',
-          bank_button='copy_button'))
+          layer=Layer(set_loop_button='locate_button'
+          ))
         self._background.set_enabled(True)
 
     def _create_session(self):
@@ -205,7 +204,8 @@ class MPCStudioMk2(ControlSurface):
           translation_channel=(midi.DRUM_CHANNEL),
           layer=Layer(matrix='pads',
           scroll_page_up_button='sample_start_button',
-          scroll_page_down_button='sample_end_button'))
+          scroll_page_down_button='sample_end_button',
+          accent_button='full_level_button'))
 
     def _create_note_modes(self):
         self._note_modes = ModesComponent(name='Note_Modes', is_enabled=False)
@@ -221,16 +221,28 @@ class MPCStudioMk2(ControlSurface):
                 session_button='pad_bank_ae_button',
                 note_button='pad_bank_bf_button',
                 channel_button='pad_bank_cg_button',
-                touch_strip_modes_button='touch_strip_button'))
+                touch_strip_modes_button='touch_strip_button',
+                stopclip_button='pad_mute_button'))
 
         self._pad_modes.add_mode('session', (
             AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
             AddLayerMode(self._session, Layer(
                 clip_launch_buttons='pads',
-                scene_launch_buttons=(self._elements.pads_with_shift.submatrix[3:, :]))),
+                scene_launch_buttons=(self._elements.pads_with_shift.submatrix[3:, :]),
+                managed_select_button='level_16_button',
+                managed_delete_button='erase_button',
+                managed_duplicate_button='copy_button'
+                ),
+            # AddLayerMode(self._session, Layer(stop_track_clip_buttons=(self._elements.pads_with_pad_mute.submatrix[:, 3:]))),
+            ),
             self._session_overview,
             self._session_navigation_modes))
-
+        self._pad_modes.add_mode('stopclip',
+            AddLayerMode(
+                self._session, 
+                Layer(stop_track_clip_buttons=(self._elements.pads.submatrix[:, 3:] ) ) ),
+            behaviour=(MomentaryBehaviour() )
+        )
         self._pad_modes.add_mode('note', self._note_modes)
 
         self._pad_modes.add_mode('channel', (
@@ -243,9 +255,7 @@ class MPCStudioMk2(ControlSurface):
                     mute_buttons=( self._elements.pads.submatrix[:, 1:2] )
                     ),),
                 self._session_navigation_modes
-                ),
-        )
-        # AddLayerMode(self._session, Layer(stop_track_clip_buttons=(self._elements.pads.submatrix[:, :1]))),
+        ))
 
         self._pad_modes.add_mode('touch_strip_modes',
           (LayerMode(self._touch_strip_modes, Layer(
@@ -254,7 +264,7 @@ class MPCStudioMk2(ControlSurface):
             send_a_button=(self._elements.pads_raw[0][2]),
             send_b_button=(self._elements.pads_raw[0][3]))),
          AddLayerMode(self._background, Layer(unused_pads=(self._elements.pads.submatrix[:, 1:])))),
-          behaviour=(MomentaryBehaviour()))
+          behaviour=(MomentaryBehaviour() ) )
         self._pad_modes.selected_mode = 'session'
         self._pad_modes.set_enabled(True)
 

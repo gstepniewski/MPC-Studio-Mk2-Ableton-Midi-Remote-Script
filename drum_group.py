@@ -2,14 +2,17 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid
 from ableton.v2.control_surface.components import DrumGroupComponent as DrumGroupComponentBase
+from ableton.v2.control_surface.control import ButtonControl
 from .note_pad import NotePadMixin
+import logging
+logger = logging.getLogger(__name__)
 COMPLETE_QUADRANTS_RANGE = xrange(4, 116)
 MAX_QUADRANT_INDEX = 7
 NUM_PADS = 16
 PADS_PER_ROW = 4
 
 class DrumGroupComponent(NotePadMixin, DrumGroupComponentBase):
-
+    accent_button = ButtonControl()
     def _update_button_color(self, button):
         pad = self._pad_for_button(button)
         color = self._color_for_pad(pad) if liveobj_valid(pad) else u'DrumGroup.PadEmpty'
@@ -22,3 +25,10 @@ class DrumGroupComponent(NotePadMixin, DrumGroupComponentBase):
                 pad_quadrant = (pad_row_start_note - 1) / NUM_PADS
             color = u'DrumGroup.PadQuadrant{}'.format(pad_quadrant)
         button.color = color
+
+    @accent_button.pressed
+    def accent_button_pressen(self, button):
+        logger.warn('here')
+        if self.is_enabled():
+            self.set_full_velocity(127)
+            self.notify_full_velocity()

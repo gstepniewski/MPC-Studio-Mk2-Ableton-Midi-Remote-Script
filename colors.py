@@ -19,8 +19,9 @@ class MPCButtonColor(Color):
         self.midi_cc_value = midi_cc_value
 
     def draw(self, interface):
-        # logger.warn('{}, {}, {}'.format(interface.name, interface._original_identifier, self.midi_cc_value))
+        interface._tasks.kill()
         interface.send_midi((midi.MIDI_STATUS.CC_STATUS, interface._original_identifier, self.midi_cc_value))
+
 
 class RgbColor(Color):
 
@@ -38,7 +39,7 @@ class RgbColor(Color):
     
 class RgbColorBlink(Color):
 
-    def __init__(self, blink_on_color= RgbColor(255,0 , 0), blink_off_color=RgbColor(5, 0 ,0), blink_period=0.2, *a, **k):
+    def __init__(self, blink_on_color= RgbColor(255,0 , 0), blink_off_color=RgbColor(5, 0 ,0), blink_period=0.1, *a, **k):
         super(RgbColorBlink, self).__init__(*a, **k)
         self.blink_on_color = blink_on_color
         self.blink_off_color = blink_off_color
@@ -62,12 +63,48 @@ class RgbColorBlink(Color):
         blink_on = partial(self._set_blinking_color, self.blink_on_color, pad_number, interface.send_midi)
         blink_off = partial(self._set_blinking_color, self.blink_off_color, pad_number, interface.send_midi)
         interface._tasks.add(
-                task.sequence(
+                task.loop(
+                    task.sequence(
                     task.run(blink_on), 
                     task.wait(self._blink_period), 
                     task.run(blink_off), 
                     task.wait(self._blink_period), 
-            )   
+                    )
+            )
+        ) 
+class MPCButtonColorBlink(Color):
+
+    def __init__(self, blink_on_color= 2, blink_off_color=1, blink_period=0.1, *a, **k):
+        super(MPCButtonColorBlink, self).__init__(*a, **k)
+        self.blink_on_color = blink_on_color
+        self.blink_off_color = blink_off_color
+        self._blink_period = blink_period
+
+    def start_blinking(self):
+        self._blink_task.restart()
+
+    def stop_blinking(self):
+        self._blink_task.kill()
+
+    def _set_blinking_color(self, color, identifier, send_midi):
+        send_midi((midi.MIDI_STATUS.CC_STATUS, identifier, color))
+
+    def _kill_all_tasks(self):
+        super(BlinkingButtonControl.State, self)._kill_all_tasks()
+        self._blink_task.kill()
+    
+    def draw(self, interface):
+        blink_on = partial(self._set_blinking_color, self.blink_on_color, interface._original_identifier, interface.send_midi)
+        blink_off = partial(self._set_blinking_color, self.blink_off_color, interface._original_identifier, interface.send_midi)
+        interface._tasks.add(
+                task.loop(
+                    task.sequence(
+                    task.run(blink_on), 
+                    task.wait(self._blink_period), 
+                    task.run(blink_off), 
+                    task.wait(self._blink_period), 
+                    )
+            )
         ) 
         
 class Mono:
@@ -78,6 +115,7 @@ class OneColorButton:
     DISABLED = MPCButtonColor(0)
     OFF = MPCButtonColor(1)
     ON = MPCButtonColor(2)
+    BLINK= MPCButtonColorBlink(2, 1)
 
 
 class TwoColorButtonMap:
@@ -86,6 +124,8 @@ class TwoColorButtonMap:
     COLOR_2_DIM = MPCButtonColor(2)
     COLOR_1_FULL = MPCButtonColor(3)
     COLOR_2_FULL = MPCButtonColor(4)
+    COLOR_1_BLINK = MPCButtonColorBlink(3,1)
+    COLOR_2_BLINK = MPCButtonColorBlink(4,2)
 
 class Rgb:
     OFF = RgbColor(0, 0, 0)

@@ -1,5 +1,6 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/skin.py
 from __future__ import absolute_import, print_function, unicode_literals
+from ast import Delete
 from ableton.v2.control_surface import Skin
 from .colors import Mono, Rgb, OneColorButton, TwoColorButtonMap, RgbColorBlink
 
@@ -42,7 +43,7 @@ class Colors:
 
     class Recording:
         On = OneColorButton.ON
-        Transition = Mono.ON
+        Transition = OneColorButton.BLINK
         Off = OneColorButton.OFF
 
     class Mixer:
@@ -55,19 +56,26 @@ class Colors:
         MuteOn = Rgb.YELLOW_LIGHT
         MuteOff = Rgb.YELLOW
         On = TwoColorButtonMap.COLOR_1_DIM
+    
     class Session:
-        ClipEmpty = RgbColorBlink(Rgb.RED, Rgb.BLACK)
-        ClipTriggeredPlay = Rgb.GREEN_BLINK
-        ClipTriggeredRecord = Rgb.RED_BLINK
+        ClipEmpty = Rgb.BLACK
+        ClipTriggeredPlay = RgbColorBlink(Rgb.GREEN_HALF, Rgb.BLACK)
+        ClipTriggeredRecord = RgbColorBlink(Rgb.RED, Rgb.BLACK)
         ClipStarted = Rgb.GREEN_PULSE
         ClipRecording = Rgb.RED_PULSE
+        Delete = TwoColorButtonMap.COLOR_2_DIM
+        DeletePressed = TwoColorButtonMap.COLOR_2_FULL
+        Duplicate = TwoColorButtonMap.COLOR_1_DIM
+        DuplicatePressed = TwoColorButtonMap.COLOR_1_FULL
+        Select = TwoColorButtonMap.COLOR_1_DIM
+        SelectPressed = TwoColorButtonMap.COLOR_1_FULL
         RecordButton = Rgb.RED_HALF
         Scene = Rgb.GREEN_HALF
         NoScene = Rgb.BLACK
         SceneTriggered = Rgb.GREEN_BLINK
-        StopClipTriggered = Rgb.RED_BLINK
+        StopClipTriggered = RgbColorBlink(Rgb.YELLOW, Rgb.BLACK)
         StopClip = Rgb.PURPLE
-        StopClipDisabled = Rgb.RED_HALF
+        StopClipDisabled = Rgb.YELLOW_LIGHT
 
     class Zooming:
         Selected = Rgb.WHITE
@@ -81,7 +89,9 @@ class Colors:
     class Keyboard:
         Natural = Rgb.YELLOW
         Sharp = Rgb.BLUE
-
+    class Accent:
+        On = TwoColorButtonMap.COLOR_1_FULL
+        Off = TwoColorButtonMap.COLOR_1_DIM
     class DrumGroup:
         Off = Rgb.OFF
         On = Rgb.RED_HALF
@@ -116,7 +126,9 @@ class Colors:
         class SendB:
             On = Rgb.PURPLE
             Off = Rgb.PURPLE_HALF
-        
+        class Stopclip:
+            On = TwoColorButtonMap.COLOR_2_FULL
+            Off = TwoColorButtonMap.COLOR_2_DIM
         class Session:
             On = TwoColorButtonMap.COLOR_2_FULL
             Off = TwoColorButtonMap.COLOR_1_DIM
