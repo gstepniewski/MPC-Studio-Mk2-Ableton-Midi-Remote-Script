@@ -36,6 +36,8 @@ class ViewToggleComponent(Component):
     @browser_view_toggle_button.toggled
     def browser_view_toggle_button(self, is_toggled, _):
         self._show_or_hide_view(is_toggled, u'Browser')
+        if is_toggled:
+            self.application.view.focus_view(u'Browser')
 
     def _show_or_hide_view(self, show_view, view_name):
         if show_view:
@@ -54,3 +56,6 @@ class ViewToggleComponent(Component):
     @listens(u'is_view_visible', u'Browser')
     def __on_browser_view_visibility_changed(self):
         self.browser_view_toggle_button.is_toggled = self.application.view.is_view_visible(u'Browser')
+
+    def clip_view_toggle_button(self, is_toggled, _):
+        self._show_or_hide_view(is_toggled, u'Detail/Clip')

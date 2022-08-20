@@ -4,6 +4,7 @@ from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrume
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
 from ableton.v2.control_surface.control.button import ButtonControl
+from .mpc_elements import MPCButtonElement
 from . import midi
 from .channel_strip import ChannelStripComponent
 from .drum_group import DrumGroupComponent
@@ -13,13 +14,18 @@ from .lighting import LightingComponent
 from .mixer import MixerComponent
 from .session import SessionComponent
 from .skin import skin
-from .translating_background import TranslatingBackgroundComponent
 from .view_toggle import ViewToggleComponent
 from .undo import  NewUndoComponent
 from .jog_wheel import TrackSelectComponent
 from .transport import TransportComponent
 from .touch_strip import TouchStrip
 from .session_recording import SessionRecordingComponent
+from .clip_actions import ClipActionsComponent
+from .quantization import QuantizationComponent
+from .components.browser import BrowserComponent
+from .components.track_navigation import TrackNavigationComponent
+from .components.macro import MacroComponent
+from .components.device_navigation import DeviceNavigationComponent
 import logging
 logger = logging.getLogger(__name__)
 
@@ -35,9 +41,9 @@ class MPCStudioMk2(ControlSurface):
                 self._set_button_colors()
                 self._create_lighting()
                 self._create_undo()
-                self._create_view_toggle()
+                # self._create_view_toggle()
                 self._create_background()
-                self._create_jog_wheel()
+                self._create_navigation_modes()
                 self._create_auto_arm()
                 self._create_session()
                 self._create_touch_strip()
@@ -47,9 +53,13 @@ class MPCStudioMk2(ControlSurface):
                 self._create_keyboard()
                 self._create_drum_group()
                 self._create_note_modes()
+                self._create_channel_modes()
+                self._create_macro()
                 self._create_pad_modes()
                 self._create_transport()
                 self._create_record_modes()
+                self._create_clip_actions()
+                self._create_quantization()
                 self._target_track = ArmedTargetTrackComponent(name='Target_Track')
                 self.__on_target_track_changed.subject = self._target_track
         self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=(self._target_track.target_track)))
@@ -64,21 +74,19 @@ class MPCStudioMk2(ControlSurface):
         self._elements.sample_start_button.color = 'UpDownButton.Off'
 
     def disconnect(self):
-        self._set_pad_led_disabled()
         super(MPCStudioMk2, self).disconnect()
-
-    def _create_jog_wheel(self):
-        self._track_select = TrackSelectComponent(
-            name='TrackSelect', 
-            is_enabled=False, 
-            layer=Layer(
-                jog_wheel_button='jog_wheel',
-                jog_wheel_press='jog_wheel_button'))
-        self._track_select.set_enabled(True)
+        self._set_pad_led_disabled()
+        for e in dir(self._elements):
+            if isinstance(e, MPCButtonElement):
+                e.blackout()
 
     def _create_auto_arm(self):
         self._auto_arm = AutoArmComponent(is_enabled=False)
         self._auto_arm.set_enabled(True)
+
+    def _create_macro(self):
+        self._macro = MacroComponent(name='Macro', is_enabled=False)
+        self._macro.set_enabled(True)
 
     def _create_lighting(self):
         self._lighting = LightingComponent(name='Lighting',
@@ -118,6 +126,14 @@ class MPCStudioMk2(ControlSurface):
           layer=Layer(undo_button='undo_button', redo_button='undo_button_with_shift'))
         self._undo.set_enabled(True)
 
+    def _create_clip_actions(self):
+        self._clip_actions = ClipActionsComponent(name=u'Clip_Actions', is_enabled=False, layer=Layer(quantize_button=u'quantize_button'))
+        self._clip_actions.set_enabled(True)
+
+    def _create_quantization(self):
+        self._quantize_toggle = QuantizationComponent(name=u'Quantization_Component', is_enabled=False, layer=Layer(quantization_toggle_button=u'tc_on_off_Button'))
+        self._quantize_toggle.set_enabled(True)
+
     def _create_view_toggle(self):
         self._view_toggle = ViewToggleComponent(name='View_Toggle',
           is_enabled=False,
@@ -140,15 +156,15 @@ class MPCStudioMk2(ControlSurface):
           is_enabled=False,
           num_tracks=SESSION_WIDTH,
           num_scenes=SESSION_HEIGHT)
-        self._session = SessionComponent(name='Session', session_ring=(self._session_ring))
+        self._session = SessionComponent(name='Session', session_ring=self._session_ring)
         self._session_navigation = SessionNavigationComponent(name='Session_Navigation',
           is_enabled=False,
-          session_ring=(self._session_ring),
+          session_ring=self._session_ring,
           layer=Layer(left_button='minus_button', right_button='plus_button'))
         self._session_navigation.set_enabled(True)
         self._session_overview = SessionOverviewComponent(name='Session_Overview',
           is_enabled=False,
-          session_ring=(self._session_ring),
+          session_ring=self._session_ring,
           enable_skinning=True,
           layer=Layer(button_matrix='pads_with_zoom'))
     
@@ -170,11 +186,33 @@ class MPCStudioMk2(ControlSurface):
         self._touch_strip_modes.add_mode('send_a', AddLayerMode(self._touch_strip, Layer(send_a_control='touch_strip_control')))
         self._touch_strip_modes.add_mode('send_b', AddLayerMode(self._touch_strip, Layer(send_b_control='touch_strip_control')))
         self._touch_strip_modes.selected_mode = 'volume'
+    
+    def _create_navigation_modes(self):
+        self._navigation_modes = ModesComponent(name='Navigation_Modes', is_enabled=False, layer=Layer(
+            track_button='track_select_button',
+            device_button='program_select_button'
+        ))
+        self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
+                jog_wheel_button='jog_wheel',
+                arm_button='jog_wheel_button')))
+        self._navigation_modes.add_mode('device', AddLayerMode(DeviceNavigationComponent(), Layer(
+                jog_wheel_button='jog_wheel',
+                jog_wheel_press='jog_wheel_button')))
+        self._navigation_modes.selected_mode = 'track'
+        self._navigation_modes.set_enabled(True)
+        self._on__navigation_modes_changed.subject = self._navigation_modes
+    
+    @listens(u'selected_mode')
+    def _on__navigation_modes_changed(self, mode):
+        if mode == 'track':
+            self.application.view.focus_view(u'Session')
+        if mode == 'device':
+            self.application.view.focus_view(u'Detail')
 
     def _create_session_navigation_modes(self):
         self._session_navigation_modes = ModesComponent(name='Session_Navigation_Modes',
           is_enabled=False,
-          layer=Layer(cycle_mode_button='mode_button'))
+          layer=Layer(cycle_mode_button='sample_select_button'))
 
         self._session_navigation_modes.add_mode('default',
             AddLayerMode((self._session_navigation),
@@ -205,51 +243,62 @@ class MPCStudioMk2(ControlSurface):
           layer=Layer(matrix='pads',
           scroll_page_up_button='sample_start_button',
           scroll_page_down_button='sample_end_button',
-          accent_button='full_level_button'))
+          accent_button='full_level_button'),
+          )
 
     def _create_note_modes(self):
-        self._note_modes = ModesComponent(name='Note_Modes', is_enabled=False)
+        self._note_modes = ModesComponent(name='Note_Modes', is_enabled=False, layer=Layer(session_button='shift_button'))
         self._note_modes.add_mode('keyboard', self._keyboard)
         self._note_modes.add_mode('drum', self._drum_group)
+        self._note_modes.add_mode('session', AddLayerMode(self._session, Layer(clip_launch_buttons='pads_with_shift')), behaviour=(MomentaryBehaviour() ))
         self._note_modes.selected_mode = 'keyboard'
-        
+
+    def _create_channel_modes(self):
+        self._channel_modes = ModesComponent(name='Channel_Mode', is_enabled=False, layer=Layer(session_button='shift_button'))
+        self._channel_modes.add_mode('channel', (self._elements.pads.reset, AddLayerMode(self._mixer, Layer(
+            track_select_buttons=( self._elements.pads.submatrix[:, :1] ),
+            arm_buttons=( self._elements.pads.submatrix[:, 3:] ),
+            solo_buttons=( self._elements.pads.submatrix[:, 2:3] ),
+            mute_buttons=( self._elements.pads.submatrix[:, 1:2] )
+            )) ),
+            self._session_navigation_modes
+        )
+        self._channel_modes.add_mode('session', AddLayerMode(self._session, Layer(clip_launch_buttons='pads_with_shift')), behaviour=(MomentaryBehaviour() ))
+        self._channel_modes.selected_mode = 'channel'
+            
     def _create_pad_modes(self):
         self._pad_modes = ModesComponent(name='Pad_Modes',
-            enable_skinning=True,
+            enable_skinning=False,
             is_enabled=False,
             layer=Layer(
                 session_button='pad_bank_ae_button',
                 note_button='pad_bank_bf_button',
                 channel_button='pad_bank_cg_button',
                 touch_strip_modes_button='touch_strip_button',
-                stopclip_button='pad_mute_button'))
+                stopclip_button='pad_mute_button',
+                macro_button='mode_button'))
 
         self._pad_modes.add_mode('session', (
             AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
             AddLayerMode(self._session, Layer(
                 clip_launch_buttons='pads',
-                scene_launch_buttons=(self._elements.pads_with_shift.submatrix[3:, :]),
+                scene_launch_buttons=self._elements.pads_with_shift.submatrix[3:, :],
                 managed_select_button='level_16_button',
                 managed_delete_button='erase_button',
                 managed_duplicate_button='copy_button'
                 ),
-            # AddLayerMode(self._session, Layer(stop_track_clip_buttons=(self._elements.pads_with_pad_mute.submatrix[:, 3:]))),
             ),
             self._session_overview,
             self._session_navigation_modes))
         self._pad_modes.add_mode('note', self._note_modes)
+        self._pad_modes.add_mode('channel', self._channel_modes)
 
-        self._pad_modes.add_mode('channel', (
-            self._elements.pads.reset,
-            AddLayerMode(self._mixer, 
-                Layer(
-                    track_select_buttons=( self._elements.pads.submatrix[:, :1] ),
-                    arm_buttons=( self._elements.pads.submatrix[:, 3:] ),
-                    solo_buttons=( self._elements.pads.submatrix[:, 2:3] ),
-                    mute_buttons=( self._elements.pads.submatrix[:, 1:2] )
-                    ),),
-                self._session_navigation_modes
-        ))
+        self._pad_modes.add_mode('stopclip',
+            AddLayerMode(
+                self._session, 
+                Layer(stop_track_clip_buttons=(self._elements.pads.submatrix[:, 3:] ) ) ),
+            behaviour=(MomentaryBehaviour() )
+        )
 
         self._pad_modes.add_mode('touch_strip_modes',
           (LayerMode(self._touch_strip_modes, Layer(
@@ -258,12 +307,32 @@ class MPCStudioMk2(ControlSurface):
             send_a_button=(self._elements.pads_raw[0][2]),
             send_b_button=(self._elements.pads_raw[0][3]))),
          AddLayerMode(self._background, Layer(unused_pads=(self._elements.pads.submatrix[:, 1:])))),
-          behaviour=(MomentaryBehaviour() ) )
+          behaviour=MomentaryBehaviour()  )
+
+        self._pad_modes.add_mode('macro', 
+            (
+                AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
+                AddLayerMode( 
+                self._macro, 
+                    Layer(
+                    create_audio_button=self._elements.pads_raw[3][0],
+                    create_midi_button=self._elements.pads_raw[3][1],
+                    create_drumrack_button=self._elements.pads_raw[3][2],
+                    create_simpler_button=self._elements.pads_raw[3][3],
+                    add_compressor_button=self._elements.pads_raw[2][0],
+                    add_eq_button=self._elements.pads_raw[2][1],
+                    add_autofilter_button=self._elements.pads_raw[2][2],
+                    add_gate_button=self._elements.pads_raw[2][3],
+                    )
+                )
+            ),
+            behaviour=MomentaryBehaviour()
+        )
+
         self._pad_modes.selected_mode = 'session'
         self._pad_modes.set_enabled(True)
 
     def _set_pad_led_disabled(self):
-
         # Set all pads to black rgb color:
         for pad in range(15):
             self._send_midi( (240, 71, 71, 74, 101, 0, 4, pad, 0, 0, 0, 247) )

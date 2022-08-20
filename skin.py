@@ -60,19 +60,19 @@ class Colors:
     class Session:
         ClipEmpty = Rgb.BLACK
         ClipTriggeredPlay = RgbColorBlink(Rgb.GREEN_HALF, Rgb.BLACK)
-        ClipTriggeredRecord = RgbColorBlink(Rgb.RED, Rgb.BLACK)
+        ClipTriggeredRecord = RgbColorBlink(Rgb.YELLOW_HALF, Rgb.BLACK)
         ClipStarted = Rgb.GREEN_PULSE
-        ClipRecording = Rgb.RED_PULSE
+        ClipRecording = RgbColorBlink(Rgb.RED_HALF, Rgb.BLACK)
         Delete = TwoColorButtonMap.COLOR_2_DIM
         DeletePressed = TwoColorButtonMap.COLOR_2_FULL
         Duplicate = TwoColorButtonMap.COLOR_1_DIM
         DuplicatePressed = TwoColorButtonMap.COLOR_1_FULL
         Select = TwoColorButtonMap.COLOR_1_DIM
         SelectPressed = TwoColorButtonMap.COLOR_1_FULL
-        RecordButton = Rgb.RED_HALF
+        RecordButton = Rgb.RED_DIM
         Scene = Rgb.GREEN_HALF
         NoScene = Rgb.BLACK
-        SceneTriggered = Rgb.GREEN_BLINK
+        SceneTriggered = RgbColorBlink(Rgb.GREEN, Rgb.BLACK)
         StopClipTriggered = RgbColorBlink(Rgb.YELLOW, Rgb.BLACK)
         StopClip = Rgb.PURPLE
         StopClipDisabled = Rgb.YELLOW_LIGHT
@@ -92,6 +92,7 @@ class Colors:
     class Accent:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off = TwoColorButtonMap.COLOR_1_DIM
+    
     class DrumGroup:
         Off = Rgb.OFF
         On = Rgb.RED_HALF
@@ -112,7 +113,31 @@ class Colors:
         PadQuadrant5 = Rgb.LIGHT_BLUE
         PadQuadrant6 = Rgb.PINK
         PadQuadrant7 = Rgb.PEACH
-
+    class Action:
+        QuantizeOff = TwoColorButtonMap.COLOR_1_DIM
+        QuantizeOn = TwoColorButtonMap.COLOR_1_FULL
+        On = TwoColorButtonMap.COLOR_1_DIM
+        Off = TwoColorButtonMap.COLOR_1_FULL
+    class Macro:
+        AudioOff = Rgb.BLUE_HALF
+        AudioOn = Rgb.BLUE
+        MidiOff = Rgb.ORANGE_HALF
+        MidiOn = Rgb.ORANGE
+        DrumRackOff = Rgb.YELLOW_HALF
+        DrumRackOn = Rgb.YELLOW
+        SimplerOff = Rgb.TEAL_DIM
+        SimplerOn = Rgb.TEAL
+        CompressorOff = Rgb.PURPLE_DIM
+        CompressorOn = Rgb.PURPLE
+        EqOff = Rgb.GREEN_HALF
+        EqOn = Rgb.GREEN
+        AutofilterOn = Rgb.RED_HALF
+        AutofilterOff = Rgb.RED
+        GateOn = Rgb.PEACH
+        GateOff = Rgb.PEACH_DIM
+    class Quantization:
+        On = TwoColorButtonMap.COLOR_1_FULL
+        Off  = TwoColorButtonMap.COLOR_2_BLINK
     class Mode:
         class Volume:
             On = Rgb.GREEN
@@ -145,6 +170,7 @@ class Colors:
             On = TwoColorButtonMap.COLOR_2_FULL
             Off = TwoColorButtonMap.COLOR_1_DIM
             Disabled = TwoColorButtonMap.COLOR_1_DIM
+        
 
 
 skin = Skin(Colors)

@@ -2,10 +2,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import liveobj_valid
 from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase, SceneComponent as SceneComponentBase, SessionComponent as SessionComponentBase
-from ableton.v2.control_surface.control import ButtonControl
-from .blinking_button import BlinkingButtonControl
 from .colors import LIVE_COLOR_INDEX_TO_RGB
-
 class ClipSlotComponent(ClipSlotComponentBase):
 
     def _color_value(self, slot_or_clip):
@@ -14,7 +11,7 @@ class ClipSlotComponent(ClipSlotComponentBase):
 
 class SceneComponent(SceneComponentBase):
     clip_slot_component_type = ClipSlotComponent
-    launch_button = BlinkingButtonControl()
+
     def _color_value(self, color):
         if liveobj_valid(self._scene):
             return LIVE_COLOR_INDEX_TO_RGB.get(self._scene.color_index, 0)
