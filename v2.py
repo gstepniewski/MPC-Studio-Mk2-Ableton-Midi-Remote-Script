@@ -237,12 +237,6 @@ class MPCStudioMk2(ControlSurface):
             ),
             self._session_overview,
             self._session_navigation_modes))
-        self._pad_modes.add_mode('stopclip',
-            AddLayerMode(
-                self._session, 
-                Layer(stop_track_clip_buttons=(self._elements.pads.submatrix[:, 3:] ) ) ),
-            behaviour=(MomentaryBehaviour() )
-        )
         self._pad_modes.add_mode('note', self._note_modes)
 
         self._pad_modes.add_mode('channel', (
