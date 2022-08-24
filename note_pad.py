@@ -12,6 +12,6 @@ class NotePadMixin(object):
 
     def _on_matrix_pressed(self, _):
         pass
-
+    
     def _on_matrix_released(self, button):
         self._update_button_color(button)

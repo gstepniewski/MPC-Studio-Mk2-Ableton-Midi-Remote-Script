@@ -1,7 +1,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.base import const, inject, listens, liveobj_valid, task, lazy_attribute, depends
 from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrumentFinder
-from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
+from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, AccentComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
 from ableton.v2.control_surface.control.button import ButtonControl
 from .mpc_elements import MPCButtonElement
@@ -26,9 +26,10 @@ from .components.browser import BrowserComponent
 from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
+from .components.note_repeat import NoteRepeatEnabler
 import logging
 logger = logging.getLogger(__name__)
-
+from .colors import Rgb
 class MPCStudioMk2(ControlSurface):
 
     def __init__(self, *a, **k):
@@ -41,7 +42,7 @@ class MPCStudioMk2(ControlSurface):
                 self._set_button_colors()
                 self._create_lighting()
                 self._create_undo()
-                # self._create_view_toggle()
+                self._create_view_toggle()
                 self._create_background()
                 self._create_navigation_modes()
                 self._create_auto_arm()
@@ -57,12 +58,19 @@ class MPCStudioMk2(ControlSurface):
                 self._create_macro()
                 self._create_pad_modes()
                 self._create_transport()
+                # self._create_accent()
                 self._create_record_modes()
                 self._create_clip_actions()
                 self._create_quantization()
                 self._target_track = ArmedTargetTrackComponent(name='Target_Track')
                 self.__on_target_track_changed.subject = self._target_track
         self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=(self._target_track.target_track)))
+        self.set_feedback_channels([9])
+
+        # Setup Listens 
+        self.__on_session_record_changed.subject = self.song
+        self._set_feedback_velocity()
+        # self.__on_armed_tracks_changed.subject = self._target_track
         self.__on_drum_group_changed.subject = self._drum_group_finder
         self.__on_drum_group_changed()
         self.__on_main_view_changed.subject = self.application.view
@@ -76,9 +84,19 @@ class MPCStudioMk2(ControlSurface):
     def disconnect(self):
         super(MPCStudioMk2, self).disconnect()
         self._set_pad_led_disabled()
+        self._touch_strip.meter_display.reset()
         for e in dir(self._elements):
             if isinstance(e, MPCButtonElement):
                 e.blackout()
+        logger.warn('Goodbye')
+
+    def _create_accent(self):
+        # self._accent = AccentComponent(name='AccentButton', parent=self)
+        self._note_repeat = NoteRepeatEnabler(name='NoteRepeat', is_enabled=False, layer=Layer(
+            repeat_button='note_repeat_button'
+        ))
+        # self._note_repeat.note_repeat_component.layer = Layer(select_buttons=self._elements.pads.submatrix[0:2, :])
+        self._note_repeat.set_enabled(True)
 
     def _create_auto_arm(self):
         self._auto_arm = AutoArmComponent(is_enabled=False)
@@ -138,7 +156,7 @@ class MPCStudioMk2(ControlSurface):
         self._view_toggle = ViewToggleComponent(name='View_Toggle',
           is_enabled=False,
           layer=Layer(
-            detail_view_toggle_button='program_select_button',
+            # detail_view_toggle_button='program_select_button',
             main_view_toggle_button='main_button',
             browser_view_toggle_button='browse_button'))
         self._view_toggle.set_enabled(True)
@@ -147,7 +165,14 @@ class MPCStudioMk2(ControlSurface):
         self._background = BackgroundComponent(name='Background',
           is_enabled=False,
           add_nop_listeners=True,
-          layer=Layer(set_loop_button='locate_button'
+          layer=Layer(
+            set_loop_button='locate_button',
+            set_note_repeat_button='note_repeat_button',
+            set_pad_bank_dh_button='pad_bank_dh_button',
+            set_full_level_button='full_level_button',
+            set_level_16_button='level_16_button',
+            set_erase_button='erase_button',
+            set_copy_button='copy_button'
           ))
         self._background.set_enabled(True)
 
@@ -233,18 +258,22 @@ class MPCStudioMk2(ControlSurface):
           name='Keyboard',
           is_enabled=False,
           layer=Layer(matrix='pads',
-          scroll_up_button='sample_start_button',
-          scroll_down_button='sample_end_button'))
+          scroll_up_button='full_level_button',
+          scroll_down_button='copy_button'))
 
     def _create_drum_group(self):
         self._drum_group = DrumGroupComponent(name='Drum_Group',
           is_enabled=False,
           translation_channel=(midi.DRUM_CHANNEL),
           layer=Layer(matrix='pads',
-          scroll_page_up_button='sample_start_button',
-          scroll_page_down_button='sample_end_button',
-          accent_button='full_level_button'),
-          )
+            scroll_page_up_button='full_level_button',
+            scroll_page_down_button='copy_button',
+            mute_button='pad_mute_button',
+            solo_button='level_16_button',
+            delete_button='erase_button'
+        #   accent_button='full_level_button'
+          ),
+        )
 
     def _create_note_modes(self):
         self._note_modes = ModesComponent(name='Note_Modes', is_enabled=False, layer=Layer(session_button='shift_button'))
@@ -268,14 +297,14 @@ class MPCStudioMk2(ControlSurface):
             
     def _create_pad_modes(self):
         self._pad_modes = ModesComponent(name='Pad_Modes',
-            enable_skinning=False,
+            enable_skinning=True,
             is_enabled=False,
             layer=Layer(
                 session_button='pad_bank_ae_button',
                 note_button='pad_bank_bf_button',
                 channel_button='pad_bank_cg_button',
                 touch_strip_modes_button='touch_strip_button',
-                stopclip_button='pad_mute_button',
+                stopclip_button='pad_bank_dh_button',
                 macro_button='mode_button'))
 
         self._pad_modes.add_mode('session', (
@@ -285,7 +314,9 @@ class MPCStudioMk2(ControlSurface):
                 scene_launch_buttons=self._elements.pads_with_shift.submatrix[3:, :],
                 managed_select_button='level_16_button',
                 managed_delete_button='erase_button',
-                managed_duplicate_button='copy_button'
+                managed_duplicate_button='copy_button',
+                managed_create_button='full_level_button',
+                managed_double_button='pad_mute_button'
                 ),
             ),
             self._session_overview,
@@ -362,3 +393,20 @@ class MPCStudioMk2(ControlSurface):
 
     def _enable_session_ring(self):
         self._session_ring.set_enabled(True)
+
+    @listens(u'armed_tracks')
+    def __on_armed_tracks_changed(self):
+        self._set_feedback_velocity()
+
+    @listens(u'session_record')
+    def __on_session_record_changed(self):
+        self._set_feedback_velocity()
+
+
+    def _set_feedback_velocity(self):
+        target_track = self._target_track.target_track
+        if self.song.session_record and liveobj_valid(target_track) and target_track.arm:
+            feedback_velocity = 100
+        else:
+            feedback_velocity = 120
+        self._c_instance.set_feedback_velocity(int(feedback_velocity))

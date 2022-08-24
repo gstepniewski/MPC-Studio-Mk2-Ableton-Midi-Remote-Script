@@ -3,12 +3,17 @@ from ableton.v2.control_surface.components import ToggleComponent, TransportComp
 from ableton.v2.control_surface.control import ButtonControl, ToggleButtonControl
 import logging
 logger = logging.getLogger(__name__)
+
+def MetronomeButtonViewTransform( value):
+    return u'Transport.MetronomeOn' if value else u'Transport.MetronomeOff'
+
 class TransportComponent(TransportComponentBase):
     def __init__(self, *a, **k):
         super(TransportComponent, self).__init__(*a, **k)
         self.play_button.disabled_color='DefaultButton.Off'
-    #     self._punch_in_toggle = ToggleComponent(u'punch_in', self.song, parent=self)
-    #     self._punch_out_toggle = ToggleComponent(u'punch_out', self.song, parent=self)
+        self._metronome_toggle = ToggleComponent(u'metronome', self.song, parent=self, view_transform=MetronomeButtonViewTransform)
+        self.tap_tempo_button.pressed_color = u'DefaultButton.Selected'
+    
     def _update_stop_button_color(self):
         self.stop_button.color = self.play_button.untoggled_color if self.play_button.is_toggled else self.play_button.toggled_color
 

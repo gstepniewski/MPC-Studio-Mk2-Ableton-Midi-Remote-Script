@@ -33,6 +33,7 @@ class MPCButtonColor(Color):
     
     def draw(self, interface):
         self._kill_all_tasks(interface)
+        # logger.warn('{}, {}'.format(interface._original_identifier, self.midi_cc_value))
         interface.send_midi((midi.MIDI_STATUS.CC_STATUS, interface._original_identifier, self.midi_cc_value))
 
 

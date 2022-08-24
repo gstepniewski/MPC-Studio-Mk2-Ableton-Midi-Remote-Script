@@ -39,10 +39,10 @@ class TrackNavigationComponent(Component):
 
     def disconnect(self):
         u""" releasing references and removing listeners"""
-        ChannelStripComponent._active_instances.remove(self)
+        # ChannelStripComponent._active_instances.remove(self)
         reset_button(self._arm_button)
         self._arm_button = None
-        super(ChannelStripComponent, self).disconnect()
+        super(TrackNavigationComponent, self).disconnect()
 
 
     def _arm_value(self, value):

@@ -102,7 +102,7 @@ class MeterDisplayElement(ControlElement):
         self._request_send_message()
 
     def reset(self):
-        self._meter_values = list(self._clear_values)
+        self.led_values = self.generate_led_meter_values(0)
         self._request_send_message()
 
     def send_midi(self, midi_bytes):
@@ -116,6 +116,10 @@ class MeterDisplayElement(ControlElement):
     def _send_message(self, *a):
         for led in self.led_values:
             self.send_midi( ( 176, self._segment_cc_map[led[0]], led[1] ) )
+    def reset(self):
+        for key in self._segment_cc_map:
+            self.send_midi( ( 176, self._segment_cc_map[key], 0 ) )
+
 
 class TouchStrip(ChannelStripComponentBase):
     def __init__(self, *a, **k):

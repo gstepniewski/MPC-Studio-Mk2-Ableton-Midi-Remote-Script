@@ -9,6 +9,8 @@ class Colors:
     class DefaultButton:
         On = OneColorButton.ON
         Off = OneColorButton.OFF
+        Selected = TwoColorButtonMap.COLOR_1_FULL
+        Alert = TwoColorButtonMap.COLOR_2_FULL
         Disabled = OneColorButton.DISABLED
         Reset = OneColorButton.OFF
         RgbOff = Rgb.BLACK
@@ -27,8 +29,8 @@ class Colors:
         Disabled = TwoColorButtonMap.DISABLED
 
     class ViewToggle:
-        On = TwoColorButtonMap.COLOR_2_DIM
-        Off = TwoColorButtonMap.COLOR_1_DIM
+        On = TwoColorButtonMap.COLOR_2_FULL
+        Off = TwoColorButtonMap.COLOR_1_FULL
 
     class Transport:
         PlayOn = OneColorButton.ON
@@ -36,6 +38,8 @@ class Colors:
         Disabled = OneColorButton.OFF
         SeekOn = OneColorButton.ON
         SeekOff = OneColorButton.OFF
+        MetronomeOn = TwoColorButtonMap.COLOR_1_FULL
+        MetronomeOff = TwoColorButtonMap.COLOR_1_DIM
     
     class Automation:
         On = TwoColorButtonMap.COLOR_2_FULL
@@ -56,7 +60,9 @@ class Colors:
         MuteOn = Rgb.YELLOW_LIGHT
         MuteOff = Rgb.YELLOW
         On = TwoColorButtonMap.COLOR_1_DIM
-    
+    class NoteRepeat:
+        RateUnselected= Rgb.BLACK
+        RateSelected= Rgb.RED
     class Session:
         ClipEmpty = Rgb.BLACK
         ClipTriggeredPlay = RgbColorBlink(Rgb.GREEN_HALF, Rgb.BLACK)
@@ -113,6 +119,18 @@ class Colors:
         PadQuadrant5 = Rgb.LIGHT_BLUE
         PadQuadrant6 = Rgb.PINK
         PadQuadrant7 = Rgb.PEACH
+        PadAction = Rgb.GREEN
+        
+        class DeleteButton:
+            Off = TwoColorButtonMap.COLOR_2_DIM
+            On = TwoColorButtonMap.COLOR_2_FULL
+        class MuteButton:
+            Off = TwoColorButtonMap.COLOR_1_DIM
+            On = TwoColorButtonMap.COLOR_1_FULL
+        class SoloButton:
+            Off = TwoColorButtonMap.COLOR_1_DIM
+            On = TwoColorButtonMap.COLOR_1_FULL
+
     class Action:
         QuantizeOff = TwoColorButtonMap.COLOR_1_DIM
         QuantizeOn = TwoColorButtonMap.COLOR_1_FULL
@@ -139,6 +157,28 @@ class Colors:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off  = TwoColorButtonMap.COLOR_2_BLINK
     class Mode:
+        class Stopclip:
+            On = TwoColorButtonMap.COLOR_2_FULL
+            Off = TwoColorButtonMap.COLOR_1_DIM
+        class Macro:
+            Off = OneColorButton.OFF
+            On = OneColorButton.ON
+            AudioOff = Rgb.BLUE_HALF
+            AudioOn = Rgb.BLUE
+            MidiOff = Rgb.ORANGE_HALF
+            MidiOn = Rgb.ORANGE
+            DrumRackOff = Rgb.YELLOW_HALF
+            DrumRackOn = Rgb.YELLOW
+            SimplerOff = Rgb.TEAL_DIM
+            SimplerOn = Rgb.TEAL
+            CompressorOff = Rgb.PURPLE_DIM
+            CompressorOn = Rgb.PURPLE
+            EqOff = Rgb.GREEN_HALF
+            EqOn = Rgb.GREEN
+            AutofilterOn = Rgb.RED_HALF
+            AutofilterOff = Rgb.RED
+            GateOn = Rgb.PEACH
+            GateOff = Rgb.PEACH_DIM
         class Volume:
             On = Rgb.GREEN
             Off = Rgb.GREEN_HALF
@@ -153,7 +193,7 @@ class Colors:
             Off = Rgb.PURPLE_HALF
         class Stopclip:
             On = TwoColorButtonMap.COLOR_2_FULL
-            Off = TwoColorButtonMap.COLOR_2_DIM
+            Off = TwoColorButtonMap.COLOR_1_DIM
         class Session:
             On = TwoColorButtonMap.COLOR_2_FULL
             Off = TwoColorButtonMap.COLOR_1_DIM

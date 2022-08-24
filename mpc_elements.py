@@ -7,7 +7,7 @@ class MPCButtonElement(ButtonElement):
         self.blink_task = 'Test'
     
     def reset(self):
-        self.set_light(u'DefaultButton.Off')
+        self.set_light(u'DefaultButton.Disabled')
         self.use_default_message()
         self.suppress_script_forwarding = False
 
