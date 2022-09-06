@@ -1,15 +1,12 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from functools import partial
-import Live
 from ableton.v2.base import depends, recursive_map
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE, PrioritizedResource
 from ableton.v2.control_surface.elements import ButtonElement, ButtonMatrixElement, ComboElement, SliderElement
 from .mpc_elements import MPCButtonElement, MPCPadElement
-from .CONST import PADS_ARRANGEMENT
+from ..CONST import PADS_ARRANGEMENT
 SESSION_WIDTH = 4
 SESSION_HEIGHT = 4
-import logging
-logger = logging.getLogger(__name__)
 
 @depends(skin=None)
 def create_button(identifier, name, msg_type=MIDI_NOTE_TYPE, **k):

@@ -1,4 +1,4 @@
-from ableton.v2.control_surface import Component, InputControlElement
+from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control.button import ButtonControl
 
 import logging

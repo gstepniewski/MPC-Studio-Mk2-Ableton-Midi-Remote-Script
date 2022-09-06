@@ -3,8 +3,6 @@ from ableton.v2.base import listens, task
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control import ButtonControl
 from .action_with_options_component import OptionsComponent
-import logging
-logger = logging.getLogger(__name__)
 def _make_triplet(base):
     return base * 1.5
 
@@ -144,10 +142,6 @@ class NoteRepeatEnabler(Component):
     def __on_selected_track_changed(self):
         self._restore_note_repeat_enabled_state()
         self.repeat_button.enabled = not self.song.view.selected_track.has_audio_input
-
-        # Debugging
-        logger.warn(self._get_note_repeat_enabled())
-        logger.warn(self.note_repeat_component._get_repeat_rate())
 
     def _toggle_note_repeat(self):
         is_enabled = not self.note_repeat_component.is_enabled()

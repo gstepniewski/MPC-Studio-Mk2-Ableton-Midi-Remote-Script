@@ -4,29 +4,28 @@ from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrume
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, AccentComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
 from ableton.v2.control_surface.control.button import ButtonControl
-from .mpc_elements import MPCButtonElement
+from .elements.mpc_elements import MPCButtonElement
 from . import midi
-from .channel_strip import ChannelStripComponent
-from .drum_group import DrumGroupComponent
-from .elements import Elements, SESSION_HEIGHT, SESSION_WIDTH
-from .keyboard import KeyboardComponent
-from .lighting import LightingComponent
-from .mixer import MixerComponent
-from .session import SessionComponent
+from .components.channel_strip import ChannelStripComponent
+from .components.drum_group import DrumGroupComponent
+from .elements.elements import Elements, SESSION_HEIGHT, SESSION_WIDTH
+from .components.keyboard import KeyboardComponent
+from .components.lighting import LightingComponent
+from .components.mixer import MixerComponent
+from .components.session import SessionComponent
 from .skin import skin
-from .view_toggle import ViewToggleComponent
-from .undo import  NewUndoComponent
-from .jog_wheel import TrackSelectComponent
-from .transport import TransportComponent
-from .touch_strip import TouchStrip
-from .session_recording import SessionRecordingComponent
-from .clip_actions import ClipActionsComponent
-from .quantization import QuantizationComponent
+from .components.view_toggle import ViewToggleComponent
+from .components.undo import  NewUndoComponent
+from .components.jog_wheel import TrackSelectComponent
+from .components.transport import TransportComponent
+from .components.touch_strip import TouchStrip
+from .components.session_recording import SessionRecordingComponent
+from .components.clip_actions import ClipActionsComponent
+from .components.quantization import QuantizationComponent
 from .components.browser import BrowserComponent
 from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
-from .components.note_repeat import NoteRepeatEnabler
 import logging
 logger = logging.getLogger(__name__)
 from .colors import Rgb
@@ -58,7 +57,6 @@ class MPCStudioMk2(ControlSurface):
                 self._create_macro()
                 self._create_pad_modes()
                 self._create_transport()
-                # self._create_accent()
                 self._create_record_modes()
                 self._create_clip_actions()
                 self._create_quantization()
@@ -89,14 +87,6 @@ class MPCStudioMk2(ControlSurface):
             if isinstance(e, MPCButtonElement):
                 e.blackout()
         logger.warn('Goodbye')
-
-    def _create_accent(self):
-        # self._accent = AccentComponent(name='AccentButton', parent=self)
-        self._note_repeat = NoteRepeatEnabler(name='NoteRepeat', is_enabled=False, layer=Layer(
-            repeat_button='note_repeat_button'
-        ))
-        # self._note_repeat.note_repeat_component.layer = Layer(select_buttons=self._elements.pads.submatrix[0:2, :])
-        self._note_repeat.set_enabled(True)
 
     def _create_auto_arm(self):
         self._auto_arm = AutoArmComponent(is_enabled=False)

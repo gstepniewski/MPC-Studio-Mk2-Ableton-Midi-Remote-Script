@@ -1,6 +1,9 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/pushbase/action_with_options_component.py
 from __future__ import absolute_import, print_function, unicode_literals
-from itertools import izip_longest
+try:
+    from itertools import zip_longest
+except ImportError:
+    from itertools import izip_longest as zip_longest
 from ableton.v2.base import in_range, clamp, task
 from ableton.v2.control_surface import Component, defaults
 from ableton.v2.control_surface.elements import DisplayDataSource
@@ -114,7 +117,7 @@ class OptionsComponent(Component):
         return map(lambda segment: segment.display_string(), self._label_data_sources)
 
     def _set_labels(self, labels):
-        for segment, label in izip_longest(self._label_data_sources, labels or []):
+        for segment, label in zip_longest(self._label_data_sources, labels or []):
             segment.set_display_string(label)
 
     labels = property(_get_labels, _set_labels)
@@ -143,7 +146,7 @@ class OptionsComponent(Component):
             button.color = self.selected_color if index == self._selected_option else self.unselected_color
 
     def _update_data_sources(self):
-        for index, (source, name) in enumerate(izip_longest(self._data_sources, self.option_names)):
+        for index, (source, name) in enumerate(zip_longest(self._data_sources, self.option_names)):
             if name:
                 source.set_display_string((consts.CHAR_SELECT if index == self._selected_option else u' ') + name)
             else:

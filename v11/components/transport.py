@@ -1,8 +1,5 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface.components import ToggleComponent, TransportComponent as TransportComponentBase
-from ableton.v2.control_surface.control import ButtonControl, ToggleButtonControl
-import logging
-logger = logging.getLogger(__name__)
 
 def MetronomeButtonViewTransform( value):
     return u'Transport.MetronomeOn' if value else u'Transport.MetronomeOff'

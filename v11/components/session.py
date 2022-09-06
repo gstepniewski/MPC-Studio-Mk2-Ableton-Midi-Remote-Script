@@ -4,7 +4,7 @@ from ableton.v2.base import liveobj_valid, duplicate_clip_loop
 from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase, SceneComponent as SceneComponentBase, SessionComponent as SessionComponentBase
 from ableton.v2.control_surface import ClipCreator
 from ableton.v2.control_surface.control import ButtonControl
-from .colors import LIVE_COLOR_INDEX_TO_RGB
+from ..colors import LIVE_COLOR_INDEX_TO_RGB
 
 def is_button_pressed(button):
     if button:

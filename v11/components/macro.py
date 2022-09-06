@@ -1,9 +1,6 @@
 import Live
-from ableton.v2.control_surface import Component, InputControlElement
+from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control.button import ButtonControl
-import logging
-logger = logging.getLogger(__name__)
-
 
 class MacroComponent(Component):
     create_audio_button = ButtonControl(color=u'Macro.AudioOff', pressed_color=u'Macro.AudioOn')

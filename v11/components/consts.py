@@ -124,7 +124,7 @@ if not _test_mode:
         _proto_list = filter(lambda a: a.startswith(u'PROTO_'), dir(_this_module))
         for attr in _proto_list:
             try:
-                _local_consts = __import__(u'local_consts', globals(), locals(), [attr], -1)
+                _local_consts = __import__(u'local_consts', globals(), locals(), [attr], 0)
                 setattr(_this_module, attr, getattr(_local_consts, attr))
             except AttributeError:
                 pass
