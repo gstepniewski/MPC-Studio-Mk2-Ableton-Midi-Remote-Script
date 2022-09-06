@@ -8,5 +8,5 @@ i.save(buf, format='JPEG')
 byte_im = buf.getvalue()
 
 
-
-print(binascii.hexlify(byte_im))
+my_num = 0xFF
+print (my_num << 1)
