@@ -50,10 +50,16 @@ class RgbColor(Color):
         interface._tasks.kill()
         interface._tasks.clear()
 
+    def _send_color(self, red, green, blue, pad_number, send_midi):
+        send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, red, green, blue, 247))
+
     def draw(self, interface):
         self._kill_all_tasks(interface)
         pad_number = PAD_MAPPING[interface._original_identifier]
-        interface.send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, self.red, self.green, self.blue, 247))
+        new_color_function = partial(self._send_color, red=self.red, green=self.green, blue=self.blue, pad_number=pad_number, send_midi=interface.send_midi)
+        self._kill_all_tasks(interface)
+        interface._tasks.add(task.run(new_color_function))
+        # interface.send_midi((240, 71, 71, 74, 101, 0, 4, pad_number, self.red, self.green, self.blue, 247))
     
 class RgbColorBlink(Color):
 

@@ -68,8 +68,8 @@ class MPCStudioMk2(ControlSurface):
         self.set_feedback_channels([9])
 
         # Setup Listens 
-        self.__on_session_record_changed.subject = self.song
-        self._set_feedback_velocity()
+        # self.__on_session_record_changed.subject = self.song
+        # self._set_feedback_velocity()
         # self.__on_armed_tracks_changed.subject = self._target_track
         self.__on_drum_group_changed.subject = self._drum_group_finder
         self.__on_drum_group_changed()
@@ -390,23 +390,7 @@ class MPCStudioMk2(ControlSurface):
         drum_group = self._drum_group_finder.drum_group
         self._drum_group.set_drum_group_device(drum_group)
         self._note_modes.selected_mode = 'drum' if liveobj_valid(drum_group) else 'keyboard'
+        self.set_controlled_track(self._target_track.target_track)
 
     def _enable_session_ring(self):
         self._session_ring.set_enabled(True)
-
-    @listens(u'armed_tracks')
-    def __on_armed_tracks_changed(self):
-        self._set_feedback_velocity()
-
-    @listens(u'session_record')
-    def __on_session_record_changed(self):
-        self._set_feedback_velocity()
-
-
-    def _set_feedback_velocity(self):
-        target_track = self._target_track.target_track
-        if self.song.session_record and liveobj_valid(target_track) and target_track.arm:
-            feedback_velocity = 100
-        else:
-            feedback_velocity = 120
-        self._c_instance.set_feedback_velocity(int(feedback_velocity))
