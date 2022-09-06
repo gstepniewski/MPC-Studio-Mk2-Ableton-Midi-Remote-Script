@@ -8,7 +8,7 @@ from .note_pad import NotePadMixin
 import logging
 logger = logging.getLogger(__name__)
 
-COMPLETE_QUADRANTS_RANGE = xrange(4, 116)
+COMPLETE_QUADRANTS_RANGE = range(4, 116)
 MAX_QUADRANT_INDEX = 7
 NUM_PADS = 16
 PADS_PER_ROW = 4
