@@ -185,7 +185,7 @@ class MPCStudioMk2(ControlSurface):
         self._session_navigation = SessionNavigationComponent(name='Session_Navigation',
           is_enabled=False,
           session_ring=self._session_ring,
-          layer=Layer(left_button='minus_button', right_button='plus_button'))
+          layer=Layer(left_button='minus_button', right_button='plus_button', up_button='sample_start_button', down_button='sample_end_button'))
         self._session_navigation.set_enabled(True)
         self._session_overview = SessionOverviewComponent(name='Session_Overview',
           is_enabled=False,

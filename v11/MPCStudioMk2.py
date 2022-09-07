@@ -33,6 +33,7 @@ class MPCStudioMk2(ControlSurface):
 
     def __init__(self, *a, **k):
         (super(MPCStudioMk2, self).__init__)(*a, **k)
+
         with self.component_guard():
             with inject(skin=(const(skin))).everywhere():
                 self._elements = Elements()
@@ -172,11 +173,14 @@ class MPCStudioMk2(ControlSurface):
           num_tracks=SESSION_WIDTH,
           num_scenes=SESSION_HEIGHT)
         self._session = SessionComponent(name='Session', session_ring=self._session_ring)
+
         self._session_navigation = SessionNavigationComponent(name='Session_Navigation',
           is_enabled=False,
           session_ring=self._session_ring,
-          layer=Layer(left_button='minus_button', right_button='plus_button'))
+          layer=Layer(left_button='minus_button', right_button='plus_button', up_button='sample_start_button', down_button='sample_end_button'))
+
         self._session_navigation.set_enabled(True)
+
         self._session_overview = SessionOverviewComponent(name='Session_Overview',
           is_enabled=False,
           session_ring=self._session_ring,

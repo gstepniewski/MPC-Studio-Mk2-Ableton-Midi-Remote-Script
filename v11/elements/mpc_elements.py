@@ -33,20 +33,21 @@ class MPCPadElement(ButtonElement):
         self.set_light(self._default_button_disabled)
         self.use_default_message()
         self.suppress_script_forwarding = False
-    
-    # def set_light(self, value):
-    #     # logger.warn('{}, {}, {}'.format(self.name, self._original_identifier, value))
-        
-    #     if value == u'DefaultButton.On':
-    #         value = self._default_button_on 
-    #     elif value == u'DefaultButton.Of':
-    #         value == self._default_button_off
-        
-    #     if hasattr(value, u'draw'):
-    #         value.draw(self)
-    #     elif type(value) in (int, long) and in_range(value, 0, 128):
-    #         self.send_value(value)
-    #     elif isinstance(value, bool):
-    #         self._set_skin_light(self._default_button_on if value else self._default_button_off)
-    #     else:
-    #         self._set_skin_light(value)
+
+    def set_light(self, value):
+
+        # Override default Button on and off values. This is hard coded in the ableton.v2.control_surface.elements.button class
+        if value == u'DefaultButton.On':
+            value = self._default_button_on 
+        elif value == u'DefaultButton.Of':
+            value == self._default_button_off
+
+        if old_hasattr(value, 'draw'):
+            value.draw(self)
+        elif type(value) in (int, long) and in_range(value, 0, 128):
+            self.send_value(value)
+        elif isinstance(value, bool):
+            # self._set_skin_light('DefaultButton.On' if value else 'DefaultButton.Off')
+            self._set_skin_light(self._default_button_on if value else self._default_button_off)
+        else:
+            self._set_skin_light(value)

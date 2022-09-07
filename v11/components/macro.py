@@ -1,6 +1,8 @@
 import Live
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control.button import ButtonControl
+import logging
+logger = logging.getLogger(__name__)
 
 class MacroComponent(Component):
     create_audio_button = ButtonControl(color=u'Macro.AudioOff', pressed_color=u'Macro.AudioOn')
@@ -17,13 +19,16 @@ class MacroComponent(Component):
         self.current_item = None
         self._browser = Live.Application.get_application().browser
     
-    def _add_device(self, type, name, create_new=False):
-        sub_type = getattr(self._browser, type)
-        for item in sub_type.children:
-            if item.name == name:
-                if create_new:
-                    self.song.create_midi_track(-1)
-                self._browser.load_item(item)
+    def _add_device(self, root_folder, sub_category, name, create_new=False):
+        root = getattr(self._browser, root_folder)
+        logger.warning(type(root.children))
+        for folder in root.children:
+            if folder.name == sub_category:
+                for device in folder.children:
+                    if device.name == name:
+                        if create_new:
+                            self.song.create_midi_track(-1)
+                        self._browser.load_item(device)
                 
     @create_audio_button.pressed
     def _on_create_audio_button_pressed(self, value):
@@ -49,18 +54,18 @@ class MacroComponent(Component):
     
     @add_compressor_button.pressed
     def _on_add_compressor_button_pressed(self, value):
-        self._add_device('audio_effects', 'Compressor')
+        self._add_device('audio_effects', 'Dynamics', 'Compressor')
 
     @add_eq_button.pressed
     def _on_add_eq_button_pressed(self, value):
-        self._add_device('audio_effects', 'EQ Three')
+        self._add_device('audio_effects', 'EQ & Filters', 'EQ Three')
     
     @add_autofilter_button.pressed
     def _on_add_autofilter_button_pressed(self, value):
-        self._add_device('audio_effects', 'Auto Filter')
+        self._add_device('audio_effects', 'EQ & Filters', 'Auto Filter')
         
     
     @add_gate_button.pressed
     def _on_add_gate_button_pressed(self, value):
-        self._add_device('audio_effects', 'Gate')
+        self._add_device('audio_effects', 'Dynamics', 'Gate')
     

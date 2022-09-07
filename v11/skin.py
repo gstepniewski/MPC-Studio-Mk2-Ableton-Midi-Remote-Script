@@ -149,8 +149,8 @@ class Colors:
         CompressorOn = Rgb.PURPLE
         EqOff = Rgb.GREEN_HALF
         EqOn = Rgb.GREEN
-        AutofilterOn = Rgb.RED_HALF
-        AutofilterOff = Rgb.RED
+        AutofilterOff = Rgb.RED_HALF
+        AutofilterOn = Rgb.RED
         GateOn = Rgb.PEACH
         GateOff = Rgb.PEACH_DIM
     class Quantization:
