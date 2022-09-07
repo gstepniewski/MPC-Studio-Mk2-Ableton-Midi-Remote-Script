@@ -18,8 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
+theme: just-the-docs
 title: MPC Studio Mk2
-email: your-email@example.com
+email: bcrowe306@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
@@ -32,8 +33,7 @@ aux_links:
   "Ableton Live 11 Python Framework": "https://github.com/bcrowe306/MPC-Studio-Mk2-Midi-Sysex-Charts"
   "Ableton Live 11 API": "https://github.com/bcrowe306/MPC-Studio-Mk2-Midi-Sysex-Charts"
 # Build settings
-remote_theme: just-the-docs/just-the-docs
-
+#remote_theme: just-the-docs/just-the-docs
 
 # Exclude from processing.
 # The following items will not be processed, by default.
