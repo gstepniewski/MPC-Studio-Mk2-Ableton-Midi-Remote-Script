@@ -33,7 +33,7 @@ aux_links:
   "Ableton Live 11 Python Framework": "https://github.com/bcrowe306/MPC-Studio-Mk2-Midi-Sysex-Charts"
   "Ableton Live 11 API": "https://github.com/bcrowe306/MPC-Studio-Mk2-Midi-Sysex-Charts"
 # Build settings
-theme: "just-the-docs"
+remote_theme: "just-the-docs"
 plugins:
   - jekyll-feed
 
