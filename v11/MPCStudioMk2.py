@@ -23,6 +23,7 @@ from .components.session_recording import SessionRecordingComponent
 from .components.clip_actions import ClipActionsComponent
 from .components.quantization import QuantizationComponent
 from .components.browser import BrowserComponent
+from .components.note_repeat import NoteRepeatEnabler
 from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
@@ -33,12 +34,15 @@ class MPCStudioMk2(ControlSurface):
 
     def __init__(self, *a, **k):
         (super(MPCStudioMk2, self).__init__)(*a, **k)
-
+        for meth in dir(self._c_instance):
+            logger.warning(meth)
+            
         with self.component_guard():
             with inject(skin=(const(skin))).everywhere():
                 self._elements = Elements()
         with self.component_guard():
             with inject(element_container=(const(self._elements))).everywhere():
+                self._create_note_repeat()
                 self._set_button_colors()
                 self._create_lighting()
                 self._create_undo()
@@ -84,10 +88,24 @@ class MPCStudioMk2(ControlSurface):
         super(MPCStudioMk2, self).disconnect()
         self._set_pad_led_disabled()
         self._touch_strip.meter_display.reset()
+        self._note_repeat_enabler.note_repeat_component._repeat_display_element.reset()
         for e in dir(self._elements):
             if isinstance(e, MPCButtonElement):
                 e.blackout()
-        logger.warn('Goodbye')
+        logger.warning('Goodbye')
+    
+    def _create_note_repeat(self):
+        self._note_repeat_enabler = NoteRepeatEnabler(note_repeat=(self._c_instance.note_repeat))
+        self._note_repeat_enabler.set_enabled(False)
+        self._note_repeat_enabler.layer = Layer(repeat_button='note_repeat_button')
+        self._note_repeat_enabler.note_repeat_component.layer = self._create_note_repeat_layer()
+
+    def _create_note_repeat_layer(self):
+        return Layer(
+            # aftertouch_control='aftertouch_control',
+            select_buttons='pads_with_zoom',
+            rate_control='touch_strip_control',
+            priority=2)
 
     def _create_auto_arm(self):
         self._auto_arm = AutoArmComponent(is_enabled=False)
@@ -315,7 +333,7 @@ class MPCStudioMk2(ControlSurface):
             ),
             self._session_overview,
             self._session_navigation_modes))
-        self._pad_modes.add_mode('note', self._note_modes)
+        self._pad_modes.add_mode('note', [self._note_modes, self._note_repeat_enabler])
         self._pad_modes.add_mode('channel', self._channel_modes)
 
         self._pad_modes.add_mode('stopclip',
