@@ -1,26 +1,117 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/colors.py
 from __future__ import absolute_import, print_function, unicode_literals
+from typing import Type
 from ableton.v2.control_surface import MIDI_CC_TYPE, MIDI_NOTE_TYPE
 from functools import partial
 from ableton.v2.base import lazy_attribute, task
 from ableton.v2.control_surface.elements import Color
 from . import midi
 from .CONST import PAD_MAPPING
+import colorsys
 import logging
 logger = logging.getLogger(__name__)
 BLINK_VALUE = 1
 PULSE_VALUE = 2
 
+def rgb_colorconverter(color, brightness=127, unit=127):
+
+    # Convert RGB 255 values into unit values
+    logger.warning(str(color[0]))
+    red_unit = int(color[0][0]) / unit
+    green_unit = int(color[0][1]) / unit
+    blue_unit = int(color[0][2]) / unit
+
+    # Conver rgb to hsv
+    hsv = colorsys.rgb_to_hsv(red_unit, green_unit, blue_unit)
+
+    # Set custom value of brightness if supplied
+    value = hsv[2]
+    if(brightness != 0):
+        value = brightness / unit
+
+    # Convert back to RGB
+    rgb_with_brightness = colorsys.hsv_to_rgb(hsv[0], hsv[1], value)
+    
+    # Convert RGB unit values to midi sysex values
+    return (
+        int(round(rgb_with_brightness[0] * 127)), 
+        int(round(rgb_with_brightness[1] * 127)), 
+        int(round(rgb_with_brightness[2] * 127))
+    )
+    
+
 class MPCInterface:
-    class Type:
-        OneColorButton = 0
-        TwoColorButton = 1
-        RGBPad = 3
-    class Animation:
-        Solid = 0
-        Blink = 1
-        Fade = 2
-        Pulse = 3
+        class Type:
+            Button = 0
+            Pad = 1
+        class Animation:
+            Solid = 0
+            Blink = 1
+            Fade = 2
+            Pulse = 3
+        class OneColorButton:
+            Off = 0
+            Dim = 1
+            Full = 2
+        class TwoColorButton:
+            Off = 0
+            Dim_1 = 1
+            Dim_2 = 2
+            Full_1 = 3
+            Full_2 = 4
+
+class MPCPadColor(Color):
+    
+    def __init__(self, interface_type=MPCInterface.Type.Pad, color=(20,0,0), brightness=100, animation_type= MPCInterface.Animation.Solid, blink_off_color=(0, 1, 3), blink_period=0.1, *a, **k):
+        super(MPCPadColor, self).__init__(*a, **k)
+        self.interface_type = interface_type
+        self.color = color,
+        self.brightness = brightness
+        self.animation_type = animation_type
+        self.blink_off_color = blink_off_color
+        self.blink_period = blink_period
+        self.blink_off_button_color = MPCInterface.OneColorButton.Off
+    
+    def _send_color(self, color, identifier, send_midi):
+        if self.interface_type == MPCInterface.Type.Button:
+            send_midi((midi.MIDI_STATUS.CC_STATUS, identifier, color))
+
+        elif self.interface_type == MPCInterface.Type.Pad:
+            send_midi((240, 71, 71, 74, 101, 0, 4, identifier, color[0], color[1], color[2], 247))
+
+    def _kill_all_tasks(self, interface):
+        interface._tasks.kill()
+        interface._tasks.clear()
+
+    def start_blinking(self):
+        self._blink_task.restart()
+
+    def stop_blinking(self):
+        self._blink_task.kill()
+
+    def draw(self, interface):
+        identifier = interface._original_identifier if self.interface_type == MPCInterface.Type.Button else PAD_MAPPING[interface._original_identifier]
+        color = self.color if self.interface_type == MPCInterface.Type.Button else rgb_colorconverter(self.color, self.brightness)
+
+        if self.animation_type == MPCInterface.Animation.Solid:
+            self._kill_all_tasks(interface)
+            self._send_color(color, identifier, interface.send_midi)
+
+        elif self.animation_type == MPCInterface.Animation.Blink:
+            blink_off_color = rgb_colorconverter(color, 1) if self.interface_type == MPCInterface.Type.Pad else self.blink_off_button_color
+            blink_on = partial(self._send_color, color, identifier, interface.send_midi)
+            blink_off = partial(self._send_color, blink_off_color, identifier, interface.send_midi)
+            self._kill_all_tasks(interface)
+            interface._tasks.add(
+                    task.loop(
+                        task.sequence(
+                        task.run(blink_on), 
+                        task.wait(self._blink_period), 
+                        task.run(blink_off), 
+                        task.wait(self._blink_period), 
+                        )
+                )
+            ) 
 
 class MPCButtonColor(Color):
     def __init__(self, midi_cc_value, *a, **k):
@@ -155,7 +246,7 @@ class TwoColorButtonMap:
 
 class Rgb:
     OFF = RgbColor(0, 0, 0)
-    BLACK = RgbColor(0, 1, 3)
+    BLACK = MPCPadColor( color=(0, 1, 3), brightness=2 )
     WHITE = RgbColor(109, 80, 27)
     RED = RgbColor(127, 0, 0)
     RED_BLINK = RgbColor(127, 0, 0, on_value=BLINK_VALUE)
@@ -190,6 +281,20 @@ class Rgb:
     TEAL_HALF = RgbColor(0, 32, 32)
     TEAL_DIM = RgbColor(0, 16, 16)
 
+class RGBColorDef:
+    OFF = (0, 0, 0)
+    BLACK = (0, 1, 2) 
+    WHITE = (109, 80, 27)
+    RED = (127, 0, 0)
+    GREEN = (0, 127, 0)
+    BLUE = (0, 16, 127)
+    YELLOW = (127, 83, 3)
+    PURPLE = (120, 0, 120)
+    LIGHT_BLUE = (0, 91, 91)
+    ORANGE = (127, 18, 0)
+    PEACH = (127, 51, 6)
+    PINK = (127, 17, 30)
+    TEAL = (0, 64, 64)
 
 LIVE_COLOR_INDEX_TO_RGB = {0: RgbColor(102, 46, 46),
  1: RgbColor(127, 34, 0),

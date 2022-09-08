@@ -97,6 +97,7 @@ class MeterDisplayElement(ControlElement):
     def _send_message(self, *a):
         for led in self.led_values:
             self.send_midi( ( 176, self._segment_cc_map[led[0]], led[1] ) )
+            
     def reset(self):
         for key in self._segment_cc_map:
             self.send_midi( ( 176, self._segment_cc_map[key], 0 ) )

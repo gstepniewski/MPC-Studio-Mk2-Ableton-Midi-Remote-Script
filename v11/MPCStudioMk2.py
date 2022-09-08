@@ -27,6 +27,7 @@ from .components.note_repeat import NoteRepeatEnabler
 from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
+from .elements.repeat_display_element import RepeatDisplayElement
 import logging
 logger = logging.getLogger(__name__)
 from .colors import Rgb
@@ -42,6 +43,7 @@ class MPCStudioMk2(ControlSurface):
                 self._elements = Elements()
         with self.component_guard():
             with inject(element_container=(const(self._elements))).everywhere():
+                self._repeat_display_element = RepeatDisplayElement()
                 self._create_note_repeat()
                 self._set_button_colors()
                 self._create_lighting()
@@ -88,7 +90,7 @@ class MPCStudioMk2(ControlSurface):
         super(MPCStudioMk2, self).disconnect()
         self._set_pad_led_disabled()
         self._touch_strip.meter_display.reset()
-        self._note_repeat_enabler.note_repeat_component._repeat_display_element.reset()
+        self._repeat_display_element.blackout()
         for e in dir(self._elements):
             if isinstance(e, MPCButtonElement):
                 e.blackout()
@@ -377,8 +379,24 @@ class MPCStudioMk2(ControlSurface):
 
     def _set_pad_led_disabled(self):
         # Set all pads to black rgb color:
-        for pad in range(15):
-            self._send_midi( (240, 71, 71, 74, 101, 0, 4, pad, 0, 0, 0, 247) )
+        self._send_midi( (240, 71, 71, 74, 101, 0, 64, 
+        0, 0, 0, 0,
+        1, 0, 0, 0,
+        2, 0, 0, 0,
+        3, 0, 0, 0,
+        4, 0, 0, 0,
+        5, 0, 0, 0,
+        6, 0, 0, 0,
+        7, 0, 0, 0,
+        8, 0, 0, 0,
+        9, 0, 0, 0,
+        10, 0, 0, 0,
+        11, 0, 0, 0,
+        12, 0, 0, 0,
+        13, 0, 0, 0,
+        14, 0, 0, 0,
+        15, 0, 0, 0,
+        247) )
 
     @listens('is_view_visible', 'Session')
     def __on_main_view_changed(self):

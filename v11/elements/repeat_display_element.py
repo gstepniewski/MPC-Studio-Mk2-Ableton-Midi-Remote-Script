@@ -57,3 +57,7 @@ class RepeatDisplayElement(ControlElement):
     def _send_message(self, *a):
         for led in self.led_values:
             self.send_midi( ( 176, self._repeat_light_mapping[led[0]], led[1] ) )
+
+    def blackout(self, *a):
+        for light in self._repeat_light_mapping:
+            self.send_midi( ( 176, self._repeat_light_mapping[light], 0 ) )
