@@ -30,13 +30,11 @@ from .components.device_navigation import DeviceNavigationComponent
 from .elements.repeat_display_element import RepeatDisplayElement
 import logging
 logger = logging.getLogger(__name__)
-from .colors import Rgb
+
 class MPCStudioMk2(ControlSurface):
 
     def __init__(self, *a, **k):
         (super(MPCStudioMk2, self).__init__)(*a, **k)
-        for meth in dir(self._c_instance):
-            logger.warning(meth)
             
         with self.component_guard():
             with inject(skin=(const(skin))).everywhere():
