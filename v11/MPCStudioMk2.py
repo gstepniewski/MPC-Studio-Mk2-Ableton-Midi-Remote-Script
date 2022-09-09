@@ -28,6 +28,7 @@ from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
 from .elements.repeat_display_element import RepeatDisplayElement
+from .components.routing_component import RoutingComponent
 import logging
 logger = logging.getLogger(__name__)
 
@@ -58,6 +59,7 @@ class MPCStudioMk2(ControlSurface):
                 self._create_keyboard()
                 self._create_drum_group()
                 self._create_note_modes()
+                self._create_routing_component()
                 self._create_channel_modes()
                 self._create_macro()
                 self._create_pad_modes()
@@ -114,6 +116,10 @@ class MPCStudioMk2(ControlSurface):
     def _create_macro(self):
         self._macro = MacroComponent(name='Macro', is_enabled=False)
         self._macro.set_enabled(True)
+
+    def _create_routing_component(self):
+        self._routing_component = RoutingComponent(name='routing', is_enabled=False)
+        self._routing_component.set_enabled(True)
 
     def _create_lighting(self):
         self._lighting = LightingComponent(name='Lighting',
@@ -296,13 +302,25 @@ class MPCStudioMk2(ControlSurface):
 
     def _create_channel_modes(self):
         self._channel_modes = ModesComponent(name='Channel_Mode', is_enabled=False, layer=Layer(session_button='shift_button'))
-        self._channel_modes.add_mode('channel', (self._elements.pads.reset, AddLayerMode(self._mixer, Layer(
-            track_select_buttons=( self._elements.pads.submatrix[:, :1] ),
-            arm_buttons=( self._elements.pads.submatrix[:, 3:] ),
-            solo_buttons=( self._elements.pads.submatrix[:, 2:3] ),
-            mute_buttons=( self._elements.pads.submatrix[:, 1:2] )
-            )) ),
-            self._session_navigation_modes
+        self._channel_modes.add_mode('channel', 
+            (
+                self._elements.pads.reset, 
+                AddLayerMode(self._mixer, Layer(
+                    track_select_buttons=( self._elements.pads.submatrix[:, :1] ),
+                    arm_buttons=( self._elements.pads.submatrix[:, 3:] ),
+                    solo_buttons=( self._elements.pads.submatrix[:, 2:3] ),
+                    mute_buttons=( self._elements.pads.submatrix[:, 1:2] )
+                    )
+                ),
+                AddLayerMode(self._routing_component, Layer(
+                    input_type_button='full_level_button',
+                    input_channel_button='copy_button',
+                    output_type_button='pad_mute_button',
+                    output_channel_button='level_16_button',
+                    monitor_cycle_button='erase_button',
+                )) 
+            ),
+            self._session_navigation_modes,
         )
         self._channel_modes.add_mode('session', AddLayerMode(self._session, Layer(clip_launch_buttons='pads_with_shift')), behaviour=(MomentaryBehaviour() ))
         self._channel_modes.selected_mode = 'channel'
