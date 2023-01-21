@@ -34,6 +34,12 @@ nav_order: 4
   - Solo
   - Arm
 - **Shift**: Session overview
+- Routing Options:
+  - **Full Level**: MIDI/Audio From
+  - **Copy**: Channel/Track From
+  - **Pad Mute**: MIDI/Audio To Track
+  - **16 Level**: MIDI/Audio To Device
+  - **Erase**: Monitoring
 
 ### D - Clip stop
 - Momentary

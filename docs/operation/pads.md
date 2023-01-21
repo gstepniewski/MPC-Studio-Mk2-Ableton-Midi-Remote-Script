@@ -55,11 +55,14 @@ In this mode each column is a track, and each row is:
 - Toggle track solo
 - Toggle track record arm
 
-There is visual feedback for each operation and it is always synchronized with the software. The range of tracks works just like in mode A, and can be moved around the same way (**+**/**-** and **Sample Start**/**Sample End** or **Zoom**).
+There is visual feedback for each operation, and it is always synchronized with the software. The range of tracks works just like in mode A, and can be moved around the same way (**+**/**-** and **Sample Start**/**Sample End** or **Zoom**).
 
 Holding **SHIFT** displays a Session Overview (like mode A) so you can quickly launch clips or start/stop recording. 
 
-The buttons **Pad mute**, **16 level**, and **Erase** have no effect in this mode.
+The buttons below the pad banks allow controlling the track routing and monitoring options:
+- **Full Level** and **Copy** toggle the values in the Audio/MIDI From combo boxes. You can use them to toggle the input device and channel or track.
+- **Pad Mude** and **16 Level** toggle the values in the Audio/MIDI To combo boxes. You can use them to toggle the output device and channel or track.
+- **Erase** toggles between the available monitoring options (In/Auto/Off)
 
 ## D - Clip stop
 
