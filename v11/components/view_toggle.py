@@ -8,7 +8,8 @@ class ViewToggleComponent(Component):
     detail_view_toggle_button = ToggleButtonControl()
     main_view_toggle_button = ToggleButtonControl()
     browser_view_toggle_button = ToggleButtonControl()
-    
+    clip_detail_view_toggle_button = ToggleButtonControl()
+
     
     def __init__(self, *a, **k):
         super(ViewToggleComponent, self).__init__(*a, **k)
@@ -21,6 +22,8 @@ class ViewToggleComponent(Component):
         self.main_view_toggle_button.toggled_color = 'ViewToggle.Off'
         self.browser_view_toggle_button.untoggled_color = 'ViewToggle.On'
         self.browser_view_toggle_button.toggled_color = 'ViewToggle.Off'
+        self.clip_detail_view_toggle_button.untoggled_color = 'ViewToggle.On'
+        self.clip_detail_view_toggle_button.toggled_color = 'ViewToggle.Off'
         self.__on_detail_view_visibility_changed()
         self.__on_main_view_visibility_changed()
         self.__on_browser_view_visibility_changed()
@@ -39,6 +42,10 @@ class ViewToggleComponent(Component):
         if is_toggled:
             self.application.view.focus_view(u'Browser')
 
+    @clip_detail_view_toggle_button.toggled
+    def clip_view_toggle_button(self, is_toggled, _):
+        self._show_or_hide_view(is_toggled, u'Detail/Clip')
+
     def _show_or_hide_view(self, show_view, view_name):
         if show_view:
             self.application.view.show_view(view_name)
@@ -48,6 +55,7 @@ class ViewToggleComponent(Component):
     @listens(u'is_view_visible', u'Detail')
     def __on_detail_view_visibility_changed(self):
         self.detail_view_toggle_button.is_toggled = self.application.view.is_view_visible(u'Detail')
+        self.clip_detail_view_toggle_button.is_toggled = self.application.view.is_view_visible(u'Detail')
 
     @listens(u'is_view_visible', u'Session')
     def __on_main_view_visibility_changed(self):
@@ -56,6 +64,3 @@ class ViewToggleComponent(Component):
     @listens(u'is_view_visible', u'Browser')
     def __on_browser_view_visibility_changed(self):
         self.browser_view_toggle_button.is_toggled = self.application.view.is_view_visible(u'Browser')
-
-    def clip_view_toggle_button(self, is_toggled, _):
-        self._show_or_hide_view(is_toggled, u'Detail/Clip')
