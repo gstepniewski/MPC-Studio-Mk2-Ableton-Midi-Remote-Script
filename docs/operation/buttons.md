@@ -37,13 +37,13 @@ Here's a full list of buttons and their effects, grouped by action type (and if 
 - **Undo**: Undo
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
 - **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, see [Pad mode A](../pads/)
+- **Sample Select**: Toggle moving session window by one clip or by window size
 - **Browse**: Toggles the media browser
 - **Track select**: Jog Wheel track selection mode (currently the only one)
 
 ## Currently unused
 - **Locate**
 - **Program Select**
-- **Sample Select**
 
 ## Mode Button Shortcuts
 Holding down the **Mode** button allows using one of the 8 shortcuts using the pads.

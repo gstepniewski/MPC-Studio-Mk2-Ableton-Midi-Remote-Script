@@ -19,7 +19,7 @@ If there is no clip in the corresponding slot, the pad light is off. Otherwise, 
 Playing or queued up clips blink with a green colour. Clips about to start recording blink yellow and then pulse red while recording.
 
 You can navigate around your session in two ways:
-1. Using the **+**/**-** and **Sample Start**/**Sample End** buttons (next to the Jog Wheel) will move the selection window by one clip in each direction.
+1. Using the **+**/**-** and **Sample Start**/**Sample End** buttons (next to the Jog Wheel) will move the selection window around. You can move the window by one clip or by its dimension - this behaviour is toggled with the **Sample Select** button.
 2. Holding the **Zoom** button shows an overview of your entire session and you can use the pads to select a 4x4 block to view.
 
 Holding **SHIFT** allows you to launch scenes by using the rightmost column of pads.
