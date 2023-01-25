@@ -237,7 +237,8 @@ class MPCStudioMk2(ControlSurface):
         ))
         self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
-                arm_button='jog_wheel_button')))
+                arm_button='jog_wheel_button',
+                shift_button='shift_button')))
         self._navigation_modes.add_mode('device', AddLayerMode(DeviceNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button')))
