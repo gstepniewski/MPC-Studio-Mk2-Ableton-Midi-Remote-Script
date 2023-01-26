@@ -40,10 +40,8 @@ Here's a full list of buttons and their effects, grouped by action type (and if 
 - **Sample Select**: Toggle moving session window by one clip or by window size
 - **Browse**: Toggles the media browser
 - **Track select**: Jog Wheel track selection mode (currently the only one)
-
-## Currently unused
-- **Locate**
-- **Program Select**
+- **Program Select**: Jog Wheel device selection mode (not working yet)
+- **Locate**: Toggle bottom panel. Hold **SHIFT** to toggle device/clip view.
 
 ## Mode Button Shortcuts
 Holding down the **Mode** button allows using one of the 8 shortcuts using the pads.
