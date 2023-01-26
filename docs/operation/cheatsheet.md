@@ -72,6 +72,7 @@ nav_order: 4
 - **Main**: Session View / Arrangement View
 - **Zoom**: Session quick navigation
 - **-**/**+**/**Sample Start**/**Sample End**: Session view left/right up/down
+- **Locate**: Toggle bottom panel, **SHIFT** toggle bottom panel content
 
 ### Mode Shortcuts
 - Pads 1-4 - Add Tracks

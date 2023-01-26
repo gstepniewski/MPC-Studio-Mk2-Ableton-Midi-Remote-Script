@@ -171,9 +171,11 @@ class MPCStudioMk2(ControlSurface):
         self._view_toggle = ViewToggleComponent(name='View_Toggle',
           is_enabled=False,
           layer=Layer(
-            # detail_view_toggle_button='program_select_button',
+            detail_view_toggle_button='locate_button',
             main_view_toggle_button='main_button',
-            browser_view_toggle_button='browse_button'))
+            browser_view_toggle_button='browse_button',
+            clip_detail_view_toggle_button='locate_button_with_shift'
+          ))
         self._view_toggle.set_enabled(True)
 
     def _create_background(self):
@@ -181,7 +183,6 @@ class MPCStudioMk2(ControlSurface):
           is_enabled=False,
           add_nop_listeners=True,
           layer=Layer(
-            set_loop_button='locate_button',
             set_note_repeat_button='note_repeat_button',
             set_pad_bank_dh_button='pad_bank_dh_button',
             set_full_level_button='full_level_button',
@@ -237,7 +238,8 @@ class MPCStudioMk2(ControlSurface):
         ))
         self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
-                arm_button='jog_wheel_button')))
+                arm_button='jog_wheel_button',
+                shift_button='shift_button')))
         self._navigation_modes.add_mode('device', AddLayerMode(DeviceNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button',

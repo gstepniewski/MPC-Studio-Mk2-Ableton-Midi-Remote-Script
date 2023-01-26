@@ -11,6 +11,7 @@ A lot of the buttons do exactly what they say they do, with a few exceptions whe
 Most of the buttons that toggle things will also synchronize their state with the software.
 
 The **Jog Wheel** can be used to select tracks and pressing it down will toggle the selected track's record arm.
+Holding **SHIFT** while turning the jog wheel will instead select scenes in Session view.
 
 Here's a full list of buttons and their effects, grouped by action type (and if possible ordered the way they appear on the device).
 
@@ -57,7 +58,7 @@ Turning the Jog Wheel while holding **SHIFT** will move the selected device to t
 - **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, see [Pad mode A](../pads/)
 - **Sample Select**: Toggle moving session window by one clip or by window size
 - **Browse**: Toggles the media browser
-- **Track select**: Jog Wheel track selection mode (currently the only one)
+- **Track select**: Jog Wheel track selection mode (currently the only one) **SHIFT** to select scenes
 
 ## Currently unused
 - **Locate**
