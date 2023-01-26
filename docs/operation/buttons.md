@@ -14,6 +14,24 @@ The **Jog Wheel** can be used to select tracks and pressing it down will toggle 
 
 Here's a full list of buttons and their effects, grouped by action type (and if possible ordered the way they appear on the device).
 
+## Jog Wheel
+There are currently 2 ways that the Jog Wheel can be used - Track Navigation and Device Navigation. They can be selected by using the **Track Select** and **Program Select** buttons respectively.
+
+### Track Navigation
+In this mode you can turn the wheel to scroll through tracks. This works both in Session and Arrangement views. If implicit record arm is enabled, it will follow the selection so that the selected track will be armed if possible.
+
+Pressing the Jog Wheel button will toggle the recording arm on the selected track.
+
+Turning the Jog Wheel while holding **SHIFT** will scroll around scenes in Session View.
+
+### Device Navigation
+In this mode you can browse and modify the devices on the currently selected track. Turning the Jog Wheel will scroll around the devices, selecting each device (so that parameters can be controlled via MIDI - this is coming soon to the Touch Strip).
+
+Pressing the Jog Wheel will turn the device on/off, and pressing it while holding **SHIFT** will collapse the device view.
+
+Turning the Jog Wheel while holding **SHIFT** will move the selected device to the left or right.
+
+
 ## Transport Control
 - **Record**: Toggle Record when in Arrangement View, Session Overdub when in Session View
 - **Overdub**: Toggle Arrangement Overdub
