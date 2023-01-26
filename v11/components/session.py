@@ -4,6 +4,8 @@ from ableton.v2.base import liveobj_valid, duplicate_clip_loop
 from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase, SceneComponent as SceneComponentBase, SessionComponent as SessionComponentBase
 from ableton.v2.control_surface import ClipCreator
 from ableton.v2.control_surface.control import ButtonControl
+from ableton.v2.control_surface import Component
+
 from ..colors import LIVE_COLOR_INDEX_TO_RGB
 
 def is_button_pressed(button):
@@ -71,5 +73,29 @@ class SessionComponent(SessionComponentBase):
     def set_managed_double_button(self, button):
         self.managed_double_button.set_control_element(button)
         self.set_modifier_button(button, u'double', True)
+
+
+class SessionResetComponent(Component):
+    reset_session_ring_button = ButtonControl()
+
+    def __init__(self, session_ring=None, *a, **k):
+        super(SessionResetComponent, self).__init__(*a, **k)
+        self._session_ring = session_ring
+
+    @reset_session_ring_button.pressed
+    def reset_session_ring(self, button):
+        track_offset = self._session_ring.track_offset
+        scene_offset = self._session_ring.scene_offset
+
+        try:
+            selected_track_index = list(self.song.tracks).index(self.song.view.selected_track)
+        except ValueError:
+            # If this happened then we are probably in a send or master track.
+            # Fallback to the last proper track.
+            selected_track_index = len(list(self.song.tracks)) - 1
+
+        selected_scene_index = list(self.song.scenes).index(self.song.view.selected_scene)
+
+        self._session_ring.move(selected_track_index - track_offset, selected_scene_index - scene_offset)
 
 

@@ -89,6 +89,7 @@ class Elements(object):
         self.quantize_button_with_shift = with_modifier(self.shift_button, self.quantize_button)
         self.undo_button_with_shift = with_modifier(self.shift_button, self.undo_button)
         self.locate_button_with_shift = with_modifier(self.shift_button, self.locate_button)
+        self.zoom_button_with_shift = with_modifier(self.shift_button, self.zoom_button)
 
         self.pads_with_shift = ButtonMatrixElement(name='Pads_With_Shift',rows=(recursive_map(partial(with_modifier, self.shift_button), self.pads_raw)))
         self.pads_with_zoom = ButtonMatrixElement(name='Pads_With_Zoom',rows=(recursive_map(partial(with_modifier, self.zoom_button), self.pads_raw)))

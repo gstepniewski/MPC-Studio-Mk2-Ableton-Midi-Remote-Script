@@ -12,7 +12,7 @@ from .elements.elements import Elements, SESSION_HEIGHT, SESSION_WIDTH
 from .components.keyboard import KeyboardComponent
 from .components.lighting import LightingComponent
 from .components.mixer import MixerComponent
-from .components.session import SessionComponent
+from .components.session import SessionComponent, SessionResetComponent
 from .skin import skin
 from .components.view_toggle import ViewToggleComponent
 from .components.undo import  NewUndoComponent
@@ -29,6 +29,7 @@ from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
 from .elements.repeat_display_element import RepeatDisplayElement
 from .components.routing_component import RoutingComponent
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -52,6 +53,7 @@ class MPCStudioMk2(ControlSurface):
                 self._create_navigation_modes()
                 self._create_auto_arm()
                 self._create_session()
+                self._create_session_ring_reset()
                 self._create_touch_strip()
                 self._create_touch_strip_modes()
                 self._create_mixer()
@@ -215,7 +217,16 @@ class MPCStudioMk2(ControlSurface):
           session_ring=self._session_ring,
           enable_skinning=True,
           layer=Layer(button_matrix='pads_with_zoom'))
-    
+
+    def _create_session_ring_reset(self):
+        self._session_ring_reset = SessionResetComponent(
+            name='SessionRingReset',
+            session_ring=self._session_ring,
+            is_enabled=False,
+            layer=Layer(reset_session_ring_button='zoom_button_with_shift')
+        )
+        self._session_ring_reset.set_enabled(True)
+
     def _create_touch_strip(self):
         self._touch_strip = TouchStrip(is_enabled=True)
 

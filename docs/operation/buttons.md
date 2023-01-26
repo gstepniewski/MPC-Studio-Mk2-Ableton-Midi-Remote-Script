@@ -52,7 +52,7 @@ Turning the Jog Wheel while holding **SHIFT** will move the selected device to t
 ## Software Control
 - **Main**: Toggle Session View / Arrangement View
 - **Mode**: Accesses Shortcuts, see below
-- **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/)
+- **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/). **SHIFT** to reset the session ring to currently selected track and scene.
 - **Undo**: Undo
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
 - **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, see [Pad mode A](../pads/)
