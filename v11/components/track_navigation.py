@@ -11,6 +11,8 @@ def reset_button(button):
 class TrackNavigationComponent(Component):
     jog_wheel_button = ButtonControl()
     arm_button = ButtonControl()
+    shift_button = ButtonControl()
+
     def __init__(self, *a, **k):
         super(TrackNavigationComponent, self).__init__(*a, **k)
         self._track = None
@@ -61,10 +63,16 @@ class TrackNavigationComponent(Component):
     
     @jog_wheel_button.value
     def undo_button(self, x, _):
-        if x == 1 and self._can_select_next_track():
-            self._select_next_track()
-        if x == 127 and self._can_select_prev_track():
-            self._select_prev_track()
+        if self.shift_button.is_pressed:
+            if x == 1 and self._can_select_next_scene():
+                self._select_next_scene()
+            if x == 127 and self._can_select_prev_scene():
+                self._select_prev_scene()
+        else:
+            if x == 1 and self._can_select_next_track():
+                self._select_next_track()
+            if x == 127 and self._can_select_prev_track():
+                self._select_prev_track()
     
     def all_tracks(self):
         return self.tracks_to_use() + (self.song.master_track,)
@@ -89,7 +97,29 @@ class TrackNavigationComponent(Component):
         assert self._track in all_tracks
         index = list(all_tracks).index(self._track)
         self.song.view.selected_track = all_tracks[index + 1]
-    
+
     @listens(u'selected_track')
     def __on_selected_track_changed(self):
         self._track = self.song.view.selected_track
+
+    def selected_scene_index(self):
+        def tuple_index(tuple, obj):
+            for i in range(0, len(tuple)):
+                if tuple[i] == obj:
+                    return i
+
+        return tuple_index(self.song.scenes, self.song.view.selected_scene)
+
+    def _can_select_prev_scene(self):
+        return self.selected_scene_index() > 0
+
+    def _can_select_next_scene(self):
+        return (len(self.song.scenes) - self.selected_scene_index()) > 1
+
+    def _select_prev_scene(self):
+        index = self.selected_scene_index() - 1
+        self.song.view.selected_scene = self.song.scenes[index]
+
+    def _select_next_scene(self):
+        index = self.selected_scene_index() + 1
+        self.song.view.selected_scene = self.song.scenes[index]

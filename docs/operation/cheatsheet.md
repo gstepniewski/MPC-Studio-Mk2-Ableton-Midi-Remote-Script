@@ -48,7 +48,7 @@ nav_order: 4
 # Buttons (identical skipped)
 
 ### Jog Wheel
-- Turn to select tracks
+- Turn to select tracks, **SHIFT** to select scenes
 - Press to toggle record arm
 
 ### Transport
