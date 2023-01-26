@@ -12,6 +12,7 @@ class TrackNavigationComponent(Component):
     jog_wheel_button = ButtonControl()
     arm_button = ButtonControl()
     shift_button = ButtonControl()
+    tempo_button = ButtonControl()
 
     def __init__(self, *a, **k):
         super(TrackNavigationComponent, self).__init__(*a, **k)
@@ -44,7 +45,6 @@ class TrackNavigationComponent(Component):
         self._arm_button = None
         super(TrackNavigationComponent, self).disconnect()
 
-
     def _arm_value(self, value):
         if self.is_enabled():
             if liveobj_valid(self._track) and self._track.can_be_armed:
@@ -63,7 +63,9 @@ class TrackNavigationComponent(Component):
     
     @jog_wheel_button.value
     def undo_button(self, x, _):
-        if self.shift_button.is_pressed:
+        if self.tempo_button.is_pressed:
+            self._adjust_tempo(x)
+        elif self.shift_button.is_pressed:
             if x == 1 and self._can_select_next_scene():
                 self._select_next_scene()
             if x == 127 and self._can_select_prev_scene():
@@ -123,3 +125,7 @@ class TrackNavigationComponent(Component):
     def _select_next_scene(self):
         index = self.selected_scene_index() + 1
         self.song.view.selected_scene = self.song.scenes[index]
+
+    def _adjust_tempo(self, x):
+        factor = 1 if x == 1 else -1
+        self.song.tempo = max(min(int(self.song.tempo) + factor, 999), 20)

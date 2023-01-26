@@ -128,14 +128,18 @@ class MPCStudioMk2(ControlSurface):
         self._lighting.set_enabled(True)
 
     def _create_transport(self):
-        self._transport = TransportComponent(name='Transport',
-          is_enabled=False,
-          layer=Layer(priority=5, 
-          play_button='play_button',
-          loop_button='play_start_button',
-          stop_button='stop_button',
-          metronome_button='tune_button',
-          tap_tempo_button='tap_tempo_button'))
+        self._transport = TransportComponent(
+            name='Transport',
+            is_enabled=False,
+            layer=Layer(
+                priority=5,
+                play_button='play_button',
+                loop_button='play_start_button',
+                stop_button='stop_button',
+                metronome_button='tune_button',
+                tap_tempo_button='tap_tempo_button'
+            )
+        )
         self._transport.set_enabled(True)
         self._transport.set_seek_forward_button(self._elements.seek_forward_button)
         self._transport.set_seek_backward_button(self._elements.seek_back_button)
@@ -239,11 +243,13 @@ class MPCStudioMk2(ControlSurface):
         self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 arm_button='jog_wheel_button',
-                shift_button='shift_button')))
+                shift_button='shift_button',
+                tempo_button='quantize_button_with_shift')))
         self._navigation_modes.add_mode('device', AddLayerMode(DeviceNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button',
-                shift_button='shift_button')))
+                shift_button='shift_button',
+                tempo_button='quantize_button_with_shift')))
         self._navigation_modes.selected_mode = 'track'
         self._navigation_modes.set_enabled(True)
         self._on__navigation_modes_changed.subject = self._navigation_modes

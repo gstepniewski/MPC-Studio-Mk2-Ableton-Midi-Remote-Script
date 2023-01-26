@@ -11,6 +11,7 @@ class DeviceNavigationComponent(Component):
     jog_wheel_button = ButtonControl()
     jog_wheel_press = ButtonControl()
     shift_button = ButtonControl()
+    tempo_button = ButtonControl()
 
     def __init__(self, *a, **k):
         super(DeviceNavigationComponent, self).__init__(*a, **k)
@@ -47,7 +48,9 @@ class DeviceNavigationComponent(Component):
 
     @jog_wheel_button.value
     def _on_jog_wheel_turn(self, x, _):
-        if self.shift_button.is_pressed:
+        if self.tempo_button.is_pressed:
+            self._adjust_tempo(x)
+        elif self.shift_button.is_pressed:
             device = self.song.view.selected_track.view.selected_device
             if device is None:
                 return
@@ -60,3 +63,7 @@ class DeviceNavigationComponent(Component):
                 self.application.view.scroll_view(NavDirection.right, 'Detail/DeviceChain', False)
             if x == 127:
                 self.application.view.scroll_view(NavDirection.left, 'Detail/DeviceChain', False)
+
+    def _adjust_tempo(self, x):
+        factor = 1 if x == 1 else -1
+        self.song.tempo = max(min(int(self.song.tempo) + factor, 999), 20)
