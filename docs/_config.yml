@@ -16,7 +16,7 @@
 remote_theme: just-the-docs/just-the-docs
 title: MPC Studio Mk2
 description: A Jekyll theme for documentation
-baseurl: "/" # the subpath of your site, e.g. /blog
+baseurl: "MPC-Studio-Mk2-Ableton-Midi-Remote-Script"
 url: "https://bcrowe306.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 permalink: pretty
