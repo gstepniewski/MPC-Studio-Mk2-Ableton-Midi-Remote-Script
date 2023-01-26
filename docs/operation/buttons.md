@@ -44,9 +44,9 @@ Turning the Jog Wheel while holding **SHIFT** will move the selected device to t
 - **Automation R/W**: Toggles automation read/write - currently slightly bugged, see [GitHub Issue](https://github.com/bcrowe306/MPC-Studio-Mk2-Ableton-Midi-Remote-Script/issues/1)
 
 ## Tempo Control
-- **Tap Tempo**: Tap tempo, with visual feedback of the tempo
+- **Tap Tempo**: Tap tempo, with visual feedback of the tempo. To adjust tempo manually, hold **SHIFT**, **Quantize** and turn the Jog Wheel.
 - **TC On/Off**: Toggle Record Quantization
-- **Quantize**: Quantizes *all* notes in the currently selected Session View clip.
+- **Quantize**: Quantizes *all* notes in the currently selected Session View clip. Hold **SHIFT** and **Quantize**, then use the Jog Wheel to adjust tempo manually.
 - **Tune**: Toggles Metronome
 
 ## Software Control

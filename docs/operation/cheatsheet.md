@@ -54,6 +54,7 @@ nav_order: 4
 - Device Navigation (**Program Select**)
   - Turn to select devices, **SHIFT** to move devices
   - Press to toggle device enabled, **SHIFT** to toggle device collapsed
+- Tempo adjustment holding **SHIFT** and **Quantize**
 
 ### Transport
 - **Record**: Record in Arrangement View / Session Overdub in Session View
