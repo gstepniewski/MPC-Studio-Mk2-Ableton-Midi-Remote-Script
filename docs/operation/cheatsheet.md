@@ -48,8 +48,12 @@ nav_order: 4
 # Buttons (identical skipped)
 
 ### Jog Wheel
-- Turn to select tracks, **SHIFT** to select scenes
-- Press to toggle record arm
+- Track Navigation (**Track Select**)
+  - Turn to select tracks
+  - Press to toggle record arm
+- Device Navigation (**Program Select**)
+  - Turn to select devices, **SHIFT** to move devices
+  - Press to toggle device enabled, **SHIFT** to toggle device collapsed
 
 ### Transport
 - **Record**: Record in Arrangement View / Session Overdub in Session View
