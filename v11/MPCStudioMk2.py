@@ -273,9 +273,14 @@ class MPCStudioMk2(ControlSurface):
             self.application.view.focus_view(u'Detail')
 
     def _create_session_navigation_modes(self):
-        self._session_navigation_modes = ModesComponent(name='Session_Navigation_Modes',
-          is_enabled=False,
-          layer=Layer(cycle_mode_button='sample_select_button'))
+        self._session_navigation_modes = ModesComponent(
+            name='Session_Navigation_Modes',
+            is_enabled=False,
+            support_momentary_mode_cycling=True,
+            layer=Layer(
+                cycle_mode_button='shift_button'
+            )
+        )
 
         self._session_navigation_modes.add_mode('default',
             AddLayerMode((self._session_navigation),

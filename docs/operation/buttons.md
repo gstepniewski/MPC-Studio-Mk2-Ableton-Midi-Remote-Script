@@ -55,8 +55,7 @@ Turning the Jog Wheel while holding **SHIFT** will move the selected device to t
 - **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/). **SHIFT** to reset the session ring to currently selected track and scene.
 - **Undo**: Undo
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
-- **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, see [Pad mode A](../pads/)
-- **Sample Select**: Toggle moving session window by one clip or by window size
+- **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, **SHIFT** for paged navigation, see [Pad mode A](../pads/)
 - **Browse**: Toggles the media browser
 - **Track select**: Jog Wheel track selection mode (currently the only one) **SHIFT** to select scenes
 

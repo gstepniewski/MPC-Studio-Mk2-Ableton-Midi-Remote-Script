@@ -72,7 +72,7 @@ nav_order: 4
 ### Software Control
 - **Main**: Session View / Arrangement View
 - **Zoom**: Session quick navigation, **SHIFT** jump to current selection
-- **-**/**+**/**Sample Start**/**Sample End**: Session view left/right up/down
+- **-**/**+**/**Sample Start**/**Sample End**: Session view left/right up/down, **SHIFT** for paged
 - **Locate**: Toggle bottom panel, **SHIFT** toggle bottom panel content
 
 ### Mode Shortcuts
