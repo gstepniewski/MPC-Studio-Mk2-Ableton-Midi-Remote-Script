@@ -54,6 +54,10 @@ nav_order: 4
 - Device Navigation (**Program Select**)
   - Turn to select devices, **SHIFT** to move devices
   - Press to toggle device enabled, **SHIFT** to toggle device collapsed
+- Parameter Navigation (**Sample Select**)
+  - Select a parameter using the mouse first
+  - Turn to adjust by one option or 1%, **SHIFT** for fine-tuning at 0,1%
+  - Press to reset to default value
 - Tempo adjustment holding **SHIFT** and **Quantize**
 
 ### Transport

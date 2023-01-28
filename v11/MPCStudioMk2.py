@@ -4,6 +4,7 @@ from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrume
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, AccentComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
 from ableton.v2.control_surface.control.button import ButtonControl
+from .components.parameter_navigation import ParameterNavigationComponent
 from .elements.mpc_elements import MPCButtonElement
 from . import midi
 from .components.channel_strip import ChannelStripComponent
@@ -249,7 +250,8 @@ class MPCStudioMk2(ControlSurface):
     def _create_navigation_modes(self):
         self._navigation_modes = ModesComponent(name='Navigation_Modes', is_enabled=False, layer=Layer(
             track_button='track_select_button',
-            device_button='program_select_button'
+            device_button='program_select_button',
+            parameter_button='sample_select_button'
         ))
         self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
@@ -257,6 +259,11 @@ class MPCStudioMk2(ControlSurface):
                 shift_button='shift_button',
                 tempo_button='quantize_button_with_shift')))
         self._navigation_modes.add_mode('device', AddLayerMode(DeviceNavigationComponent(), Layer(
+                jog_wheel_button='jog_wheel',
+                jog_wheel_press='jog_wheel_button',
+                shift_button='shift_button',
+                tempo_button='quantize_button_with_shift')))
+        self._navigation_modes.add_mode('parameter', AddLayerMode(ParameterNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button',
                 shift_button='shift_button',
@@ -270,6 +277,8 @@ class MPCStudioMk2(ControlSurface):
         if mode == 'track':
             self.application.view.focus_view(u'Session')
         if mode == 'device':
+            self.application.view.focus_view(u'Detail')
+        if mode == 'parameter':
             self.application.view.focus_view(u'Detail')
 
     def _create_session_navigation_modes(self):

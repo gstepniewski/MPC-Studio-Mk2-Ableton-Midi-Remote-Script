@@ -16,7 +16,7 @@ Holding **SHIFT** while turning the jog wheel will instead select scenes in Sess
 Here's a full list of buttons and their effects, grouped by action type (and if possible ordered the way they appear on the device).
 
 ## Jog Wheel
-There are currently 2 ways that the Jog Wheel can be used - Track Navigation and Device Navigation. They can be selected by using the **Track Select** and **Program Select** buttons respectively.
+There are currently 3 ways that the Jog Wheel can be used - Track Navigation, Device Navigation, and Parameter Navigation. They can be selected by using the **Track Select**, **Program Select**, and **Sample Select** buttons respectively.
 
 ### Track Navigation
 In this mode you can turn the wheel to scroll through tracks. This works both in Session and Arrangement views. If implicit record arm is enabled, it will follow the selection so that the selected track will be armed if possible.
@@ -32,6 +32,12 @@ Pressing the Jog Wheel will turn the device on/off, and pressing it while holdin
 
 Turning the Jog Wheel while holding **SHIFT** will move the selected device to the left or right.
 
+### Parameter Navigation
+In this mode you can use the jog wheel to control a selected parameter. First select the parameter using your mouse (most parameters will respond to being selected with little brackets in the corners), then turn the jog wheel to adjust the parameter value.
+
+For quantized, i.e. discrete parameters each step of the Jog Wheel will switch to the next value.
+
+For continuous parameters, the available range of values is mapped to 100 steps and each step of the Jog Wheel adjusts the value by one step - so if a parameter goes from 0% to 100%, the Jog Wheel will adjust it by 1% at a time. The number of steps can be increased to 1000 by holding the **SHIFT** button, allowing for finer tuning. Pressing the Jog Wheel returns the parameter to its default value, if it has one.
 
 ## Transport Control
 - **Record**: Toggle Record when in Arrangement View, Session Overdub when in Session View
