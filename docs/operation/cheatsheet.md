@@ -58,6 +58,10 @@ nav_order: 4
   - Select a parameter using the mouse first
   - Turn to adjust by one option or 1%, **SHIFT** for fine-tuning at 0,1%
   - Press to reset to default value
+- Browser Navigation (**Browse**)
+  - Select any item using the mouse first
+  - Turn to go up and down, **SHIFT** turn to go left and right.
+  - Press to enter, **SHIFT** press to go up
 - Tempo adjustment holding **SHIFT** and **Quantize**
 
 ### Transport

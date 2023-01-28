@@ -3,7 +3,8 @@ from ableton.v2.base import const, inject, listens, liveobj_valid, task, lazy_at
 from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrumentFinder
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, AccentComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
-from ableton.v2.control_surface.control.button import ButtonControl
+from .components.browser_navigation import BrowserNavigationComponent
+from .components.navigation_component import NavigationModesComponent
 from .components.parameter_navigation import ParameterNavigationComponent
 from .elements.mpc_elements import MPCButtonElement
 from . import midi
@@ -17,13 +18,11 @@ from .components.session import SessionComponent, SessionResetComponent
 from .skin import skin
 from .components.view_toggle import ViewToggleComponent
 from .components.undo import  NewUndoComponent
-from .components.jog_wheel import TrackSelectComponent
 from .components.transport import TransportComponent
 from .components.touch_strip import TouchStrip
 from .components.session_recording import SessionRecordingComponent
 from .components.clip_actions import ClipActionsComponent
 from .components.quantization import QuantizationComponent
-from .components.browser import BrowserComponent
 from .components.note_repeat import NoteRepeatEnabler
 from .components.track_navigation import TrackNavigationComponent
 from .components.macro import MacroComponent
@@ -180,7 +179,7 @@ class MPCStudioMk2(ControlSurface):
           layer=Layer(
             detail_view_toggle_button='locate_button',
             main_view_toggle_button='main_button',
-            browser_view_toggle_button='browse_button',
+            browser_view_toggle_button='browse_button_with_shift',
             clip_detail_view_toggle_button='locate_button_with_shift'
           ))
         self._view_toggle.set_enabled(True)
@@ -248,10 +247,11 @@ class MPCStudioMk2(ControlSurface):
         self._touch_strip_modes.selected_mode = 'volume'
     
     def _create_navigation_modes(self):
-        self._navigation_modes = ModesComponent(name='Navigation_Modes', is_enabled=False, layer=Layer(
+        self._navigation_modes = NavigationModesComponent(name='Navigation_Modes', is_enabled=False, layer=Layer(
             track_button='track_select_button',
             device_button='program_select_button',
-            parameter_button='sample_select_button'
+            parameter_button='sample_select_button',
+            browser_button='browse_button'
         ))
         self._navigation_modes.add_mode('track', AddLayerMode(TrackNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
@@ -264,6 +264,11 @@ class MPCStudioMk2(ControlSurface):
                 shift_button='shift_button',
                 tempo_button='quantize_button_with_shift')))
         self._navigation_modes.add_mode('parameter', AddLayerMode(ParameterNavigationComponent(), Layer(
+                jog_wheel_button='jog_wheel',
+                jog_wheel_press='jog_wheel_button',
+                shift_button='shift_button',
+                tempo_button='quantize_button_with_shift')))
+        self._navigation_modes.add_mode('browser', AddLayerMode(BrowserNavigationComponent(), Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button',
                 shift_button='shift_button',
