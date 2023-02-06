@@ -3,6 +3,11 @@ from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.components import ChannelStripComponent
 from ableton.v2.control_surface.control.button import ButtonControl
 
+import Live
+
+import logging
+logger = logging.getLogger(__name__)
+
 def reset_button(button):
     if button != None:
         button.reset()
@@ -22,6 +27,8 @@ class TrackNavigationComponent(Component):
         self._arm_button = None
         self.__on_selected_track_changed()
         self.__on_selected_track_changed.subject = self.song.view
+        self.__on_selected_chain_changed()
+        self.__on_selected_chain_changed.subject = self.song.view
         self._arm_button_slot = self.register_slot(None, getattr(self, u'_%s_value' % u'arm'), u'value')
     
     def set_arm_button(self, button):
@@ -62,7 +69,7 @@ class TrackNavigationComponent(Component):
                                 track.arm = False
     
     @jog_wheel_button.value
-    def undo_button(self, x, _):
+    def scroll_wheel(self, x, _):
         if self.tempo_button.is_pressed:
             self._adjust_tempo(x)
         elif self.shift_button.is_pressed:
@@ -71,10 +78,12 @@ class TrackNavigationComponent(Component):
             if x == 127 and self._can_select_prev_scene():
                 self._select_prev_scene()
         else:
-            if x == 1 and self._can_select_next_track():
-                self._select_next_track()
-            if x == 127 and self._can_select_prev_track():
-                self._select_prev_track()
+            if x == 1 and self._can_scroll_forward():
+                self._move_selection(1)
+            if x == 127 and self._can_scroll_back():
+                self._move_selection(-1)
+
+    # ################# HORIZONTAL SCROLLING START ################# #
     
     def all_tracks(self):
         return self.tracks_to_use() + (self.song.master_track,)
@@ -82,27 +91,82 @@ class TrackNavigationComponent(Component):
     def tracks_to_use(self):
         return tuple(self.song.visible_tracks) + tuple(self.song.return_tracks)
 
-    def _can_select_prev_track(self):
-        return self.song.view.selected_track != self.song.tracks[0]
+    def _move_selection(self, delta):
+        if self._chain:
+            chain_parent = self._chain.canonical_parent
+            if isinstance(chain_parent, Live.RackDevice.RackDevice):
+                self._scroll_rack_chain(delta)
+            else:
+                # Unsupported, fallback to scrolling tracks
+                self._scroll_track(delta)
+        else:
+            self._scroll_track(delta)
 
-    def _can_select_next_track(self):
+    def _can_scroll_back(self):
+        return (self.song.view.selected_track != self.song.tracks[0]) or (
+                    self.song.view.selected_track == self.song.tracks[0] and self._chain)
+
+    def _can_scroll_forward(self):
         return self.song.view.selected_track != self.song.master_track
 
-    def _select_prev_track(self):
-        all_tracks = self.all_tracks()
-        assert self._track in all_tracks
-        index = list(all_tracks).index(self._track)
-        self.song.view.selected_track = all_tracks[index - 1]
+    def _scroll_rack_chain(self, delta):
+        chain_parent = self._chain.canonical_parent
+        chain_index = list(chain_parent.chains).index(self._chain)
+        # First chain going left
+        if delta == -1 and chain_index == 0 and self._can_scroll_back():
+            self._scroll_track(0)
+        # Last chain going right
+        elif delta == 1 and chain_index == len(chain_parent.chains) - 1 and self._can_scroll_forward():
+            self._scroll_track(1)
+        # Middle of chain
+        else:
+            new_chain = chain_parent.chains[chain_index + delta]
+            self.song.view.selected_chain = new_chain
+            chain_parent.view.selected_chain = new_chain
 
-    def _select_next_track(self):
+    def _scroll_track(self, delta):
         all_tracks = self.all_tracks()
-        assert self._track in all_tracks
-        index = list(all_tracks).index(self._track)
-        self.song.view.selected_track = all_tracks[index + 1]
+        track_index = list(all_tracks).index(self._track)
+        target_track = all_tracks[track_index + delta]
+
+        # Scrolling right into an open chain
+        if delta == 1 and self._track.can_show_chains and self._track.is_showing_chains and self._chain is None:
+            rack_device = self._find_rack_with_chains(self._track.devices)
+            if rack_device is not None:
+                self.song.view.selected_chain = rack_device.chains[0]
+                rack_device.view.selected_chain = rack_device.chains[0]
+            else:
+                logger.warning("This should not happen, showing chains but can't show chains?")
+                self.song.view.selected_track = target_track
+        # Scrolling left into an open chain
+        elif delta == -1 and target_track.can_show_chains and target_track.is_showing_chains:
+            rack_device = self._find_rack_with_chains(target_track.devices)
+            if rack_device is not None:
+                target_chain = rack_device.chains[len(rack_device.chains) - 1]
+                self.song.view.selected_chain = target_chain
+                rack_device.view.selected_chain = target_chain
+            else:
+                logger.warning("This should not happen, showing chains but can't show chains?")
+                self.song.view.selected_track = target_track
+        # Just scrolling tracks
+        else:
+            self.song.view.selected_track = target_track
+
+    def _find_rack_with_chains(self, devices):
+        for device in devices:
+            if isinstance(device, Live.RackDevice.RackDevice) and device.can_show_chains:
+                return device
+        return None
+
+    @listens(u'selected_chain')
+    def __on_selected_chain_changed(self):
+        self._chain = self.song.view.selected_chain
 
     @listens(u'selected_track')
     def __on_selected_track_changed(self):
         self._track = self.song.view.selected_track
+
+    # ################# HORIZONTAL SCROLLING END ################# #
 
     def selected_scene_index(self):
         def tuple_index(tuple, obj):
