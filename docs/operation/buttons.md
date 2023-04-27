@@ -71,10 +71,10 @@ If the Jog Wheel is not doing anything, try selecting something in the browser w
 ## Software Control
 - **Main**: Toggle Session View / Arrangement View
 - **Mode**: Accesses Shortcuts, see below
-- **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/). **SHIFT** to reset the session ring to currently selected track and scene.
+- **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/). Also while pressed paged session view movement. **SHIFT** to reset the session ring to currently selected track and scene.
 - **Undo**: Undo
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
-- **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, **SHIFT** for paged navigation, see [Pad mode A](../pads/)
+- **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, **Zoom** for paged navigation, see [Pad mode A](../pads/)
 - **Track select**: Jog Wheel track selection mode (currently the only one) **SHIFT** to select scenes
 
 ## Currently unused

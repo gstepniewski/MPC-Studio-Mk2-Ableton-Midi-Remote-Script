@@ -284,7 +284,7 @@ class MPCStudioMk2(ControlSurface):
             is_enabled=False,
             support_momentary_mode_cycling=True,
             layer=Layer(
-                cycle_mode_button='shift_button'
+                cycle_mode_button='zoom_button'
             )
         )
 
