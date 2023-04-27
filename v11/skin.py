@@ -31,6 +31,7 @@ class Colors:
     class ViewToggle:
         On = TwoColorButtonMap.COLOR_2_FULL
         Off = TwoColorButtonMap.COLOR_1_FULL
+        Dim = TwoColorButtonMap.COLOR_1_DIM
 
     class Transport:
         PlayOn = OneColorButton.ON
