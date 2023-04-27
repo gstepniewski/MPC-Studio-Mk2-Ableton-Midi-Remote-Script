@@ -28,6 +28,7 @@ from .components.macro import MacroComponent
 from .components.device_navigation import DeviceNavigationComponent
 from .elements.repeat_display_element import RepeatDisplayElement
 from .components.routing_component import RoutingComponent
+from .components.capture_midi import CaptureMidiCompnent
 
 import logging
 logger = logging.getLogger(__name__)
@@ -67,6 +68,7 @@ class MPCStudioMk2(ControlSurface):
                 self._create_record_modes()
                 self._create_clip_actions()
                 self._create_quantization()
+                self._create_capture_midi()
                 self._target_track = ArmedTargetTrackComponent(name='Target_Track')
                 self.__on_target_track_changed.subject = self._target_track
         self._drum_group_finder = self.register_disconnectable(PercussionInstrumentFinder(device_parent=(self._target_track.target_track)))
@@ -138,8 +140,8 @@ class MPCStudioMk2(ControlSurface):
         self._transport.set_seek_forward_button(self._elements.seek_forward_button)
         self._transport.set_seek_backward_button(self._elements.seek_back_button)
         self._transport.set_arrangement_overdub_button(self._elements.overdub_button)
-        self._transport.set_punch_in_button(self._elements.nudge_left_button)
-        self._transport.set_punch_out_button(self._elements.nudge_right_button)
+        # self._transport.set_punch_in_button(self._elements.nudge_left_button)
+        # self._transport.set_punch_out_button(self._elements.nudge_right_button)
 
     def _create_record_modes(self):
         self._session_record = SessionRecordingComponent(name='Session_Record',
@@ -164,6 +166,13 @@ class MPCStudioMk2(ControlSurface):
     def _create_quantization(self):
         self._quantize_toggle = QuantizationComponent(name=u'Quantization_Component', is_enabled=False, layer=Layer(quantization_toggle_button=u'tc_on_off_Button'))
         self._quantize_toggle.set_enabled(True)
+
+    def _create_capture_midi(self):
+        self._capture_midi = CaptureMidiCompnent(name=u'Capture_Midi_Component', is_enabled=False, layer=Layer(
+            capture_midi_button='nudge_left_button'
+        ))
+        self._capture_midi.set_enabled(True)
+
 
     def _create_view_toggle(self):
         self._view_toggle = ViewToggleComponent(name='View_Toggle',

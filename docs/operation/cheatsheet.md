@@ -68,7 +68,7 @@ nav_order: 4
 - **Record**: Record in Arrangement View / Session Overdub in Session View
 - **Overdub**: Arrangement Overdub
 - **Play Start**: Arrangement Loop
-- **<**/**>**: Momentary Punch in / Punch out
+- **<**: Capture MIDI
 - **<<**/**>>**: Playhead
 - **Automation R/W**: Automation R/W
 

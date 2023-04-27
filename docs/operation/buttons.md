@@ -58,7 +58,7 @@ If the Jog Wheel is not doing anything, try selecting something in the browser w
 - **Play**: Play
 - **Stop**: Stop
 - **Play Start**: Toggle Arrangement Loop
-- **<**/**>**: Punch in/Punch out. These are momentary!
+- **<**: Capture MIDI
 - **<<**/**>>**: Move the playhead
 - **Automation R/W**: Toggles automation read/write - currently slightly bugged, see [GitHub Issue](https://github.com/bcrowe306/MPC-Studio-Mk2-Ableton-Midi-Remote-Script/issues/1)
 
