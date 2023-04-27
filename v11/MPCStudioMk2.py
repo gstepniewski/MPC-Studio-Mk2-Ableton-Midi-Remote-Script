@@ -12,7 +12,6 @@ from .components.channel_strip import ChannelStripComponent
 from .components.drum_group import DrumGroupComponent
 from .elements.elements import Elements, SESSION_HEIGHT, SESSION_WIDTH
 from .components.keyboard import KeyboardComponent
-from .components.lighting import LightingComponent
 from .components.mixer import MixerComponent
 from .components.session import SessionComponent, SessionResetComponent
 from .skin import skin
@@ -46,7 +45,6 @@ class MPCStudioMk2(ControlSurface):
                 self._repeat_display_element = RepeatDisplayElement()
                 self._create_note_repeat()
                 self._set_button_colors()
-                self._create_lighting()
                 self._create_undo()
                 self._create_view_toggle()
                 self._create_background()
@@ -122,12 +120,6 @@ class MPCStudioMk2(ControlSurface):
     def _create_routing_component(self):
         self._routing_component = RoutingComponent(name='routing', is_enabled=False)
         self._routing_component.set_enabled(True)
-
-    def _create_lighting(self):
-        self._lighting = LightingComponent(name='Lighting',
-          is_enabled=False,
-          layer=Layer(shift_button='shift_button', zoom_button='zoom_button'))
-        self._lighting.set_enabled(True)
 
     def _create_transport(self):
         self._transport = TransportComponent(
