@@ -423,7 +423,11 @@ class MPCStudioMk2(ControlSurface):
                     add_eq_button=self._elements.pads_raw[2][1],
                     add_autofilter_button=self._elements.pads_raw[2][2],
                     add_gate_button=self._elements.pads_raw[2][3],
-                    )
+                    add_lfo_button=self._elements.pads_raw[1][0],
+                    add_eq8_button =self._elements.pads_raw[1][1],
+                    add_utility_button =self._elements.pads_raw[1][2],
+                    add_limiter_button =self._elements.pads_raw[1][3],
+            )
                 )
             ),
             behaviour=MomentaryBehaviour()

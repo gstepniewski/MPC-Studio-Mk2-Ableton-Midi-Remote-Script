@@ -89,11 +89,16 @@ nav_order: 4
   - MIDI
   - Drum Rack
   - Simpler
-- Pads 5-9 - Add FX
+- Pads 5-8 - Add FX
   - Compressor
   - EQ Three
   - Auto Filter
   - Gate
+- Pads 9-12 - Add FX
+  - LFO
+  - EQ Eight
+  - Utility
+  - Limiter
 
 # Touch Strip
 - **Touch Strip** hold to select track parameter:

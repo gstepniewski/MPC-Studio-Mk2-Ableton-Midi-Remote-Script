@@ -90,8 +90,12 @@ The bottom row of pads is adds tracks, from left to right
 - Drum Rack Track
 - Simpler Track
 
-The second to bottom row of pads adds a device to the current track, from left to right 
+The second and third to bottom rows of pads add a device to the current track, from left to right and bottom to top: 
 - Compressor
 - EQ Three
 - Auto Filter
 - Gate
+- LFO
+- EQ Eight
+- Utility
+- Limiter

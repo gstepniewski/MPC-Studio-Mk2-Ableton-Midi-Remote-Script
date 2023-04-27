@@ -149,8 +149,16 @@ class Colors:
         EqOn = MPCPadColor(color=RGBColorDef.GREEN, brightness=64)
         AutofilterOff = MPCPadColor(color=RGBColorDef.RED, brightness=5)
         AutofilterOn = MPCPadColor(color=RGBColorDef.RED, brightness=64)
-        GateOn = MPCPadColor(color=RGBColorDef.PEACH, brightness=70)
         GateOff = MPCPadColor(color=RGBColorDef.PEACH, brightness=5)
+        GateOn = MPCPadColor(color=RGBColorDef.PEACH, brightness=70)
+        LfoOff = MPCPadColor(color=RGBColorDef.YELLOW, brightness=5)
+        LfoOn = MPCPadColor(color=RGBColorDef.YELLOW, brightness=64)
+        Eq8Off = MPCPadColor(color=RGBColorDef.GREEN, brightness=5)
+        Eq8On = MPCPadColor(color=RGBColorDef.GREEN, brightness=64)
+        UtilityOff = MPCPadColor(color=RGBColorDef.WHITE, brightness=5)
+        UtilityOn = MPCPadColor(color=RGBColorDef.WHITE, brightness=64)
+        LimiterOff = MPCPadColor(color=RGBColorDef.PINK, brightness=5)
+        LimiterOn = MPCPadColor(color=RGBColorDef.PINK, brightness=64)
     class Quantization:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off  = TwoColorButtonMap.COLOR_2_BLINK
@@ -175,8 +183,8 @@ class Colors:
             EqOn = MPCPadColor(color=RGBColorDef.GREEN, brightness=64)
             AutofilterOff = MPCPadColor(color=RGBColorDef.RED, brightness=5)
             AutofilterOn = MPCPadColor(color=RGBColorDef.RED, brightness=64)
-            GateOn = MPCPadColor(color=RGBColorDef.PEACH, brightness=70)
             GateOff = MPCPadColor(color=RGBColorDef.PEACH, brightness=5)
+            GateOn = MPCPadColor(color=RGBColorDef.PEACH, brightness=64)
         class Volume:
             On = MPCPadColor(color=RGBColorDef.GREEN, brightness=100)
             Off = MPCPadColor(color=RGBColorDef.GREEN, brightness=5)

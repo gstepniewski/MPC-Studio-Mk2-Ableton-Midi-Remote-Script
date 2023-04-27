@@ -13,6 +13,10 @@ class MacroComponent(Component):
     add_eq_button = ButtonControl(color=u'Macro.EqOff', pressed_color=u'Macro.EqOn')
     add_autofilter_button = ButtonControl(color=u'Macro.AutofilterOff', pressed_color=u'Macro.AutofilterOn')
     add_gate_button = ButtonControl(color=u'Macro.GateOff', pressed_color=u'Macro.GateOn')
+    add_lfo_button = ButtonControl(color=u'Macro.LfoOff', pressed_color=u'Macro.LfoOn')
+    add_eq8_button = ButtonControl(color=u'Macro.Eq8Off', pressed_color=u'Macro.Eq8On')
+    add_utility_button = ButtonControl(color=u'Macro.UtilityOff', pressed_color=u'Macro.UtilityOn')
+    add_limiter_button = ButtonControl(color=u'Macro.LimiterOff', pressed_color=u'Macro.LimiterOn')
 
     def __init__(self, *a, **k):
         super(MacroComponent, self).__init__(*a, **k)
@@ -68,4 +72,20 @@ class MacroComponent(Component):
     @add_gate_button.pressed
     def _on_add_gate_button_pressed(self, value):
         self._add_device('audio_effects', 'Dynamics', 'Gate')
+
+    @add_lfo_button.pressed
+    def _on_add_lfo_button_pressed(self, value):
+        self._add_device('audio_effects', 'Modulators', 'LFO')
+
+    @add_eq8_button.pressed
+    def _on_add_eq8_button_pressed(self, value):
+        self._add_device('audio_effects', 'EQ & Filters', 'EQ Eight')
+
+    @add_utility_button.pressed
+    def _on_add_utility_button_pressed(self, value):
+        self._add_device('audio_effects', 'Utilities', 'Utility')
+
+    @add_limiter_button.pressed
+    def _on_add_limiter_button_pressed(self, value):
+        self._add_device('audio_effects', 'Dynamics', 'Limiter')
     
