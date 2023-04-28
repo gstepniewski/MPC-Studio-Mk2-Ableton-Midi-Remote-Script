@@ -17,6 +17,7 @@ nav_order: 4
   - **Pad Mute**: Duplicate clip length
   - **16 Level**: Select clip
   - **Erase**: Delete clip
+- **Note Repeat** for Fixed Length Recording, note denominator is the number of beats (triplets are the same)
 
 ### B - Notes
 - Black keys are blue, white keys are yellow
@@ -100,10 +101,10 @@ nav_order: 4
   - Utility
   - Limiter
 
-# Touch Strip
+# Touch Strip (red LEDs)
+- **Note Repeat** must not be enabled for this!
 - **Touch Strip** hold to select track parameter:
   - **Volume**
   - **Pan**
   - **Send A**
   - **Send B**
-- **Note Repeat** + pad + Touch Strip to select interval

@@ -31,6 +31,9 @@ The bottom left buttons can be used to perform operations on clips. You need to 
 - **16 Level**: Select a clip without playing it.
 - **Erase**: Delete a clip.
 
+You can enable Fixed Length Recording by pressing the **Note Repeat** button - it glow up more and the note division lights will show up. You can now select the clip length by using the touch strip - the denominator of each note is the number of beats to record. Triplets do not matter, so the available lengths are 4, 8, 16 and 32 (or 1, 2, 4, 8 bars when in 4/4).
+Fixed Length Recording stays on (or off) when you switch Pad Modes - so you can still trigger Fixed Length clips from Notes or Mixed using **SHIFT**.
+
 ## B - Notes
 
 In this mode you can enter trigger notes in the currently armed MIDI tracks. The mode will automatically recognize the type of track and display a drumkit or a piano layout.

@@ -28,4 +28,9 @@ Use the Touch Strip to set the selected parameter for the current track. The Tou
 ## Note Repeat
 
 While in Pad Mode B (Notes), when the **Note Repeat** button and a pad are held down, you can use the Touch Strip to trigger notes repeated in a specific interval, synchronized with the project clock.
-In this mode, the white note division LEDs are lit up and you can hold down a corresponding segment of the Touch Strip to trigger notes at that interval.
+In this mode, the white note division LEDs are lit up, you can hold down a corresponding segment of the Touch Strip to trigger notes at that interval.
+
+## Fixed Length
+
+While in Pad Mode A (Session), when the Note Repeat button is pressed (and thus Fixed Length recording is enabled), you can use the Touch Strip to select the clip length.
+The subdivisions's denominator is the amount of beats that will be recorded and triplets are the same value - so you can effectively make clips that have 4, 8, 16, or 32 beats (or 1, 2, 4, 8 bars).

@@ -1,6 +1,6 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/session.py
 from __future__ import absolute_import, print_function, unicode_literals
-from ableton.v2.base import liveobj_valid, duplicate_clip_loop
+from ableton.v2.base import liveobj_valid, duplicate_clip_loop, depends, const
 from ableton.v2.control_surface.components import ClipSlotComponent as ClipSlotComponentBase, SceneComponent as SceneComponentBase, SessionComponent as SessionComponentBase
 from ableton.v2.control_surface import ClipCreator
 from ableton.v2.control_surface.control import ButtonControl
@@ -15,10 +15,12 @@ def is_button_pressed(button):
 
 class ClipSlotComponent(ClipSlotComponentBase):
 
-    def __init__(self, *a, **k):
+    @depends(fixed_length_recording=(const(None)))
+    def __init__(self, fixed_length_recording, *a, **k):
         super(ClipSlotComponent, self).__init__(*a, **k)
         self._create_button = None
         self._double_button = None
+        self._fixed_length_recording = fixed_length_recording
 
     def _color_value(self, slot_or_clip):
         return LIVE_COLOR_INDEX_TO_RGB.get(slot_or_clip.color_index, 0)
@@ -41,6 +43,8 @@ class ClipSlotComponent(ClipSlotComponentBase):
                 self._do_double_clip()
             elif is_button_pressed(self._delete_button):
                 self._do_delete_clip()
+            elif self._fixed_length_recording.should_start_recording_in_slot(self._clip_slot):
+                self._fixed_length_recording.start_recording_in_slot(self._clip_slot)
             else:
                 self._do_launch_clip(True)
                 self._show_launched_clip_as_highlighted_clip()
@@ -73,7 +77,6 @@ class SessionComponent(SessionComponentBase):
     def set_managed_double_button(self, button):
         self.managed_double_button.set_control_element(button)
         self.set_modifier_button(button, u'double', True)
-
 
 class SessionResetComponent(Component):
     reset_session_ring_button = ButtonControl()

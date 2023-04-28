@@ -4,6 +4,7 @@ from ableton.v2.control_surface import ControlSurface, Layer, PercussionInstrume
 from ableton.v2.control_surface.components import ArmedTargetTrackComponent, BackgroundComponent, AccentComponent, SessionNavigationComponent, SessionOverviewComponent, SessionRingComponent, SimpleTrackAssigner, AutoArmComponent
 from ableton.v2.control_surface.mode import AddLayerMode, LayerMode, ModesComponent, MomentaryBehaviour
 from .components.browser_navigation import BrowserNavigationComponent
+from .components.fixed_length import FixedLengthRecording, FixedLengthSetting, FixedLengthEnabler
 from .components.navigation_component import NavigationModesComponent
 from .components.parameter_navigation import ParameterNavigationComponent
 from .elements.mpc_elements import MPCButtonElement
@@ -37,14 +38,19 @@ class MPCStudioMk2(ControlSurface):
 
     def __init__(self, *a, **k):
         (super(MPCStudioMk2, self).__init__)(*a, **k)
-            
+
         with self.component_guard():
             with inject(skin=(const(skin))).everywhere():
                 self._elements = Elements()
         with self.component_guard():
-            with inject(element_container=(const(self._elements))).everywhere():
+            self._fixed_length_setting = FixedLengthSetting()
+            self._fixed_length_recording = FixedLengthRecording(fixed_length_setting=self._fixed_length_setting)
+            with inject(element_container=(const(self._elements)),
+                        fixed_length_recording=(const(self._fixed_length_recording))
+                        ).everywhere():
                 self._repeat_display_element = RepeatDisplayElement()
                 self._create_note_repeat()
+                self._create_fixed_length()
                 self._set_button_colors()
                 self._create_undo()
                 self._create_view_toggle()
@@ -103,6 +109,12 @@ class MPCStudioMk2(ControlSurface):
         self._note_repeat_enabler.set_enabled(False)
         self._note_repeat_enabler.layer = Layer(repeat_button='note_repeat_button')
         self._note_repeat_enabler.note_repeat_component.layer = self._create_note_repeat_layer()
+
+    def _create_fixed_length(self):
+        self._fixed_length_enabler = FixedLengthEnabler(fixed_length_setting=self._fixed_length_setting)
+        self._fixed_length_enabler.set_enabled(False)
+        self._fixed_length_enabler.layer = Layer(fixed_length_button='note_repeat_button')
+        self._fixed_length_enabler.fixed_length_component.layer = Layer(length_control='touch_strip_control', priority=2)
 
     def _create_note_repeat_layer(self):
         return Layer(
@@ -386,9 +398,10 @@ class MPCStudioMk2(ControlSurface):
                 managed_delete_button='erase_button',
                 managed_duplicate_button='copy_button',
                 managed_create_button='full_level_button',
-                managed_double_button='pad_mute_button'
+                managed_double_button='pad_mute_button',
                 ),
             ),
+            self._fixed_length_enabler,
             self._session_overview,
             self._session_navigation_modes))
         self._pad_modes.add_mode('note', [self._note_modes, self._note_repeat_enabler])
