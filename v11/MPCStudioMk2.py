@@ -329,7 +329,8 @@ class MPCStudioMk2(ControlSurface):
           is_enabled=False,
           layer=Layer(matrix='pads',
           scroll_up_button='full_level_button',
-          scroll_down_button='copy_button'))
+          scroll_down_button='copy_button',
+          alternate_mode_button='erase_button'))
 
     def _create_drum_group(self):
         self._drum_group = DrumGroupComponent(name='Drum_Group',

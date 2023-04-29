@@ -94,6 +94,7 @@ class Colors:
     class Keyboard:
         Natural = MPCPadColor(color=RGBColorDef.YELLOW, brightness=120)
         Sharp = MPCPadColor(color=RGBColorDef.BLUE, brightness=120)
+        Off = MPCPadColor(color=RGBColorDef.BLACK, brightness=1)
     class Accent:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off = TwoColorButtonMap.COLOR_1_DIM

@@ -37,8 +37,26 @@ Fixed Length Recording stays on (or off) when you switch Pad Modes - so you can 
 ## B - Notes
 
 In this mode you can enter trigger notes in the currently armed MIDI tracks. The mode will automatically recognize the type of track and display a drumkit or a piano layout.
+
 In drumkit mode, only the pads that have samples assigned will be lit up. The currently selected pad is marked and pads will present a visual feedback when pressed.
-In piano mode there are different colours for black and white keys.
+
+In piano mode there are two display options. The first, default one, is chromatic notes going right to left, bottom to top. Yellow pads indicate white keys and blue pads indicate black keys, i.e.:
+
+| C  | C# | D  | D# |
+|----|----|----|----|
+| G# | A  | A# | B  |
+| E  | F  | F# | G  |
+| C  | C# | D  | D# |
+
+The second one is more similar to how a launchpad would display notes, split in half. Yellow and blue pads still indicate white and black keys:
+
+| F# | G# | A# |    |
+|----|----|----|----|
+| G  | A  | B  | C  |
+|    | C# | D# |    |
+| C  | D  | E  | F  |
+
+The options can be toggled using the **Erase** key.
 
 Holding **SHIFT** displays a Session Overview (like mode A) so you can quickly launch clips or start/stop recording. 
 

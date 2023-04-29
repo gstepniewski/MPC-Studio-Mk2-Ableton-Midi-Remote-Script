@@ -20,7 +20,7 @@ nav_order: 4
 - **Note Repeat** for Fixed Length Recording, note denominator is the number of beats (triplets are the same)
 
 ### B - Notes
-- Black keys are blue, white keys are yellow
+- Black keys are blue, white keys are yellow, switch modes with **Erase**
 - **Shift** Session overview
 - **Full Level** / **Pad Copy**: Change piano octaves / drumkit banks
 - Pad Operations (drumkit only):
