@@ -85,7 +85,7 @@ If the Jog Wheel is not doing anything, try selecting something in the browser w
 ## Mode Button Shortcuts
 Holding down the **Mode** button allows using one of the 8 shortcuts using the pads.
 
-The bottom row of pads is adds tracks, from left to right
+The bottom row of pads adds tracks, from left to right
 - Audio Track
 - MIDI Track
 - Drum Rack Track
@@ -100,3 +100,9 @@ The second and third to bottom rows of pads add a device to the current track, f
 - EQ Eight
 - Utility
 - Limiter
+
+The top row of pads deletes and duplicates things, from left to right:
+- Delete current track
+- Delete selected device
+- Duplicate current track
+- Duplicate current scene

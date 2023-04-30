@@ -457,6 +457,10 @@ class MPCStudioMk2(ControlSurface):
                         add_eq8_button =self._elements.pads_raw[1][1],
                         add_utility_button =self._elements.pads_raw[1][2],
                         add_limiter_button =self._elements.pads_raw[1][3],
+                        delete_track_button=self._elements.pads_raw[0][0],
+                        delete_device_button=self._elements.pads_raw[0][1],
+                        duplicate_track_button=self._elements.pads_raw[0][2],
+                        duplicate_scene_button=self._elements.pads_raw[0][3],
                     )
                 )
             ),

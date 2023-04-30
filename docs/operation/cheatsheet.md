@@ -100,6 +100,11 @@ nav_order: 4
   - EQ Eight
   - Utility
   - Limiter
+- Pads 13-16 - Delete and Duplicate
+  - Delete Track
+  - Delete Device
+  - Duplicate Track
+  - Duplicate Scene
 
 # Touch Strip (red LEDs)
 - **Note Repeat** must not be enabled for this!
