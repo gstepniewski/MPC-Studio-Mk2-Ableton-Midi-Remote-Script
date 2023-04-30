@@ -1,7 +1,7 @@
 #Embedded file name: /Users/versonator/Jenkins/live/output/Live/mac_64_static/Release/python-bundle/MIDI Remote Scripts/ATOM/keyboard.py
 from __future__ import absolute_import, print_function, unicode_literals
 from ableton.v2.control_surface.components import PlayableComponent, ScrollComponent
-from ableton.v2.control_surface.control import ToggleButtonControl
+from ableton.v2.control_surface.control import ToggleButtonControl, ButtonControl
 from .note_pad import NotePadMixin
 
 MAX_START_NOTE = 108
@@ -24,6 +24,7 @@ ALTERNATE_MODE_MAPPING = (
 
 class KeyboardComponent(NotePadMixin, PlayableComponent, ScrollComponent):
     alternate_mode_button = ToggleButtonControl(toggled_color='DefaultButton.On', untoggled_color='DefaultButton.Off')
+    pad_mute_button = ButtonControl(color = 'DefaultButton.Disabled', pressed_color='Default.Button.Disabled')
 
     def __init__(self, translation_channel, *a, **k):
         self._translation_channel = translation_channel

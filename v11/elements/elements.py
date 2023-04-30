@@ -94,7 +94,6 @@ class Elements(object):
 
         self.pads_with_shift = ButtonMatrixElement(name='Pads_With_Shift',rows=(recursive_map(partial(with_modifier, self.shift_button), self.pads_raw)))
         self.pads_with_zoom = ButtonMatrixElement(name='Pads_With_Zoom',rows=(recursive_map(partial(with_modifier, self.zoom_button), self.pads_raw)))
-        self.pads_with_pad_mute = ButtonMatrixElement(name='Pads_With_Pad_Mute',rows=(recursive_map(partial(with_modifier, self.pad_mute_button), self.pads_raw)))
         self.pads_with_mode = ButtonMatrixElement(name='Pads_With_Mode',rows=(recursive_map(partial(with_modifier, self.mode_button), self.pads_raw)))
         self.touch_strip_press_button = create_button(78, 'Touch_Strip_Press_Button')
         self.touch_strip_slider = SliderElement(MIDI_CC_TYPE, 0, 33, name='touch_strip_slider')
