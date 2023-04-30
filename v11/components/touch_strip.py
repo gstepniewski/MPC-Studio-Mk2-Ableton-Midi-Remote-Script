@@ -6,7 +6,6 @@ from ..CONST import TC_LIGHT_MAPPING, TOTAL_LEDS
 
 class TouchStrip(ChannelStripComponentBase):
     def __init__(self, *a, **k):
-        self.touch_strip_button = None
         super(TouchStrip, self).__init__(*a, **k)
         self.meter_display = MeterDisplayElement(TC_LIGHT_MAPPING, TOTAL_LEDS)
         self._update_listeners()
@@ -78,8 +77,7 @@ class TouchStrip(ChannelStripComponentBase):
     @listens(u'value')
     def __on_volume_changed(self):
         self._update_vol_meter()
-            
-    
+
     @listens(u'value')
     def __on_pan_changed(self):
         track = self._track

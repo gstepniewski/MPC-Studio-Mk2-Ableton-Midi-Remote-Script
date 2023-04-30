@@ -260,6 +260,8 @@ class MPCStudioMk2(ControlSurface):
         self._touch_strip_modes.selected_mode = 'volume'
     
     def _create_navigation_modes(self):
+        self._parameter_navigation = ParameterNavigationComponent()
+
         self._navigation_modes = NavigationModesComponent(name='Navigation_Modes', is_enabled=False, layer=Layer(
             track_button='track_select_button',
             device_button='program_select_button',
@@ -276,7 +278,7 @@ class MPCStudioMk2(ControlSurface):
                 jog_wheel_press='jog_wheel_button',
                 shift_button='shift_button',
                 tempo_button='quantize_button_with_shift')))
-        self._navigation_modes.add_mode('parameter', AddLayerMode(ParameterNavigationComponent(), Layer(
+        self._navigation_modes.add_mode('parameter', AddLayerMode(self._parameter_navigation, Layer(
                 jog_wheel_button='jog_wheel',
                 jog_wheel_press='jog_wheel_button',
                 shift_button='shift_button',
@@ -294,10 +296,14 @@ class MPCStudioMk2(ControlSurface):
     def _on__navigation_modes_changed(self, mode):
         if mode == 'track':
             self.application.view.focus_view(u'Session')
-        if mode == 'device':
+        if mode == 'device' or mode == 'parameter':
             self.application.view.focus_view(u'Detail')
+        self._pad_modes.set_enabled(False)
         if mode == 'parameter':
-            self.application.view.focus_view(u'Detail')
+            self._pad_modes.layer = self._pad_modes_layer_full
+        else:
+            self._pad_modes.layer = self._pad_modes_layer_noparam
+        self._pad_modes.set_enabled(True)
 
     def _create_session_navigation_modes(self):
         self._session_navigation_modes = ModesComponent(
@@ -342,7 +348,6 @@ class MPCStudioMk2(ControlSurface):
             mute_button='pad_mute_button',
             solo_button='level_16_button',
             delete_button='erase_button'
-        #   accent_button='full_level_button'
           ),
         )
 
@@ -379,16 +384,26 @@ class MPCStudioMk2(ControlSurface):
         self._channel_modes.selected_mode = 'channel'
             
     def _create_pad_modes(self):
-        self._pad_modes = ModesComponent(name='Pad_Modes',
-            enable_skinning=True,
-            is_enabled=False,
-            layer=Layer(
+        self._pad_modes_layer_full = Layer(
                 session_button='pad_bank_ae_button',
                 note_button='pad_bank_bf_button',
                 channel_button='pad_bank_cg_button',
                 touch_strip_modes_button='touch_strip_button',
                 stopclip_button='pad_bank_dh_button',
-                macro_button='mode_button'))
+                macro_button='mode_button',
+                parameter_button='sample_select_button')
+        self._pad_modes_layer_noparam = Layer(
+                session_button='pad_bank_ae_button',
+                note_button='pad_bank_bf_button',
+                channel_button='pad_bank_cg_button',
+                touch_strip_modes_button='touch_strip_button',
+                stopclip_button='pad_bank_dh_button',
+                macro_button='mode_button')
+
+        self._pad_modes = ModesComponent(name='Pad_Modes',
+            enable_skinning=True,
+            is_enabled=False,
+            layer=self._pad_modes_layer_noparam)
 
         self._pad_modes.add_mode('session', (
             AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
@@ -410,9 +425,9 @@ class MPCStudioMk2(ControlSurface):
 
         self._pad_modes.add_mode('stopclip',
             AddLayerMode(
-                self._session, 
+                self._session,
                 Layer(stop_track_clip_buttons=(self._elements.pads.submatrix[:, 3:] ) ) ),
-            behaviour=(MomentaryBehaviour() )
+            behaviour=(MomentaryBehaviour())
         )
 
         self._pad_modes.add_mode('touch_strip_modes',
@@ -428,21 +443,46 @@ class MPCStudioMk2(ControlSurface):
             (
                 AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
                 AddLayerMode( 
-                self._macro, 
+                    self._macro,
                     Layer(
-                    create_audio_button=self._elements.pads_raw[3][0],
-                    create_midi_button=self._elements.pads_raw[3][1],
-                    create_drumrack_button=self._elements.pads_raw[3][2],
-                    create_simpler_button=self._elements.pads_raw[3][3],
-                    add_compressor_button=self._elements.pads_raw[2][0],
-                    add_eq_button=self._elements.pads_raw[2][1],
-                    add_autofilter_button=self._elements.pads_raw[2][2],
-                    add_gate_button=self._elements.pads_raw[2][3],
-                    add_lfo_button=self._elements.pads_raw[1][0],
-                    add_eq8_button =self._elements.pads_raw[1][1],
-                    add_utility_button =self._elements.pads_raw[1][2],
-                    add_limiter_button =self._elements.pads_raw[1][3],
-            )
+                        create_audio_button=self._elements.pads_raw[3][0],
+                        create_midi_button=self._elements.pads_raw[3][1],
+                        create_drumrack_button=self._elements.pads_raw[3][2],
+                        create_simpler_button=self._elements.pads_raw[3][3],
+                        add_compressor_button=self._elements.pads_raw[2][0],
+                        add_eq_button=self._elements.pads_raw[2][1],
+                        add_autofilter_button=self._elements.pads_raw[2][2],
+                        add_gate_button=self._elements.pads_raw[2][3],
+                        add_lfo_button=self._elements.pads_raw[1][0],
+                        add_eq8_button =self._elements.pads_raw[1][1],
+                        add_utility_button =self._elements.pads_raw[1][2],
+                        add_limiter_button =self._elements.pads_raw[1][3],
+                    )
+                )
+            ),
+            behaviour=MomentaryBehaviour()
+        )
+
+        self._pad_modes.add_mode('parameter',
+            AddLayerMode(
+                self._parameter_navigation,
+                Layer(
+                    param_1_button=self._elements.pads_raw[0][0],
+                    param_2_button=self._elements.pads_raw[0][1],
+                    param_3_button=self._elements.pads_raw[0][2],
+                    param_4_button=self._elements.pads_raw[0][3],
+                    param_5_button=self._elements.pads_raw[1][0],
+                    param_6_button=self._elements.pads_raw[1][1],
+                    param_7_button=self._elements.pads_raw[1][2],
+                    param_8_button=self._elements.pads_raw[1][3],
+                    param_9_button=self._elements.pads_raw[2][0],
+                    param_10_button=self._elements.pads_raw[2][1],
+                    param_11_button=self._elements.pads_raw[2][2],
+                    param_12_button=self._elements.pads_raw[2][3],
+                    param_13_button=self._elements.pads_raw[3][0],
+                    param_14_button=self._elements.pads_raw[3][1],
+                    param_15_button=self._elements.pads_raw[3][2],
+                    param_16_button=self._elements.pads_raw[3][3],
                 )
             ),
             behaviour=MomentaryBehaviour()

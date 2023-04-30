@@ -98,6 +98,11 @@ class Colors:
     class Accent:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off = TwoColorButtonMap.COLOR_1_DIM
+
+    class Parameter:
+        Selected = MPCPadColor(color=RGBColorDef.BLUE, brightness=120)
+        On = MPCPadColor(color=RGBColorDef.WHITE, brightness=60)
+        Off = MPCPadColor(color=RGBColorDef.BLACK, brightness=1)
     
     class DrumGroup:
         Off = MPCPadColor(color=RGBColorDef.BLACK, brightness=1)
@@ -218,6 +223,9 @@ class Colors:
             On = TwoColorButtonMap.COLOR_2_FULL
             Off = TwoColorButtonMap.COLOR_1_DIM
             Disabled = TwoColorButtonMap.COLOR_1_DIM
+        class Parameter:
+            Off = OneColorButton.ON
+            On = OneColorButton.ON
         
 
 
