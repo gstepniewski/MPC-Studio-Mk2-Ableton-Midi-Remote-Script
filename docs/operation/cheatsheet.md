@@ -51,7 +51,7 @@ nav_order: 4
 ### Jog Wheel
 - Track Navigation (**Track Select**)
   - Turn to select tracks
-  - Press to toggle record arm
+  - Press to toggle record arm, **SHIFT** to toggle showing chains
 - Device Navigation (**Program Select**)
   - Turn to select devices, **SHIFT** to move devices
   - Press to toggle device enabled, **SHIFT** to toggle device collapsed
