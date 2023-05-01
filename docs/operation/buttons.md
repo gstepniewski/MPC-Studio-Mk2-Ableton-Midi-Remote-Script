@@ -49,9 +49,7 @@ In this mode you can use the Jog Wheel to browse the Ableton library. By default
 
 Turning the Jog Wheel will travel across the library vertically. Turning it while holding **SHIFT** will travel it horizontally (i.e. right for enter and left for back).
 
-Pressing it is equivalent to left arrow (i.e. enter) and pressing it while holding **SHIFT** is pressing the right arrow (i.e. back). Note that this is the same as turning the Jog Wheel with shift, since actually loading something from the library is currently unsupported - you still have to hit Enter.
-
-If the Jog Wheel is not doing anything, try selecting something in the browser with the mouse first. This is usually only needed once after starting Ableton.
+Pressing it is equivalent to left arrow (i.e. enter) and pressing it while holding **SHIFT** is pressing the right arrow (i.e. back). Note that this is the same as turning the Jog Wheel with shift, since actually loading something from the library is currently unsupported - you still have to hit Enter on your keyboard.
 
 ## Transport Control
 - **Record**: Toggle Record when in Arrangement View, Session Overdub when in Session View

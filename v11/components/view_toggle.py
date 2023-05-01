@@ -39,8 +39,6 @@ class ViewToggleComponent(Component):
     @browser_view_toggle_button.toggled
     def browser_view_toggle_button(self, is_toggled, _):
         self._show_or_hide_view(is_toggled, u'Browser')
-        if is_toggled:
-            self.application.view.focus_view(u'Browser')
 
     @clip_detail_view_toggle_button.toggled
     def clip_view_toggle_button(self, is_toggled, _):
