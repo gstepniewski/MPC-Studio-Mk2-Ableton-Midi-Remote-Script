@@ -72,7 +72,7 @@ Pressing it is equivalent to left arrow (i.e. enter) and pressing it while holdi
 - **Main**: Toggle Session View / Arrangement View
 - **Mode**: Accesses Shortcuts, see below
 - **Zoom**: Session overview on pads for quick navigation, see [Pad mode A](../pads/). Also while pressed paged session view movement. **SHIFT** to reset the session ring to currently selected track and scene.
-- **Undo**: Undo
+- **Undo**: Undo. After pressing lights up white if undo was successful, or red if it was not possible. **SHIFT** to redo, also lights up white or red when pressed.
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
 - **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, **Zoom** for paged navigation, see [Pad mode A](../pads/)
 - **Track select**: Jog Wheel track selection mode (currently the only one) **SHIFT** to select scenes

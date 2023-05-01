@@ -27,6 +27,7 @@ class Colors:
         On = TwoColorButtonMap.COLOR_1_FULL
         Off = TwoColorButtonMap.COLOR_1_DIM
         Disabled = TwoColorButtonMap.DISABLED
+        Unable = TwoColorButtonMap.COLOR_2_FULL
 
     class ViewToggle:
         On = TwoColorButtonMap.COLOR_2_FULL

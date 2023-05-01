@@ -13,16 +13,19 @@ class UndoRedoComponent(UndoRedoComponentBase):
         if self.song.can_undo:
             self.song.undo()
 
+
 class NewUndoComponent(Component):
-    undo_button = ButtonControl(pressed_color=u'Undo.On', color=u'Undo.Off')
-    redo_button = ButtonControl(pressed_color=u'Undo.On')
+    undo_button = ButtonControl(color=u'Undo.Off')
+    redo_button = ButtonControl()
     
     @undo_button.pressed
     def undo_button(self, button):
+        self.undo_button.pressed_color = 'Undo.On' if self.song.can_undo else 'Undo.Unable'
         self._undo()
 
     @redo_button.pressed
     def redo_button(self, button):
+        self.redo_button.pressed_color = 'Undo.On' if self.song.can_redo else 'Undo.Unable'
         self._redo()
 
     def _redo(self):
