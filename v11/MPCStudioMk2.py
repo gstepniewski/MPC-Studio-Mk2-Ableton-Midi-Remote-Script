@@ -181,7 +181,8 @@ class MPCStudioMk2(ControlSurface):
 
     def _create_capture_midi(self):
         self._capture_midi = CaptureMidiCompnent(name=u'Capture_Midi_Component', is_enabled=False, layer=Layer(
-            capture_midi_button='nudge_left_button'
+            capture_midi_button='nudge_left_button',
+            capture_scene_button='nudge_right_button',
         ))
         self._capture_midi.set_enabled(True)
 

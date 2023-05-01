@@ -69,6 +69,7 @@ nav_order: 4
 - **Overdub**: Arrangement Overdub
 - **Play Start**: Arrangement Loop
 - **<**: Capture MIDI
+- **>**: Capture Scene
 - **<<**/**>>**: Playhead
 - **Automation R/W**: Automation R/W
 

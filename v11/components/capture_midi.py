@@ -6,7 +6,8 @@ from ableton.v2.control_surface.control.button import ButtonControl
 
 
 class CaptureMidiCompnent(Component):
-    capture_midi_button = ButtonControl()
+    capture_midi_button = ButtonControl(pressed_color=u'DefaultButton.On')
+    capture_scene_button = ButtonControl(color=u'DefaultButton.Off', pressed_color=u'DefaultButton.On')
 
     def __init__(self, *a, **k):
         super(CaptureMidiCompnent, self).__init__(*a, **k)
@@ -18,6 +19,10 @@ class CaptureMidiCompnent(Component):
         if self.song.can_capture_midi:
             self.song.capture_midi()
 
+    @capture_scene_button.pressed
+    def capture_scene_button(self, _):
+        self.song.capture_and_insert_scene()
+
     @listens('can_capture_midi')
     def __on_can_capture_midi_changed(self):
-        self.capture_midi_button.color = 'DefaultButton.On' if self.song.can_capture_midi else 'DefaultButton.Disabled'
+        self.capture_midi_button.color = 'DefaultButton.Off' if self.song.can_capture_midi else 'DefaultButton.Disabled'

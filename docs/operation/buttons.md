@@ -58,6 +58,7 @@ Pressing it is equivalent to left arrow (i.e. enter) and pressing it while holdi
 - **Stop**: Stop
 - **Play Start**: Toggle Arrangement Loop
 - **<**: Capture MIDI
+- **>**: Capture Scene - capture currently playing clips and insert them as a new scene after the selected scene
 - **<<**/**>>**: Move the playhead
 - **Automation R/W**: Toggles automation read/write - currently slightly bugged, see [GitHub Issue](https://github.com/bcrowe306/MPC-Studio-Mk2-Ableton-Midi-Remote-Script/issues/1)
 
