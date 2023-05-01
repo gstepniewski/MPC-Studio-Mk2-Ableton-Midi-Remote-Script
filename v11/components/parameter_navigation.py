@@ -1,6 +1,6 @@
 import Live
 
-from ableton.v2.base import listens
+from ableton.v2.base import listens, liveobj_valid
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control import control_matrix
 from ableton.v2.control_surface.control.button import ButtonControl
@@ -92,13 +92,13 @@ class ParameterNavigationComponent(Component):
 
     def _set_selected_param(self, index):
         device = self.song.view.selected_track.view.selected_device
-        if index < len(device.parameters):
+        if liveobj_valid(device) and index < len(device.parameters):
             self.selected_param_index = index
             self._update_button_colors()
 
     def _set_button_color(self, button, button_index):
         device = self.song.view.selected_track.view.selected_device
-        if button_index >= len(device.parameters):
+        if liveobj_valid(device) and button_index >= len(device.parameters):
             button.color = 'Parameter.Off'
         elif self.selected_param_index == button_index:
             button.color = 'Parameter.Selected'
