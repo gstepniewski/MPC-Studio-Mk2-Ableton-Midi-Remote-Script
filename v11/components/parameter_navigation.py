@@ -15,12 +15,12 @@ def clamp(val, minv, maxv):
 
 
 def _adjust_parameter(parameter, offset, fine_tune):
-    if parameter.is_quantized:
+    value_range = abs(parameter.max - parameter.min)
+    # Params with range not being [-1,1], [0,1], or [0,2] (like Chord shifts) also need to be adjusted by whole values!
+    if parameter.is_quantized or value_range > 2:
         parameter.value = clamp(parameter.value + offset, parameter.min, parameter.max)
     else:
-        range = abs(parameter.max - parameter.min)
-        step = (range / 100) * fine_tune
-        delta = step * offset
+        delta = (value_range / 100) * offset * fine_tune
         parameter.value = clamp(parameter.value + delta, parameter.min, parameter.max)
 
 
