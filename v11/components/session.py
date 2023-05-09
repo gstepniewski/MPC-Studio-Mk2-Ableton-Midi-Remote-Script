@@ -51,7 +51,7 @@ class ClipSlotComponent(ClipSlotComponentBase):
     
     def _do_create_clip(self):
         if self._clip_slot and not self._clip_slot.has_clip:
-            ClipCreator().create(self._clip_slot, 8)
+            ClipCreator().create(self._clip_slot, 4)
 
     def _do_double_clip(self):
         if self._clip_slot and self._clip_slot.has_clip:
