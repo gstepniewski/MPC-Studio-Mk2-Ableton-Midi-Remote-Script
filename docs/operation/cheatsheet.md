@@ -8,11 +8,11 @@ nav_order: 4
 # Pad Modes
 
 ### A - Session View
-- Launch clips, record clips.
-- Navigate with **-**/**+** and **Sample Start**/**Sample End** or **Zoom**+pad.
-- **Shift** Launch scene
+- Navigate with **-**/**+** and **Sample Start**/**Sample End** (hold **Zoom** for bigger jumps)
+- Hold **Zoom** for session overview on pads
+- **Shift** Launch scenes using pads
 - Clip Operations:
-  - **Full Level**: Create clip
+  - **Full Level**: Create clip (1 bar)
   - **Copy**: Copy clip down DESTRUCTIVE
   - **Pad Mute**: Duplicate clip length
   - **16 Level**: Select clip
@@ -46,23 +46,29 @@ nav_order: 4
 - Momentary
 - Bottom row to stop clips
 
-# Buttons (identical skipped)
+# Jog Wheel
 
-### Jog Wheel
-- Track Navigation (**Track Select**)
+### Track Navigation (**Track Select**)
   - Turn to select tracks
-  - Press to toggle record arm, **SHIFT** to toggle showing chains
-- Device Navigation (**Program Select**)
+  - Press to toggle record arm, **SHIFT** to toggle showing chains 
+
+### Device Navigation (**Program Select**)
   - Turn to select devices, **SHIFT** to move devices
-  - Press to toggle device enabled, **SHIFT** to toggle device collapsed
-- Parameter Navigation (**Sample Select**)
+  - Press to toggle device enabled, **SHIFT** to toggle device collapsed 
+
+### Parameter Navigation (**Sample Select**)
   - Press and hold **Sample Select**, select parameter using pads. White are available and blue is selected.
-  - Turn to adjust by one option or 1%, **SHIFT** for fine-tuning at 0,1%
+  - Turn to adjust by one option or 1 or 1%, **SHIFT** for fine-tuning at 0,1%
   - Press to reset to default value
-- Browser Navigation (**Browse**)
+
+### Browser Navigation (**Browse**)
   - Turn to go up and down, **SHIFT** turn to go left and right.
   - Press to enter, **SHIFT** press to go up
-- Tempo adjustment holding **SHIFT** and **Quantize**
+
+### Tempo adjustment (**SHIFT** and **Quantize**)
+  - Available as momentary in every other mode
+
+# Buttons (identical skipped)
 
 ### Transport
 - **Record**: Record in Arrangement View / Session Overdub in Session View

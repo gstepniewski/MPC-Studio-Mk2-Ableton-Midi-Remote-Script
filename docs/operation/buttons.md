@@ -10,9 +10,6 @@ nav_order: 2
 A lot of the buttons do exactly what they say they do, with a few exceptions where that functionality does not exist in Ableton Live or there is no API for that.
 Most of the buttons that toggle things will also synchronize their state with the software.
 
-The **Jog Wheel** can be used to select tracks and pressing it down will toggle the selected track's record arm.
-Holding **SHIFT** while turning the jog wheel will instead select scenes in Session view.
-
 Here's a full list of buttons and their effects, grouped by action type (and if possible ordered the way they appear on the device).
 
 ## Jog Wheel
@@ -42,7 +39,11 @@ After entering the mode, press and hold **Sample Select**, then select a paramet
 
 For quantized, i.e. discrete parameters each step of the Jog Wheel will switch to the next value.
 
-For continuous parameters, the available range of values is mapped to 100 steps and each step of the Jog Wheel adjusts the value by one step - so if a parameter goes from 0% to 100%, the Jog Wheel will adjust it by 1% at a time. The number of steps can be increased to 1000 by holding the **SHIFT** button, allowing for finer tuning. Pressing the Jog Wheel returns the parameter to its default value, if it has one.
+For continuous parameters, if the parameter values are within the range of [-1, 1] or [0, 1] or [0, 2] (e.g. Gain on Utility), each turn of the wheel will adjust the parameter by 1% of the total range. Holding **SHIFT** will allow for finer tuning, where each turn is 0.1% of the total range.
+
+For parameters with a larger range of integers, each turn will adjust the value by 1.
+
+Pressing the Jog Wheel returns the parameter to its default value, if it has one.
 
 ### Browser Navigation
 In this mode you can use the Jog Wheel to browse the Ableton library. By default, turning the browser mode on will show the library window, and switching to any other mode will hide it. You can still show/hide the window at any time by using **SHIFT** + **Browse**.
@@ -76,10 +77,6 @@ Pressing it is equivalent to left arrow (i.e. enter) and pressing it while holdi
 - **Shift**: Accesses extra functionality of Pad Modes, see [Pad modes](../pads/ )
 - **-**/**+**/**Sample Start**/**Sample End**: Move the session view window around, **Zoom** for paged navigation, see [Pad mode A](../pads/)
 - **Track select**: Jog Wheel track selection mode (currently the only one) **SHIFT** to select scenes
-
-## Currently unused
-- **Locate**
-- **Program Select**
 
 ## Mode Button Shortcuts
 Holding down the **Mode** button allows using one of the 8 shortcuts using the pads.
