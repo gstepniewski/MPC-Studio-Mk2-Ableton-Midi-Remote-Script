@@ -66,15 +66,22 @@ class ParameterNavigationComponent(Component):
 
     @jog_wheel_press.pressed
     def _on_jog_wheel_pressed(self, value):
-        device = self.song.view.selected_track.view.selected_device
-        parameter = device.parameters[self.selected_param_index]
-        if not parameter.is_quantized:
+        if self.selected_param_index == 16:
+            parameter = self.song.view.selected_parameter
+        else:
+            device = self.song.view.selected_track.view.selected_device
+            parameter = device.parameters[self.selected_param_index]
+        if parameter is not None and not parameter.is_quantized:
             parameter.value = parameter.default_value
 
     @jog_wheel_button.value
     def _on_jog_wheel_turn(self, x, _):
-        device = self.song.view.selected_track.view.selected_device
-        parameter = device.parameters[self.selected_param_index]
+        if self.selected_param_index == 16:
+            parameter = self.song.view.selected_parameter
+        else:
+            device = self.song.view.selected_track.view.selected_device
+            parameter = device.parameters[self.selected_param_index]
+
         if self.tempo_button.is_pressed:
             self._adjust_tempo(x)
         elif parameter is not None:
@@ -92,18 +99,22 @@ class ParameterNavigationComponent(Component):
 
     def _set_selected_param(self, index):
         device = self.song.view.selected_track.view.selected_device
-        if liveobj_valid(device) and index < len(device.parameters):
+        if index == 16:
+            self.selected_param_index = 16
+        elif liveobj_valid(device) and index < len(device.parameters):
             self.selected_param_index = index
-            self._update_button_colors()
+        self._update_button_colors()
 
     def _set_button_color(self, button, button_index):
         device = self.song.view.selected_track.view.selected_device
-        if liveobj_valid(device) and button_index >= len(device.parameters):
-            button.color = 'Parameter.Off'
-        elif self.selected_param_index == button_index:
+        if self.selected_param_index == button_index:
             button.color = 'Parameter.Selected'
-        else:
+        elif button_index == 16:
+            button.color = 'Parameter.Manual'
+        elif liveobj_valid(device) and button_index < len(device.parameters):
             button.color = 'Parameter.On'
+        else:
+            button.color = 'Parameter.Off'
 
     @param_1_button.pressed
     def _param_1_selected(self, _):

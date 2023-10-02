@@ -102,6 +102,7 @@ class Colors:
 
     class Parameter:
         Selected = MPCPadColor(color=RGBColorDef.BLUE, brightness=120)
+        Manual = MPCPadColor(color=RGBColorDef.RED, brightness=60)
         On = MPCPadColor(color=RGBColorDef.WHITE, brightness=60)
         Off = MPCPadColor(color=RGBColorDef.BLACK, brightness=1)
     

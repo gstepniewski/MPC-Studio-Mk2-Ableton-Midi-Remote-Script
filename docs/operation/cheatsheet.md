@@ -57,7 +57,7 @@ nav_order: 4
   - Press to toggle device enabled, **SHIFT** to toggle device collapsed 
 
 ### Parameter Navigation (**Sample Select**)
-  - Press and hold **Sample Select**, select parameter using pads. White are available and blue is selected.
+  - Press and hold **Sample Select**, select parameter using pads. White are available, blue is selected, red is currently selected parameter.
   - Turn to adjust by one option or 1 or 1%, **SHIFT** for fine-tuning at 0,1%
   - Press to reset to default value
 

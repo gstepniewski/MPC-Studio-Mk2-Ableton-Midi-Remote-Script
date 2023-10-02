@@ -35,7 +35,7 @@ Turning the Jog Wheel while holding **SHIFT** will move the selected device to t
 
 ### Parameter Navigation
 In this mode you can use the jog wheel to control the selected device's parameters.
-After entering the mode, press and hold **Sample Select**, then select a parameter to control using the pads. These are indexed from left to right, top to bottom, and in many devices will mirror the layout on the screen (usually for simpler devices with just 8 knobs). The amount of pads that are lit up white is the amount of parameters the device has. The blue pad is the currently selected parameter. Select one of the white pads to switch to a different parameter.
+After entering the mode, press and hold **Sample Select**, then select a parameter to control using the pads. These are indexed from left to right, top to bottom, and in many devices will mirror the layout on the screen (usually for simpler devices with just 8 knobs). The amount of pads that are lit up white is the amount of parameters the device has. The blue pad is the currently selected parameter. Select one of the white pads to switch to a different parameter. The last (bottom right) pad is reserved for the currently selected parameter (click with your mouse to select a parameter). This is indicated by the pad being red instead of white.
 
 For quantized, i.e. discrete parameters each step of the Jog Wheel will switch to the next value.
 
