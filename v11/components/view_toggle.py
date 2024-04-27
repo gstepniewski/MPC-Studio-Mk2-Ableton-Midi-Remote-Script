@@ -42,7 +42,12 @@ class ViewToggleComponent(Component):
 
     @clip_detail_view_toggle_button.toggled
     def clip_view_toggle_button(self, is_toggled, _):
-       self._show_or_hide_view(is_toggled, u'Detail/Clip')
+        if self.application.view.is_view_visible(u'Detail/Clip'):
+            self.application.view.show_view(u'Detail/DeviceChain')
+        elif self.application.view.is_view_visible(u'Detail/DeviceChain'):
+            self.application.view.show_view(u'Detail/Clip')
+        else:
+            self.application.view.show_view(u'Detail')
 
     def _show_or_hide_view(self, show_view, view_name):
         if show_view:
