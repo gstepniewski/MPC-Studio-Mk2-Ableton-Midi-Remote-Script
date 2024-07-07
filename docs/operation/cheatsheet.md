@@ -50,7 +50,7 @@ nav_order: 4
 
 ### Track Navigation (**Track Select**)
   - Turn to select tracks, **SHIFT** to select scenes
-  - Press to toggle record arm, **SHIFT** to toggle showing chains 
+  - Press to toggle record arm, **SHIFT** to fold/unfold chains/group
 
 ### Device Navigation (**Program Select**)
   - Turn to select devices, **SHIFT** to move devices

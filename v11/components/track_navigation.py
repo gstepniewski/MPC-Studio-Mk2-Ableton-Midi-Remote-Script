@@ -57,6 +57,8 @@ class TrackNavigationComponent(Component):
             if value and self.shift_button.is_pressed:
                 if self._track and self._track.can_show_chains:
                     self._track.is_showing_chains = not self._track.is_showing_chains
+                elif self._track and self._track.is_foldable:
+                    self._track.fold_state = not self._track.fold_state
             elif liveobj_valid(self._track) and self._track.can_be_armed:
                 self._arm_pressed = value != 0 and self._arm_button.is_momentary()
                 if not self._arm_button.is_momentary() or value != 0:

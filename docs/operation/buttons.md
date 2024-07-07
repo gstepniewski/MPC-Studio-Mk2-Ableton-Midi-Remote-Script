@@ -22,7 +22,7 @@ There are currently 4 navigation modes that the Jog Wheel can be in:
 ### Track Navigation
 In this mode you can turn the wheel to scroll through tracks and their chains (if showing). This works both in Session and Arrangement views. If implicit record arm is enabled, it will follow the selection so that the selected track will be armed if possible.
 
-Pressing the Jog Wheel button will toggle the recording arm on the selected track, and pressing it while holding **SHIFT** will show/hide the track chains (is available).
+Pressing the Jog Wheel button will toggle the recording arm on the selected track, and pressing it while holding **SHIFT** will show/hide the track chains or fold/unfold the group (if available).
 
 Turning the Jog Wheel while holding **SHIFT** will scroll around scenes in Session View.
 
