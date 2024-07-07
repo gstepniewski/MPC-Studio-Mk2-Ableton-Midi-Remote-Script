@@ -441,21 +441,21 @@ class MPCStudioMk2(ControlSurface):
          AddLayerMode(self._background, Layer(unused_pads=(self._elements.pads.submatrix[:, 1:])))),
           behaviour=MomentaryBehaviour()  )
 
-        self._pad_modes.add_mode('macro', 
+        self._pad_modes.add_mode('macro',
             (
                 AddLayerMode(self._background, Layer(unused_pads='pads_with_shift')),
-                AddLayerMode( 
+                AddLayerMode(
                     self._macro,
                     Layer(
                         create_audio_button=self._elements.pads_raw[3][0],
                         create_midi_button=self._elements.pads_raw[3][1],
                         create_drumrack_button=self._elements.pads_raw[3][2],
                         create_simpler_button=self._elements.pads_raw[3][3],
-                        add_compressor_button=self._elements.pads_raw[2][0],
-                        add_eq_button=self._elements.pads_raw[2][1],
-                        add_autofilter_button=self._elements.pads_raw[2][2],
-                        add_gate_button=self._elements.pads_raw[2][3],
-                        add_lfo_button=self._elements.pads_raw[1][0],
+                        add_compressor_button=self._elements.pads_raw[2][1],
+                        add_delay_button=self._elements.pads_raw[2][2],
+                        add_autofilter_button=self._elements.pads_raw[2][0],
+                        add_reverb_button=self._elements.pads_raw[2][3],
+                        add_tuner_button=self._elements.pads_raw[1][0],
                         add_eq8_button =self._elements.pads_raw[1][1],
                         add_utility_button =self._elements.pads_raw[1][2],
                         add_limiter_button =self._elements.pads_raw[1][3],

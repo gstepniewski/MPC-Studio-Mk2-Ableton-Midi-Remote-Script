@@ -88,11 +88,11 @@ The bottom row of pads adds tracks, from left to right
 - Simpler Track
 
 The second and third to bottom rows of pads add a device to the current track, from left to right and bottom to top: 
-- Compressor
-- EQ Three
 - Auto Filter
-- Gate
-- LFO
+- Compressor
+- Delay
+- Reverb
+- Tuner
 - EQ Eight
 - Utility
 - Limiter

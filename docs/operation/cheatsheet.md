@@ -97,12 +97,12 @@ nav_order: 4
   - Drum Rack
   - Simpler
 - Pads 5-8 - Add FX
-  - Compressor
-  - EQ Three
   - Auto Filter
-  - Gate
+  - Compressor
+  - Delay
+  - Reverb
 - Pads 9-12 - Add FX
-  - LFO
+  - Tuner
   - EQ Eight
   - Utility
   - Limiter

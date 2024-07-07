@@ -16,10 +16,10 @@ class MacroComponent(Component):
     create_drumrack_button = ButtonControl(color=u'Macro.DrumRackOff', pressed_color=u'Macro.DrumRackOn')
     create_simpler_button = ButtonControl(color=u'Macro.SimplerOff', pressed_color=u'Macro.SimplerOn')
     add_compressor_button = ButtonControl(color=u'Macro.CompressorOff', pressed_color=u'Macro.CompressorOn')
-    add_eq_button = ButtonControl(color=u'Macro.EqOff', pressed_color=u'Macro.EqOn')
+    add_delay_button = ButtonControl(color=u'Macro.DelayOff', pressed_color=u'Macro.DelayOn')
     add_autofilter_button = ButtonControl(color=u'Macro.AutofilterOff', pressed_color=u'Macro.AutofilterOn')
-    add_gate_button = ButtonControl(color=u'Macro.GateOff', pressed_color=u'Macro.GateOn')
-    add_lfo_button = ButtonControl(color=u'Macro.LfoOff', pressed_color=u'Macro.LfoOn')
+    add_tuner_button = ButtonControl(color=u'Macro.TunerOff', pressed_color=u'Macro.TunerOn')
+    add_reverb_button = ButtonControl(color=u'Macro.ReverbOff', pressed_color=u'Macro.ReverbOn')
     add_eq8_button = ButtonControl(color=u'Macro.Eq8Off', pressed_color=u'Macro.Eq8On')
     add_utility_button = ButtonControl(color=u'Macro.UtilityOff', pressed_color=u'Macro.UtilityOn')
     add_limiter_button = ButtonControl(color=u'Macro.LimiterOff', pressed_color=u'Macro.LimiterOn')
@@ -67,21 +67,21 @@ class MacroComponent(Component):
     def _on_add_compressor_button_pressed(self, value):
         self._add_device('audio_effects', 'Compressor')
 
-    @add_eq_button.pressed
-    def _on_add_eq_button_pressed(self, value):
-        self._add_device('audio_effects', 'EQ Three')
-    
+    @add_delay_button.pressed
+    def _on_add_delay_button_pressed(self, value):
+        self._add_device('audio_effects', 'Delay')
+
     @add_autofilter_button.pressed
     def _on_add_autofilter_button_pressed(self, value):
         self._add_device('audio_effects', 'Auto Filter')
         
-    @add_gate_button.pressed
-    def _on_add_gate_button_pressed(self, value):
-        self._add_device('audio_effects', 'Gate')
+    @add_tuner_button.pressed
+    def _on_add_tuner_button_pressed(self, value):
+        self._add_device('audio_effects', 'Tuner')
 
-    @add_lfo_button.pressed
-    def _on_add_lfo_button_pressed(self, value):
-        self._add_device('audio_effects', 'LFO')
+    @add_reverb_button.pressed
+    def _on_add_reverb_button_pressed(self, value):
+        self._add_device('audio_effects', 'Reverb')
 
     @add_eq8_button.pressed
     def _on_add_eq8_button_pressed(self, value):
