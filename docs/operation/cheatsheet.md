@@ -49,7 +49,7 @@ nav_order: 4
 # Jog Wheel
 
 ### Track Navigation (**Track Select**)
-  - Turn to select tracks
+  - Turn to select tracks, **SHIFT** to select scenes
   - Press to toggle record arm, **SHIFT** to toggle showing chains 
 
 ### Device Navigation (**Program Select**)

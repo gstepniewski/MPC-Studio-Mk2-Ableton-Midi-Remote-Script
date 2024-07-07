@@ -33,16 +33,13 @@ class MacroComponent(Component):
         self.current_item = None
         self._browser = Live.Application.get_application().browser
     
-    def _add_device(self, root_folder, sub_category, name, create_new=False):
+    def _add_device(self, root_folder, name, create_new=False):
         root = getattr(self._browser, root_folder)
-        logger.warning(type(root.children))
-        for folder in root.children:
-            if folder.name == sub_category:
-                for device in folder.children:
-                    if device.name == name:
-                        if create_new:
-                            self.song.create_midi_track(-1)
-                        self._browser.load_item(device)
+        for device in root.children:
+            if device.name == name:
+                if create_new:
+                    self.song.create_midi_track(-1)
+                self._browser.load_item(device)
                 
     @create_audio_button.pressed
     def _on_create_audio_button_pressed(self, value):
@@ -68,36 +65,35 @@ class MacroComponent(Component):
     
     @add_compressor_button.pressed
     def _on_add_compressor_button_pressed(self, value):
-        self._add_device('audio_effects', 'Dynamics', 'Compressor')
+        self._add_device('audio_effects', 'Compressor')
 
     @add_eq_button.pressed
     def _on_add_eq_button_pressed(self, value):
-        self._add_device('audio_effects', 'EQ & Filters', 'EQ Three')
+        self._add_device('audio_effects', 'EQ Three')
     
     @add_autofilter_button.pressed
     def _on_add_autofilter_button_pressed(self, value):
-        self._add_device('audio_effects', 'EQ & Filters', 'Auto Filter')
+        self._add_device('audio_effects', 'Auto Filter')
         
-    
     @add_gate_button.pressed
     def _on_add_gate_button_pressed(self, value):
-        self._add_device('audio_effects', 'Dynamics', 'Gate')
+        self._add_device('audio_effects', 'Gate')
 
     @add_lfo_button.pressed
     def _on_add_lfo_button_pressed(self, value):
-        self._add_device('audio_effects', 'Modulators', 'LFO')
+        self._add_device('audio_effects', 'LFO')
 
     @add_eq8_button.pressed
     def _on_add_eq8_button_pressed(self, value):
-        self._add_device('audio_effects', 'EQ & Filters', 'EQ Eight')
+        self._add_device('audio_effects', 'EQ Eight')
 
     @add_utility_button.pressed
     def _on_add_utility_button_pressed(self, value):
-        self._add_device('audio_effects', 'Utilities', 'Utility')
+        self._add_device('audio_effects', 'Utility')
 
     @add_limiter_button.pressed
     def _on_add_limiter_button_pressed(self, value):
-        self._add_device('audio_effects', 'Dynamics', 'Limiter')
+        self._add_device('audio_effects', 'Limiter')
 
     @delete_track_button.pressed
     def _on_delete_track_button_pressed(self, value):
