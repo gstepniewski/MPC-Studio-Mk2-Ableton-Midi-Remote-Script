@@ -3,7 +3,7 @@
 In this repository, you will find the Midi remote script needed to use the MPC Studio Mk2 with Ableton. It is a work in progress, but the functionality so far is on par with the MPC software.
 
 ### Documentation
-* Installation and operation: [MPC Studio Mk2 Ableton Documentation](https://bcrowe306.github.io/MPC-Studio-Mk2-Ableton-Midi-Remote-Script/)
+* Installation and operation: [MPC Studio Mk2 Ableton Documentation](https://gstepniewski.github.io/MPC-Studio-Mk2-Ableton-Midi-Remote-Script/)
 * Midi/Sysex Data: [MPC Studio Mk2 Midi Sysex Charts](https://github.com/bcrowe306/MPC-Studio-Mk2-Midi-Sysex-Charts)
 * Ableton Live LOM(Live Object Model): [PythonLiveAPI](https://structure-void.com/PythonLiveAPI_documentation/Live11.0.xml)
 * Ableton Live Midi Remote Repository [Ableton Live 11.1 MIDI Remote Scripts](https://github.com/gluon/AbletonLive11_MIDIRemoteScripts)
