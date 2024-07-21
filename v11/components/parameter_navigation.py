@@ -6,6 +6,8 @@ from ableton.v2.control_surface.control import control_matrix
 from ableton.v2.control_surface.control.button import ButtonControl
 NavDirection = Live.Application.Application.View.NavDirection
 
+from ..lcd import show_lcd_message_2, show_lcd_dialog_2
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -22,6 +24,7 @@ def _adjust_parameter(parameter, offset, fine_tune):
     else:
         delta = (value_range / 100) * offset * fine_tune
         parameter.value = clamp(parameter.value + delta, parameter.min, parameter.max)
+    show_lcd_dialog_2(parameter.name, parameter.str_for_value(parameter.value))
 
 
 class ParameterNavigationComponent(Component):
@@ -50,19 +53,20 @@ class ParameterNavigationComponent(Component):
 
     def __init__(self, *a, **k):
         super(ParameterNavigationComponent, self).__init__(*a, **k)
-        self.selected_param_index = 1
+        self.selected_param_index = 16
         self._update_button_colors()
         self._on_selected_track_changed.subject = self.song.view
         self._on_device_selection_changed.subject = self.song.view.selected_track.view
 
     @listens('selected_track')
     def _on_selected_track_changed(self):
-        self._set_selected_param(1)
+        self._set_selected_param(16, False)
         self._on_device_selection_changed.subject = self.song.view.selected_track.view
 
     @listens('selected_device')
     def _on_device_selection_changed(self):
-        self._set_selected_param(1)
+        self._set_selected_param(16, False)
+        self._update_button_colors()
 
     @jog_wheel_press.pressed
     def _on_jog_wheel_pressed(self, value):
@@ -73,6 +77,7 @@ class ParameterNavigationComponent(Component):
             parameter = device.parameters[self.selected_param_index]
         if parameter is not None and not parameter.is_quantized:
             parameter.value = parameter.default_value
+            show_lcd_dialog_2(parameter.name, parameter.str_for_value(parameter.value))
 
     @jog_wheel_button.value
     def _on_jog_wheel_turn(self, x, _):
@@ -97,12 +102,16 @@ class ParameterNavigationComponent(Component):
         factor = 1 if x == 1 else -1
         self.song.tempo = max(min(int(self.song.tempo) + factor, 999), 20)
 
-    def _set_selected_param(self, index):
+    def _set_selected_param(self, index, notifyLCD):
         device = self.song.view.selected_track.view.selected_device
         if index == 16:
             self.selected_param_index = 16
+            if notifyLCD:
+                show_lcd_message_2("PARAM", "--selected--")
         elif liveobj_valid(device) and index < len(device.parameters):
             self.selected_param_index = index
+            if notifyLCD:
+                show_lcd_message_2("PARAM", device.parameters[self.selected_param_index].name)
         self._update_button_colors()
 
     def _set_button_color(self, button, button_index):
@@ -118,67 +127,67 @@ class ParameterNavigationComponent(Component):
 
     @param_1_button.pressed
     def _param_1_selected(self, _):
-        self._set_selected_param(1)
+        self._set_selected_param(1, True)
 
     @param_2_button.pressed
     def _param_2_selected(self, _):
-        self._set_selected_param(2)
+        self._set_selected_param(2, True)
 
     @param_3_button.pressed
     def _param_3_selected(self, _):
-        self._set_selected_param(3)
+        self._set_selected_param(3, True)
 
     @param_4_button.pressed
     def _param_4_selected(self, _):
-        self._set_selected_param(4)
+        self._set_selected_param(4, True)
 
     @param_5_button.pressed
     def _param_5_selected(self, _):
-        self._set_selected_param(5)
+        self._set_selected_param(5, True)
 
     @param_6_button.pressed
     def _param_6_selected(self, _):
-        self._set_selected_param(6)
+        self._set_selected_param(6, True)
 
     @param_7_button.pressed
     def _param_7_selected(self, _):
-        self._set_selected_param(7)
+        self._set_selected_param(7, True)
 
     @param_8_button.pressed
     def _param_8_selected(self, _):
-        self._set_selected_param(8)
+        self._set_selected_param(8, True)
 
     @param_9_button.pressed
     def _param_9_selected(self, _):
-        self._set_selected_param(9)
+        self._set_selected_param(9, True)
 
     @param_10_button.pressed
     def _param_10_selected(self, _):
-        self._set_selected_param(10)
+        self._set_selected_param(10, True)
 
     @param_11_button.pressed
     def _param_11_selected(self, _):
-        self._set_selected_param(11)
+        self._set_selected_param(11, True)
 
     @param_12_button.pressed
     def _param_12_selected(self, _):
-        self._set_selected_param(12)
+        self._set_selected_param(12, True)
 
     @param_13_button.pressed
     def _param_13_selected(self, _):
-        self._set_selected_param(13)
+        self._set_selected_param(13, True)
 
     @param_14_button.pressed
     def _param_14_selected(self, _):
-        self._set_selected_param(14)
+        self._set_selected_param(14, True)
 
     @param_15_button.pressed
     def _param_15_selected(self, _):
-        self._set_selected_param(15)
+        self._set_selected_param(15, True)
 
     @param_16_button.pressed
     def _param_16_selected(self, _):
-        self._set_selected_param(16)
+        self._set_selected_param(16, True)
 
     def _update_button_colors(self):
         self._set_button_color(self.param_1_button, 1)

@@ -4,6 +4,8 @@ from ableton.v2.control_surface.components import PlayableComponent, ScrollCompo
 from ableton.v2.control_surface.control import ToggleButtonControl, ButtonControl
 from .note_pad import NotePadMixin
 
+from ..lcd import show_lcd_dialog_2
+
 MAX_START_NOTE = 108
 SHARP_INDICES = (1, 3, 4, 6, 10, 13, 15)
 
@@ -58,6 +60,7 @@ class KeyboardComponent(NotePadMixin, PlayableComponent, ScrollComponent):
         self._update_note_translations()
         self._update_led_feedback()
         self._release_all_pads()
+        show_lcd_dialog_2("OCTAVE", str(int(self._start_note / 12) - 2))
 
     def _update_button_color(self, button):
         if self._alternate_mode:

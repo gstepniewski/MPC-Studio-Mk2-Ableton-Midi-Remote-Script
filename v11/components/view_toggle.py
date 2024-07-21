@@ -4,6 +4,8 @@ from ableton.v2.base import listens
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control import ToggleButtonControl
 
+from ..lcd import show_lcd_dialog
+
 class ViewToggleComponent(Component):
     detail_view_toggle_button = ToggleButtonControl()
     main_view_toggle_button = ToggleButtonControl()
@@ -44,8 +46,10 @@ class ViewToggleComponent(Component):
     def clip_view_toggle_button(self, is_toggled, _):
         if self.application.view.is_view_visible(u'Detail/Clip'):
             self.application.view.show_view(u'Detail/DeviceChain')
+            show_lcd_dialog("DEVICES")
         elif self.application.view.is_view_visible(u'Detail/DeviceChain'):
             self.application.view.show_view(u'Detail/Clip')
+            show_lcd_dialog("CLIP")
         else:
             self.application.view.show_view(u'Detail')
 

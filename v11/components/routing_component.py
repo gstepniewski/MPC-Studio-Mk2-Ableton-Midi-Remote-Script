@@ -3,6 +3,8 @@ from ableton.v2.base import liveobj_valid, listens
 from ableton.v2.control_surface.control import ButtonControl
 from ableton.v2.control_surface import Component
 
+from ..lcd import show_lcd_dialog_2
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -40,30 +42,40 @@ class RoutingComponent(Component):
         input_types = self._track.available_input_routing_types
         new_index = self._list_cycle(input_types, self._track.input_routing_type)
         self._track.input_routing_type = input_types[new_index]
+        show_lcd_dialog_2("IN TYPE", self._track.input_routing_type.display_name)
     
     @input_channel_button.pressed
     def _on_input_channel_button_pressed(self, _):
         channels = self._track.available_input_routing_channels
         new_index = self._list_cycle(channels, self._track.input_routing_channel)
         self._track.input_routing_channel = channels[new_index]
+        show_lcd_dialog_2("IN CHANNEL", self._track.input_routing_channel.display_name)
 
     @output_type_button.pressed
     def _on_output_type_button_pressed(self, _):
         output_types = self._track.available_output_routing_types
         new_index = self._list_cycle(output_types, self._track.output_routing_type)
-        self._track.output_routing_type = output_types[new_index] 
+        self._track.output_routing_type = output_types[new_index]
+        show_lcd_dialog_2("OUT TYPE", self._track.output_routing_type.display_name)
 
     @output_channel_button.pressed
     def _on_output_channel_button_pressed(self, _):
         channels = self._track.available_output_routing_channels
         new_index = self._list_cycle(channels, self._track.output_routing_channel)
-        self._track.output_routing_channel = channels[new_index]   
+        self._track.output_routing_channel = channels[new_index]
+        show_lcd_dialog_2("OUT CHANNEL", self._track.output_routing_channel.display_name)
 
     @monitor_cycle_button.pressed
     def _on_monitor_cycle_button_pressed(self, _):
         monitor_states = [0,1,2]
         new_index = self._list_cycle(monitor_states, self._track.current_monitoring_state)
         self._track.current_monitoring_state = monitor_states[new_index]
+        if new_index == 0:
+            show_lcd_dialog_2("MONITOR", "In")
+        elif new_index == 1:
+            show_lcd_dialog_2("MONITOR", "Auto")
+        elif new_index == 2:
+            show_lcd_dialog_2("MONITOR", "Off")
 
     @listens('selected_track.current_monitoring_state')
     def __on_current_monitoring_state_changed(self):

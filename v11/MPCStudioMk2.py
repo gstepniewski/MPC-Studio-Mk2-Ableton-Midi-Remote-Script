@@ -31,6 +31,7 @@ from .elements.repeat_display_element import RepeatDisplayElement
 from .components.routing_component import RoutingComponent
 from .components.capture_midi import CaptureMidiCompnent
 
+from .lcd import show_lcd_message_2, show_lcd_dialog_2, show_lcd_dialog
 import logging
 logger = logging.getLogger(__name__)
 
@@ -87,6 +88,8 @@ class MPCStudioMk2(ControlSurface):
         self.__on_drum_group_changed.subject = self._drum_group_finder
         self.__on_drum_group_changed()
         self.__on_main_view_changed.subject = self.application.view
+        self.first_tempo_ignored = False
+        self.__on_tempo_changed.subject = self.song
         self._enable_session_ring()
         self.__on_selected_mode_change.subject = self._pad_modes
         self.show_message('---MPC Studio Mk2: Active')
@@ -259,7 +262,12 @@ class MPCStudioMk2(ControlSurface):
         self._touch_strip_modes.add_mode('send_a', AddLayerMode(self._touch_strip, Layer(send_a_control='touch_strip_control')))
         self._touch_strip_modes.add_mode('send_b', AddLayerMode(self._touch_strip, Layer(send_b_control='touch_strip_control')))
         self._touch_strip_modes.selected_mode = 'volume'
-    
+        self.__on_trouch_strip_selected_mode_changed.subject = self._touch_strip_modes
+
+    @listens('selected_mode')
+    def __on_trouch_strip_selected_mode_changed(self, mode):
+        show_lcd_dialog_2("TOUCH STRIP", mode)
+
     def _create_navigation_modes(self):
         self._parameter_navigation = ParameterNavigationComponent()
 
@@ -298,7 +306,7 @@ class MPCStudioMk2(ControlSurface):
         if mode == 'track':
             self.application.view.focus_view(u'Session')
         if mode == 'device' or mode == 'parameter':
-            self.application.view.focus_view(u'Detail')
+            self.application.view.focus_view(u'Detail/DeviceChain')
         self._pad_modes.set_enabled(False)
         if mode == 'parameter':
             self._pad_modes.layer = self._pad_modes_layer_full
@@ -517,6 +525,14 @@ class MPCStudioMk2(ControlSurface):
         14, 0, 0, 0,
         15, 0, 0, 0,
         247) )
+
+    @listens('tempo')
+    def __on_tempo_changed(self):
+        # This makes the LCD display selected track on startup
+        if self.first_tempo_ignored:
+            show_lcd_message_2("TEMPO", self.song.tempo)
+        else:
+            self.first_tempo_ignored = True
 
     @listens('is_view_visible', 'Session')
     def __on_main_view_changed(self):

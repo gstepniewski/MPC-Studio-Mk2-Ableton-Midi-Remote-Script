@@ -5,6 +5,8 @@ from ableton.v2.control_surface.control.button import ButtonControl
 
 import Live
 
+from ..lcd import show_lcd_message_2, show_lcd_dialog_2
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -140,9 +142,11 @@ class TrackNavigationComponent(Component):
             if rack_device is not None:
                 self.song.view.selected_chain = rack_device.chains[0]
                 rack_device.view.selected_chain = rack_device.chains[0]
+                show_lcd_message_2('TRACK', rack_device.chains[0].name)
             else:
                 logger.warning("This should not happen, showing chains but can't show chains?")
                 self.song.view.selected_track = target_track
+                show_lcd_message_2('TRACK', target_track.name)
         # Scrolling left into an open chain
         elif delta == -1 and target_track.can_show_chains and target_track.is_showing_chains:
             rack_device = self._find_rack_with_chains(target_track.devices)
@@ -150,12 +154,16 @@ class TrackNavigationComponent(Component):
                 target_chain = rack_device.chains[len(rack_device.chains) - 1]
                 self.song.view.selected_chain = target_chain
                 rack_device.view.selected_chain = target_chain
+                show_lcd_message_2('TRACK', target_chain.name)
             else:
                 logger.warning("This should not happen, showing chains but can't show chains?")
                 self.song.view.selected_track = target_track
+                show_lcd_message_2('TRACK', target_track.name)
         # Just scrolling tracks
         else:
             self.song.view.selected_track = target_track
+            show_lcd_message_2('TRACK', target_track.name)
+
 
     def _find_rack_with_chains(self, devices):
         for device in devices:
@@ -190,10 +198,12 @@ class TrackNavigationComponent(Component):
     def _select_prev_scene(self):
         index = self.selected_scene_index() - 1
         self.song.view.selected_scene = self.song.scenes[index]
+        show_lcd_dialog_2(f'SCENE {index + 1}', self.song.view.selected_scene.name)
 
     def _select_next_scene(self):
         index = self.selected_scene_index() + 1
         self.song.view.selected_scene = self.song.scenes[index]
+        show_lcd_dialog_2(f'SCENE {index + 1}', self.song.view.selected_scene.name)
 
     def _adjust_tempo(self, x):
         factor = 1 if x == 1 else -1

@@ -1,7 +1,10 @@
 import Live
+from ableton.v2.base import liveobj_valid
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control.button import ButtonControl
 NavDirection = Live.Application.Application.View.NavDirection
+
+from ..lcd import show_lcd_message_2, show_lcd_dialog_2
 
 import logging
 logger = logging.getLogger(__name__)
@@ -45,6 +48,7 @@ class DeviceNavigationComponent(Component):
             device.view.is_collapsed = not device.view.is_collapsed
         else:
             self.set_device_enabled(device, not self.is_device_enabled(device))
+            show_lcd_dialog_2(device.name, device.parameters[0].str_for_value(device.parameters[0].value))
 
     @jog_wheel_button.value
     def _on_jog_wheel_turn(self, x, _):
@@ -63,6 +67,9 @@ class DeviceNavigationComponent(Component):
                 self.application.view.scroll_view(NavDirection.right, 'Detail/DeviceChain', False)
             if x == 127:
                 self.application.view.scroll_view(NavDirection.left, 'Detail/DeviceChain', False)
+            device = self.song.view.selected_track.view.selected_device
+            if device is not None and liveobj_valid(device):
+                show_lcd_message_2("DEVICE", device.name)
 
     def _adjust_tempo(self, x):
         factor = 1 if x == 1 else -1

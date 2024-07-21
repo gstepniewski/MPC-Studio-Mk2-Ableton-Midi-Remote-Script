@@ -41,3 +41,5 @@ Ableton/
 
 * Once the connection has been made, you should see the buttons and pads on the controller light up. If this is the case, you are finished, Enjoy! If not, repeat the above steps again to make sure it is installed correctly.
 
+
+For information about getting the LCD Display to work, look [here](../lcd-display/).

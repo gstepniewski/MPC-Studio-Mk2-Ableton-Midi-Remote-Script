@@ -34,16 +34,9 @@ class DrumGroupComponent(NotePadMixin, DrumGroupComponentBase):
             selected_drum_pad.mute = not selected_drum_pad.mute
         if self.solo_button.is_pressed:
             selected_drum_pad.solo = not selected_drum_pad.solo
-        if self.quantize_button.is_pressed:
-            button.color = u'DrumGroup.PadAction'
-            self.quantize_pitch(selected_drum_pad.note)
         if self.delete_button.is_pressed:
             button.color = u'DrumGroup.PadAction'
             self.delete_pitch(selected_drum_pad)
-        if self.select_button.is_pressed:
-            self._drum_group_device.view.selected_drum_pad = selected_drum_pad
-            self.select_drum_pad(selected_drum_pad)
-            super(DrumGroupComponent, self)._on_matrix_pressed(button)
         if self.mute_button.is_pressed or self.solo_button.is_pressed:
             self._update_led_feedback()
 
