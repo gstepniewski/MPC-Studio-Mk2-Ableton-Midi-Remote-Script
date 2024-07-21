@@ -2,6 +2,7 @@ import Live
 
 from ableton.v2.control_surface import Component
 from ableton.v2.control_surface.control.button import ButtonControl
+from ..osa import osa_enter
 NavDirection = Live.Application.Application.View.NavDirection
 import logging
 logger = logging.getLogger(__name__)
@@ -20,9 +21,9 @@ class BrowserNavigationComponent(Component):
     def _on_jog_wheel_pressed(self, value):
         self.application.view.focus_view(u'Browser')
         if self.shift_button.is_pressed:
-            self.application.view.scroll_view(NavDirection.left, u'Browser', False)
+            self.application.view.toggle_browse()
         else:
-            self.application.view.scroll_view(NavDirection.right, u'Browser', False)
+            osa_enter()
 
     @jog_wheel_button.value
     def scroll_direction(self, x, _):

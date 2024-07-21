@@ -63,7 +63,7 @@ nav_order: 4
 
 ### Browser Navigation (**Browse**)
   - Turn to go up and down, **SHIFT** turn to go left and right.
-  - Press to enter, **SHIFT** press to go up
+  - Press to send enter key, **SHIFT** press to toggle hot swap
 
 ### Tempo adjustment (**SHIFT** and **Quantize**)
   - Available as momentary in every other mode
