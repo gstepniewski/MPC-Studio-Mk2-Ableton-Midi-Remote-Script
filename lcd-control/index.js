@@ -158,11 +158,15 @@ async function process(big, small) {
     }
   }
 
-  console.log(output.getPortName(port), big, small)
+  // console.log(output.getPortName(port), big, small)
 
   const image = await generateImage(big, small)
   const imageChunks = await splitImage(image)
   sendChunks(output, port, imageChunks)
+}
+
+function sanitize(text) {
+  return text.replaceAll("&", "&amp;")
 }
 
 // --- START ---
@@ -174,7 +178,9 @@ app.use(express.json())
 
 app.post('/', (req, res) => {
   res.sendStatus(200)
-  process(req.body.big, req.body.small)
+  let big = sanitize(req.body.big)
+  let small = sanitize(req.body.small)
+  process(big, small)
 })
 
 app.listen(6727)
