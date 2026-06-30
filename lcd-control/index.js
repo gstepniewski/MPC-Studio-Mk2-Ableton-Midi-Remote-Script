@@ -1,5 +1,5 @@
 const express = require('express')
-const midi = require('midi')
+const midi = require('@julusian/midi')
 const sharp = require('sharp')
 
 const width = 160;
